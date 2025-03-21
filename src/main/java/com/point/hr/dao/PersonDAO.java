@@ -2,10 +2,11 @@ package com.point.hr.dao;
 
 import java.util.List;
 
-import com.point.hr.entity.Person;
+import com.point.hr.model.Person;
+import jakarta.validation.Valid;
 
 public interface PersonDAO {
-    Person save(Person thePerson);
+    Person save(@Valid Person thePerson);
 
     List<Person> saveAll(List<Person> thePeople);
 

@@ -1,0 +1,94 @@
+.form-container {
+    display: grid;
+    grid-template-columns: auto 1fr 1fr; /* Labels, inputs, errors */
+    gap: 10px 20px; /* Row gap, column gap */
+    max-width: 800px;
+    margin: 20px auto;
+    align-items: center;
+}
+
+.input-wrapper {
+    position: relative;
+    display: block;
+    width: 250px; /* Fixed width for all fields */
+    grid-column: 2; /* Inputs stay in column 2 */
+}
+
+.required-input, .not_required-input {
+    padding: 8px 20px 8px 8px;
+    border: 1px solid #ccc;
+    width: 100%; /* Fill the wrapper */
+    box-sizing: border-box;
+    border-radius: 4px;
+    /* Remove grid-column: 1; to avoid overriding .input-wrapper */
+}
+
+.triangle {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-bottom: 10px solid red;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.required-input:not(.error)[value]:not([value=""]) ~ .triangle {
+    border-bottom-color: green;
+}
+
+.required-input.error ~ .triangle {
+    border-bottom-color: red;
+}
+
+.error-message {
+    color: red;
+    font-size: 0.8em;
+    grid-column: 3; /* Error messages stay in column 3 */
+    text-align: left;
+    width: 150px;
+    display: flex;
+    align-items: center;
+}
+
+label {
+    white-space: nowrap;
+    text-align: right;
+    padding-right: 10px;
+    grid-column: 1; /* Labels stay in column 1 */
+}
+
+select.required-input {
+    height: 34px;
+    border-radius: 4px;
+    width: 100%; /* Match input width */
+}
+
+.submit-container {
+    grid-column: 2; /* Align with input column */
+    text-align: left;
+}
+
+.submit-button {
+    width: 50%; /* Match the input width */
+    padding: 8px 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.submit-button:hover {
+    background-color: #45a049;
+}
+
+.general-error {
+    grid-column: 2;
+    color: red;
+    margin-top: 10px;
+}

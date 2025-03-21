@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home - HR Point</title>
+
+    <link rel="stylesheet" th:href="@{/css/form.css}" />
+</head>
+<body>
+
+    <h3>New Person Form</h3>
+
+    <form th:action="@{/personAddFormProcess}" th:object="${thePerson}" method="POST" class="form-container">
+        <label th:for="*{firstName}">First Name:</label>
+        <div class="input-wrapper">
+            <input type="text"
+                   id="*{firstName}"
+                   class="required-input"
+                   th:field="*{firstName}"
+                   placeholder="Name"
+                   th:classappend="${#fields.hasErrors('firstName')} ? 'error' : ''">
+            <span class="triangle"></span>
+        </div>
+        <span class="error-message" th:if="${#fields.hasErrors('firstName')}" th:text="${#fields.errors('firstName')}"></span>
+
+        <label th:for="*{lastName}">Last Name:</label>
+        <div class="input-wrapper">
+            <input type="text"
+                   id="*{lastName}"
+                   class="required-input"
+                   th:field="*{lastName}"
+                   placeholder="Surname"
+                   th:classappend="${#fields.hasErrors('lastName')} ? 'error' : ''">
+            <span class="triangle"></span>
+        </div>
+        <span class="error-message" th:if="${#fields.hasErrors('lastName')}" th:text="${#fields.errors('lastName')}"></span>
+
+        <label th:for="*{socialNo}">Social Security Number:</label>
+        <div class="input-wrapper">
+            <input type="text"
+                   id="*{socialNo}"
+                   class="required-input"
+                   th:field="*{socialNo}"
+                   placeholder="Social security number"
+                   th:classappend="${#fields.hasErrors('socialNo')} ? 'error' : ''">
+            <span class="triangle"></span>
+        </div>
+        <span class="error-message" th:if="${#fields.hasErrors('socialNo')}" th:text="${#fields.errors('socialNo')}"></span>
+
+        <label th:for="*{countryId}">Country:</label>
+        <div class="input-wrapper">
+            <select class="required-input"
+                    id="*{countryId}"
+                    th:field="*{countryId}"
+                    th:classappend="${#fields.hasErrors('countryId')} ? 'error' : ''">
+                <option th:each="ct : ${countryList}"
+                        th:value="${ct.id}"
+                        th:text="${ct.name}"></option>
+            </select>
+            <span class="triangle"></span>
+        </div>
+        <span class="error-message" th:if="${#fields.hasErrors('countryId')}" th:text="${#fields.errors('countryId')}"></span>
+
+        <label th:for="*{city}">City:</label>
+        <div class="input-wrapper">
+            <input type="text"
+                   id="*{city}"
+                   class="required-input"
+                   th:field="*{city}"
+                   placeholder="City"
+                   th:classappend="${#fields.hasErrors('city')} ? 'error' : ''">
+            <span class="triangle"></span>
+        </div>
+        <span class="error-message" th:if="${#fields.hasErrors('city')}" th:text="${#fields.errors('city')}"></span>
+
+        <label th:for="*{zipCode}">Zip Code:</label>
+        <div class="input-wrapper">
+            <input type="text"
+                   id="*{zipCode}"
+                   class="required-input"
+                   th:field="*{zipCode}"
+                   placeholder="Zip code"
+                   th:classappend="${#fields.hasErrors('zipCode')} ? 'error' : ''">
+            <span class="triangle"></span>
+        </div>
+        <span class="error-message" th:if="${#fields.hasErrors('zipCode')}" th:text="${#fields.errors('zipCode')}"></span>
+
+        <label th:for="*{street}">Street Name:</label>
+        <div class="input-wrapper">
+            <input type="text"
+                   id="*{street}"
+                   class="required-input"
+                   th:field="*{street}"
+                   placeholder="Street name"
+                   th:classappend="${#fields.hasErrors('street')} ? 'error' : ''">
+            <span class="triangle"></span>
+        </div>
+        <span class="error-message" th:if="${#fields.hasErrors('street')}" th:text="${#fields.errors('street')}"></span>
+
+        <label th:for="*{buildNo}">Building Number:</label>
+        <div class="input-wrapper">
+            <input type="text"
+                   id="*{buildNo}"
+                   class="required-input"
+                   th:field="*{buildNo}"
+                   placeholder="Building number"
+                   th:classappend="${#fields.hasErrors('buildNo')} ? 'error' : ''">
+            <span class="triangle"></span>
+        </div>
+        <span class="error-message" th:if="${#fields.hasErrors('buildNo')}" th:text="${#fields.errors('buildNo')}"></span>
+
+        <label th:for="*{apartNo}">Apartment Number:</label>
+        <div class="input-wrapper">
+            <input type="text"
+                   id="*{apartNo}"
+                   th:field="*{apartNo}"
+                   placeholder="Apartment number"
+                   class="not_required-input"> <!-- No triangle as optional -->
+        </div>
+
+        <div th:if="${#fields.hasErrors('*')}" class="general-error">
+            <p>Please fix the errors above.</p>
+        </div>
+
+        <div class="submit-container">
+            <input type="submit" value="Submit" class="submit-button" />
+        </div>
+    </form>
+
+</body>
+</html>

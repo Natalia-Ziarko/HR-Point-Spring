@@ -1,12 +1,12 @@
 package com.point.hr.api.repository;
 
 import com.point.hr.dao.*;
-import com.point.hr.entity.*;
+import com.point.hr.model.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 
 import java.util.Arrays;
@@ -15,19 +15,19 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@DataJpaTest
+@SpringBootTest
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 @Import(PersonDAOImpl.class)
 public class PersonTests {
+
     @Autowired
     private PersonDAO personDAO;
 
     @Test
     public void save_retId() {
-
         //Arrange
         Person newPerson = Person.builder()
-                .socialNo(189790)
+                .socialNo("666790")
                 .lastName("Ziarko")
                 .firstName("Natalia")
                 .countryId(1)
@@ -51,7 +51,7 @@ public class PersonTests {
 
         //Arrange
         Person findPerson = Person.builder()
-                .socialNo(189791)
+                .socialNo("666791")
                 .lastName("Test")
                 .firstName("Person")
                 .countryId(1)
@@ -89,15 +89,18 @@ public class PersonTests {
     public void findByLastName_retPersonList() {
 
         // Arrange
+        personDAO.deleteAll();
+
         List<Person> people = Arrays.asList(
-                Person.builder().socialNo(189794).lastName("Ziarko").firstName("Natalia").countryId(1).city("Wien").zipCode("1100").street("Schleiergasse").buildNo("2").build(),
-                Person.builder().socialNo(189795).lastName("Ziarko").firstName("Aneta").countryId(1).city("Wien").zipCode("1100").street("Schleiergasse").buildNo("2").build(),
-                Person.builder().socialNo(189796).lastName("Smith").firstName("John").countryId(1).city("Wien").zipCode("1100").street("Schleiergasse").buildNo("2").build()
+                Person.builder().socialNo("666794").lastName("Ziarko").firstName("Natalia").countryId(1).city("Wien").zipCode("1100").street("Schleiergasse").buildNo("2").build(),
+                Person.builder().socialNo("666795").lastName("Ziarko").firstName("Aneta").countryId(1).city("Wien").zipCode("1100").street("Schleiergasse").buildNo("2").build(),
+                Person.builder().socialNo("666796").lastName("Smith").firstName("John").countryId(1).city("Wien").zipCode("1100").street("Schleiergasse").buildNo("2").build()
         );
         personDAO.saveAll(people);
 
-        // Act
         String personSurname = "Ziarko";
+
+        // Act
         List<Person> foundPeople = personDAO.findByLastName(personSurname)
                 .stream()
                 .sorted(Comparator.comparing(Person::getId))
@@ -112,7 +115,7 @@ public class PersonTests {
     public void update_retPerson() {
         // Arrange
         Person person = Person.builder()
-                .socialNo(189798)
+                .socialNo("666798")
                 .lastName("Ziarko")
                 .firstName("Natalia")
                 .countryId(1)
@@ -141,7 +144,7 @@ public class PersonTests {
     public void deleteById_retNull() {
         // Arrange
         Person person = Person.builder()
-                .socialNo(189798)
+                .socialNo("666798")
                 .lastName("Ziarko")
                 .firstName("Natalia")
                 .countryId(1)
@@ -165,9 +168,9 @@ public class PersonTests {
     public void saveAll_retPersonList() {
         // Arrange
         List<Person> people = Arrays.asList(
-                Person.builder().socialNo(189794).lastName("Ziarko").firstName("Natalia").countryId(1).city("Wien").zipCode("1100").street("Schleiergasse").buildNo("2").build(),
-                Person.builder().socialNo(189795).lastName("Ziarko").firstName("Aneta").countryId(1).city("Wien").zipCode("1100").street("Schleiergasse").buildNo("2").build(),
-                Person.builder().socialNo(189796).lastName("Ziarko").firstName("John").countryId(1).city("Wien").zipCode("1100").street("Schleiergasse").buildNo("2").build()
+                Person.builder().socialNo("666794").lastName("Ziarko").firstName("Natalia").countryId(1).city("Wien").zipCode("1100").street("Schleiergasse").buildNo("2").build(),
+                Person.builder().socialNo("666795").lastName("Ziarko").firstName("Aneta").countryId(1).city("Wien").zipCode("1100").street("Schleiergasse").buildNo("2").build(),
+                Person.builder().socialNo("666796").lastName("Ziarko").firstName("John").countryId(1).city("Wien").zipCode("1100").street("Schleiergasse").buildNo("2").build()
         );
 
         // Act
@@ -192,12 +195,12 @@ public class PersonTests {
     public void findAll_retPersonList() {
         // Arrange
         List<Person> people = Arrays.asList(
-                Person.builder().socialNo(189794).lastName("Ziarko").firstName("Natalia").countryId(1).city("Wien").zipCode("1100").street("Schleiergasse").buildNo("2").build(),
-                Person.builder().socialNo(189795).lastName("Smith").firstName("John").countryId(1).city("Wien").zipCode("1100").street("Schleiergasse").buildNo("2").build()
+                Person.builder().socialNo("666794").lastName("Ziarko").firstName("Natalia").countryId(1).city("Wien").zipCode("1100").street("Schleiergasse").buildNo("2").build(),
+                Person.builder().socialNo("666795").lastName("Smith").firstName("John").countryId(1).city("Wien").zipCode("1100").street("Schleiergasse").buildNo("2").build()
         );
         personDAO.saveAll(people);
 
-        // Act - Assuming there's a findAll() method
+        // Act
         List<Person> allPeople = personDAO.findAll();
 
         // Assert
@@ -208,8 +211,8 @@ public class PersonTests {
     public void deleteAll_retPeopleNo() {
         // Arrange
         List<Person> people = Arrays.asList(
-                Person.builder().socialNo(189794).lastName("Ziarko").firstName("Natalia").countryId(1).city("Wien").zipCode("1100").street("Schleiergasse").buildNo("2").build(),
-                Person.builder().socialNo(189795).lastName("Ziarko").firstName("Aneta").countryId(1).city("Wien").zipCode("1100").street("Schleiergasse").buildNo("2").build()
+                Person.builder().socialNo("666794").lastName("Ziarko").firstName("Natalia").countryId(1).city("Wien").zipCode("1100").street("Schleiergasse").buildNo("2").build(),
+                Person.builder().socialNo("666795").lastName("Ziarko").firstName("Aneta").countryId(1).city("Wien").zipCode("1100").street("Schleiergasse").buildNo("2").build()
         );
         personDAO.saveAll(people);
 

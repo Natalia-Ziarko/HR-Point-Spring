@@ -1,6 +1,6 @@
 package com.point.hr.dao;
 
-import com.point.hr.entity.Person;
+import com.point.hr.model.Person;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
