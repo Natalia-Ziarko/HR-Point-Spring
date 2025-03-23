@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/home.css}">
+    <title>People - HR Point</title>
+</head>
+<body>
+    <h3>People list</h3>
+
+    <a th:href="@{/personAddFormView}" class="redirect_button">Add Person</a>
+    <br><br>
+
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Surname</th>
+            <th>Social sec num</th>
+            <th>Zip code</th>
+            <th>City</th>
+            <th>Street</th>
+            <th>Building num</th>
+            <th>Apartment num</th>
+        </tr>
+        <tr th:each="person : ${peopleList}">
+            <td th:text="${person.firstName}"></td>
+            <td th:text="${person.lastName}"></td>
+            <td th:text="${person.socialNo}"></td>
+            <td th:text="${person.zipCode}"></td>
+            <td th:text="${person.city}"></td>
+            <td th:text="${person.street}"></td>
+            <td th:text="${person.buildNo}"></td>
+            <td th:text="${person.apartNo}"></td>
+        </tr>
+    </table>
+</body>
+</html>

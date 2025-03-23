@@ -10,7 +10,10 @@
 
     <h3>New Person Form</h3>
 
-    <form th:action="@{/personAddFormProcess}" th:object="${thePerson}" method="POST" class="form-container">
+    <a th:href="@{/home}">Home page</a>
+
+    <form action="#" th:action="@{/personAddFormProcess}" th:object="${thePerson}" method="POST" class="form-container">
+    <!--<form th:action="@{/personAddFormProcess}" th:object="${thePerson}" method="POST" class="form-container">-->
         <label th:for="*{firstName}">First Name:</label>
         <div class="input-wrapper">
             <input type="text"
