@@ -8,16 +8,16 @@ import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 @Import(PersonDAOImpl.class)
+@Transactional
 public class PersonTests {
 
     @Autowired
@@ -25,10 +25,11 @@ public class PersonTests {
 
     @Test
     public void save_retId() {
+
         //Arrange
         Person newPerson = Person.builder()
                 .socialNo("666790")
-                .lastName("Ziarko")
+                .lastName("Marko")
                 .firstName("Natalia")
                 .countryId(1)
                 .city("Wien")
@@ -92,13 +93,13 @@ public class PersonTests {
         personDAO.deleteAll();
 
         List<Person> people = Arrays.asList(
-                Person.builder().socialNo("666794").lastName("Ziarko").firstName("Natalia").countryId(1).city("Wien").zipCode("1100").street("Schleiergasse").buildNo("2").build(),
-                Person.builder().socialNo("666795").lastName("Ziarko").firstName("Aneta").countryId(1).city("Wien").zipCode("1100").street("Schleiergasse").buildNo("2").build(),
-                Person.builder().socialNo("666796").lastName("Smith").firstName("John").countryId(1).city("Wien").zipCode("1100").street("Schleiergasse").buildNo("2").build()
+                Person.builder().socialNo("666794").lastName("Marko").firstName("Natalia").countryId(1).city("Wien").zipCode("1100").street("Alpengasse").buildNo("3").build(),
+                Person.builder().socialNo("666795").lastName("Marko").firstName("Aneta").countryId(1).city("Wien").zipCode("1100").street("Alpengasse").buildNo("3").build(),
+                Person.builder().socialNo("666796").lastName("Smith").firstName("John").countryId(1).city("Wien").zipCode("1100").street("Alpengasse").buildNo("3").build()
         );
         personDAO.saveAll(people);
 
-        String personSurname = "Ziarko";
+        String personSurname = "Marko";
 
         // Act
         List<Person> foundPeople = personDAO.findByLastName(personSurname)
@@ -107,8 +108,8 @@ public class PersonTests {
                 .toList();
 
         // Assert
-        assertEquals(2, foundPeople.size(), "Should find exactly 2 people with last name 'Ziarko'");
-        assertTrue(foundPeople.stream().allMatch(p -> "Ziarko".equals(p.getLastName())), "All found people should have last name 'Ziarko'");
+        assertEquals(2, foundPeople.size(), "Should find exactly 2 people with last name 'Marko'");
+        assertTrue(foundPeople.stream().allMatch(p -> "Marko".equals(p.getLastName())), "All found people should have last name 'Marko'");
     }
 
     @Test
@@ -116,26 +117,26 @@ public class PersonTests {
         // Arrange
         Person person = Person.builder()
                 .socialNo("666798")
-                .lastName("Ziarko")
+                .lastName("Marko")
                 .firstName("Natalia")
                 .countryId(1)
                 .city("Wien")
                 .zipCode("1100")
-                .street("Schleiergasse")
-                .buildNo("2")
+                .street("Alpengasse")
+                .buildNo("3")
                 .build();
         Person savedPerson = personDAO.save(person);
         Integer personId = savedPerson.getId();
 
         // Act
         Person personToUpdate = personDAO.findById(personId);
-        personToUpdate.setLastName("Ziarkos");
+        personToUpdate.setLastName("Markos");
         personToUpdate.setFirstName("Aneta");
         personDAO.update(personToUpdate);
 
         // Assert
         Person updatedPerson = personDAO.findById(personId);
-        assertEquals("Ziarkos", updatedPerson.getLastName(), "Last name should be updated");
+        assertEquals("Markos", updatedPerson.getLastName(), "Last name should be updated");
         assertEquals("Aneta", updatedPerson.getFirstName(), "First name should be updated");
         assertEquals(personId, updatedPerson.getId(), "ID should remain the same");
     }
@@ -145,13 +146,13 @@ public class PersonTests {
         // Arrange
         Person person = Person.builder()
                 .socialNo("666798")
-                .lastName("Ziarko")
+                .lastName("Marko")
                 .firstName("Natalia")
                 .countryId(1)
                 .city("Wien")
                 .zipCode("1100")
-                .street("Schleiergasse")
-                .buildNo("2")
+                .street("Alpengasse")
+                .buildNo("3")
                 .build();
         Person savedPerson = personDAO.save(person);
         Integer personId = savedPerson.getId();
@@ -168,9 +169,9 @@ public class PersonTests {
     public void saveAll_retPersonList() {
         // Arrange
         List<Person> people = Arrays.asList(
-                Person.builder().socialNo("666794").lastName("Ziarko").firstName("Natalia").countryId(1).city("Wien").zipCode("1100").street("Schleiergasse").buildNo("2").build(),
-                Person.builder().socialNo("666795").lastName("Ziarko").firstName("Aneta").countryId(1).city("Wien").zipCode("1100").street("Schleiergasse").buildNo("2").build(),
-                Person.builder().socialNo("666796").lastName("Ziarko").firstName("John").countryId(1).city("Wien").zipCode("1100").street("Schleiergasse").buildNo("2").build()
+                Person.builder().socialNo("666794").lastName("Marko").firstName("Natalia").countryId(1).city("Wien").zipCode("1100").street("Alpengasse").buildNo("3").build(),
+                Person.builder().socialNo("666795").lastName("Marko").firstName("Aneta").countryId(1).city("Wien").zipCode("1100").street("Alpengasse").buildNo("3").build(),
+                Person.builder().socialNo("666796").lastName("Marko").firstName("John").countryId(1).city("Wien").zipCode("1100").street("Alpengasse").buildNo("3").build()
         );
 
         // Act
@@ -195,8 +196,8 @@ public class PersonTests {
     public void findAll_retPersonList() {
         // Arrange
         List<Person> people = Arrays.asList(
-                Person.builder().socialNo("666794").lastName("Ziarko").firstName("Natalia").countryId(1).city("Wien").zipCode("1100").street("Schleiergasse").buildNo("2").build(),
-                Person.builder().socialNo("666795").lastName("Smith").firstName("John").countryId(1).city("Wien").zipCode("1100").street("Schleiergasse").buildNo("2").build()
+                Person.builder().socialNo("666794").lastName("Marko").firstName("Natalia").countryId(1).city("Wien").zipCode("1100").street("Alpengasse").buildNo("3").build(),
+                Person.builder().socialNo("666795").lastName("Smith").firstName("John").countryId(1).city("Wien").zipCode("1100").street("Alpengasse").buildNo("3").build()
         );
         personDAO.saveAll(people);
 
@@ -211,8 +212,8 @@ public class PersonTests {
     public void deleteAll_retPeopleNo() {
         // Arrange
         List<Person> people = Arrays.asList(
-                Person.builder().socialNo("666794").lastName("Ziarko").firstName("Natalia").countryId(1).city("Wien").zipCode("1100").street("Schleiergasse").buildNo("2").build(),
-                Person.builder().socialNo("666795").lastName("Ziarko").firstName("Aneta").countryId(1).city("Wien").zipCode("1100").street("Schleiergasse").buildNo("2").build()
+                Person.builder().socialNo("666794").lastName("Marko").firstName("Natalia").countryId(1).city("Wien").zipCode("1100").street("Alpengasse").buildNo("3").build(),
+                Person.builder().socialNo("666795").lastName("Marko").firstName("Aneta").countryId(1).city("Wien").zipCode("1100").street("Alpengasse").buildNo("3").build()
         );
         personDAO.saveAll(people);
 
@@ -221,7 +222,7 @@ public class PersonTests {
 
         // Assert
         assertEquals(2, deletedCount, "Should delete exactly 2 people");
-        assertTrue(personDAO.findByLastName("Ziarko").isEmpty(), "No people with last name 'Ziarko' should remain");
+        assertTrue(personDAO.findByLastName("Marko").isEmpty(), "No people with last name 'Marko' should remain");
     }
 
 }
