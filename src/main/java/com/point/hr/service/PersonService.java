@@ -5,7 +5,7 @@ import java.util.List;
 import com.point.hr.entity.Person;
 import jakarta.validation.Valid;
 
-public interface PersonDAO {
+public interface PersonService {
     Person save(@Valid Person thePerson);
 
     List<Person> saveAll(List<Person> thePeople);

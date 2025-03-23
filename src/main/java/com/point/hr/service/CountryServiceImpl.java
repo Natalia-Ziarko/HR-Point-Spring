@@ -9,12 +9,12 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class CountryDAOImpl implements CountryDAO {
+public class CountryServiceImpl implements CountryService {
 
     private final EntityManager entityManager;
 
     @Autowired
-    public CountryDAOImpl(EntityManager entityManager) {
+    public CountryServiceImpl(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
 

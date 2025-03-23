@@ -1,0 +1,41 @@
+[33mcommit 06b945d324f0285e8e518227d6fdd5b6b50970ee[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mtemplates[m[33m, [m[1;31morigin/templates[m[33m)[m
+Author: Natalia <nziarko1@gmail.com>
+Date:   Sun Mar 23 12:56:09 2025 +0100
+
+    Adjustments
+
+[33mcommit e6750196988b0699090a25373f44be84e60183fd[m
+Author: Natalia <nziarko1@gmail.com>
+Date:   Sun Mar 23 12:29:45 2025 +0100
+
+    New template
+
+[33mcommit b1db0f2584db798827eb0f372f2252012f04df4c[m[33m ([m[1;31morigin/tests[m[33m, [m[1;32mtests[m[33m)[m
+Author: Natalia <nziarko1@gmail.com>
+Date:   Sun Mar 23 10:37:16 2025 +0100
+
+    New tests
+
+[33mcommit 4bac4dedad150fa8dad836c14dffdba0bcb8cdae[m[33m ([m[1;31morigin/main[m[33m, [m[1;32mmain[m[33m)[m
+Author: Natalia <nziarko1@gmail.com>
+Date:   Sun Mar 23 10:33:26 2025 +0100
+
+    validations
+
+[33mcommit 0124e0e545b6686b3a73da6518a5852ede246aa0[m[33m ([m[1;32mvalidation[m[33m)[m
+Author: Natalia <nziarko1@gmail.com>
+Date:   Fri Mar 21 18:12:28 2025 +0100
+
+    Person form and entity
+
+[33mcommit 29f11e0eb832ff0444b28e86d67c329f7b779d60[m
+Author: Natalia <nziarko1@gmail.com>
+Date:   Wed Mar 19 15:40:09 2025 +0100
+
+    first commit
+
+[33mcommit 7b2fc9dca7b4672021139988ecdd18ad18c4fc7d[m
+Author: Natalia <nziarko1@gmail.com>
+Date:   Wed Mar 19 15:36:04 2025 +0100
+
+    Initial commit

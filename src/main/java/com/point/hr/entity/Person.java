@@ -1,4 +1,4 @@
-package com.point.hr.model;
+package com.point.hr.entity;
 
 import com.point.hr.validation.ColumnLength;
 import com.point.hr.validation.PersonSocialNumber;

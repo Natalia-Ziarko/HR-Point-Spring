@@ -10,12 +10,12 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Repository
-public class PersonDAOImpl implements PersonDAO {
+public class PersonServiceImpl implements PersonService {
 
     private final EntityManager entityManager;
 
     @Autowired
-    public PersonDAOImpl(EntityManager entityManager) {
+    public PersonServiceImpl(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
 

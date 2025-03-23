@@ -1,7 +1,7 @@
 package com.point.hr.dao;
 
-import com.point.hr.entity.Person;
+import com.point.hr.entity.Country;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface PersonRepository extends JpaRepository<Person, Integer> {
+public interface CountryRepository extends JpaRepository<Country, Integer> {
 }
