@@ -1,8 +1,8 @@
-package com.point.hr.dao;
+package com.point.hr.service;
 
 import java.util.List;
 
-import com.point.hr.model.Person;
+import com.point.hr.entity.Person;
 import jakarta.validation.Valid;
 
 public interface PersonDAO {
