@@ -1,7 +1,8 @@
 package com.point.hr.api.repository;
 
-import com.point.hr.dao.*;
-import com.point.hr.model.*;
+import com.point.hr.entity.*;
+import com.point.hr.service.PersonService;
+import com.point.hr.service.PersonServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
@@ -16,12 +17,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
-@Import(PersonDAOImpl.class)
+@Import(PersonServiceImpl.class)
 @Transactional
 public class PersonTests {
 
     @Autowired
-    private PersonDAO personDAO;
+    private PersonService personService;
 
     @Test
     public void save_retId() {
@@ -40,7 +41,7 @@ public class PersonTests {
                 .build();
 
         //Act
-        Person savedPerson = personDAO.save(newPerson);
+        Person savedPerson = personService.save(newPerson);
 
         //Assert
         assertNotNull(savedPerson.getId(), "Person ID should not be null");
@@ -61,11 +62,11 @@ public class PersonTests {
                 .street("Y")
                 .buildNo("2")
                 .build();
-        Person savedPerson = personDAO.save(findPerson);
+        Person savedPerson = personService.save(findPerson);
         Integer savedId = savedPerson.getId();
 
         // Act
-        Person foundPerson = personDAO.findById(savedId);
+        Person foundPerson = personService.findById(savedId);
 
         // Assert
         assertNotNull(foundPerson, "Found person should not be null");
@@ -80,7 +81,7 @@ public class PersonTests {
 
         // Act
         Integer notExistPersonId = 0;
-        Person foundPerson = personDAO.findById(notExistPersonId);
+        Person foundPerson = personService.findById(notExistPersonId);
 
         // Assert
         assertNull(foundPerson, "Should return null for non-existent ID");
@@ -90,19 +91,19 @@ public class PersonTests {
     public void findByLastName_retPersonList() {
 
         // Arrange
-        personDAO.deleteAll();
+        personService.deleteAll();
 
         List<Person> people = Arrays.asList(
                 Person.builder().socialNo("666794").lastName("Marko").firstName("Natalia").countryId(1).city("Wien").zipCode("1100").street("Alpengasse").buildNo("3").build(),
                 Person.builder().socialNo("666795").lastName("Marko").firstName("Aneta").countryId(1).city("Wien").zipCode("1100").street("Alpengasse").buildNo("3").build(),
                 Person.builder().socialNo("666796").lastName("Smith").firstName("John").countryId(1).city("Wien").zipCode("1100").street("Alpengasse").buildNo("3").build()
         );
-        personDAO.saveAll(people);
+        personService.saveAll(people);
 
         String personSurname = "Marko";
 
         // Act
-        List<Person> foundPeople = personDAO.findByLastName(personSurname)
+        List<Person> foundPeople = personService.findByLastName(personSurname)
                 .stream()
                 .sorted(Comparator.comparing(Person::getId))
                 .toList();
@@ -125,17 +126,17 @@ public class PersonTests {
                 .street("Alpengasse")
                 .buildNo("3")
                 .build();
-        Person savedPerson = personDAO.save(person);
+        Person savedPerson = personService.save(person);
         Integer personId = savedPerson.getId();
 
         // Act
-        Person personToUpdate = personDAO.findById(personId);
+        Person personToUpdate = personService.findById(personId);
         personToUpdate.setLastName("Markos");
         personToUpdate.setFirstName("Aneta");
-        personDAO.update(personToUpdate);
+        personService.update(personToUpdate);
 
         // Assert
-        Person updatedPerson = personDAO.findById(personId);
+        Person updatedPerson = personService.findById(personId);
         assertEquals("Markos", updatedPerson.getLastName(), "Last name should be updated");
         assertEquals("Aneta", updatedPerson.getFirstName(), "First name should be updated");
         assertEquals(personId, updatedPerson.getId(), "ID should remain the same");
@@ -154,14 +155,14 @@ public class PersonTests {
                 .street("Alpengasse")
                 .buildNo("3")
                 .build();
-        Person savedPerson = personDAO.save(person);
+        Person savedPerson = personService.save(person);
         Integer personId = savedPerson.getId();
 
         // Act
-        personDAO.deleteById(personId);
+        personService.deleteById(personId);
 
         // Assert
-        Person deletedPerson = personDAO.findById(personId);
+        Person deletedPerson = personService.findById(personId);
         assertNull(deletedPerson, "Person should be null after deletion");
     }
 
@@ -175,7 +176,7 @@ public class PersonTests {
         );
 
         // Act
-        List<Person> savedPeople = personDAO.saveAll(people);
+        List<Person> savedPeople = personService.saveAll(people);
 
         // Assert
         assertNotNull(savedPeople, "Returned list should not be null");
@@ -199,10 +200,10 @@ public class PersonTests {
                 Person.builder().socialNo("666794").lastName("Marko").firstName("Natalia").countryId(1).city("Wien").zipCode("1100").street("Alpengasse").buildNo("3").build(),
                 Person.builder().socialNo("666795").lastName("Smith").firstName("John").countryId(1).city("Wien").zipCode("1100").street("Alpengasse").buildNo("3").build()
         );
-        personDAO.saveAll(people);
+        personService.saveAll(people);
 
         // Act
-        List<Person> allPeople = personDAO.findAll();
+        List<Person> allPeople = personService.findAll();
 
         // Assert
         assertEquals(2, allPeople.size(), "Should return all saved people");
@@ -215,14 +216,14 @@ public class PersonTests {
                 Person.builder().socialNo("666794").lastName("Marko").firstName("Natalia").countryId(1).city("Wien").zipCode("1100").street("Alpengasse").buildNo("3").build(),
                 Person.builder().socialNo("666795").lastName("Marko").firstName("Aneta").countryId(1).city("Wien").zipCode("1100").street("Alpengasse").buildNo("3").build()
         );
-        personDAO.saveAll(people);
+        personService.saveAll(people);
 
         // Act
-        int deletedCount = personDAO.deleteAll();
+        int deletedCount = personService.deleteAll();
 
         // Assert
         assertEquals(2, deletedCount, "Should delete exactly 2 people");
-        assertTrue(personDAO.findByLastName("Marko").isEmpty(), "No people with last name 'Marko' should remain");
+        assertTrue(personService.findByLastName("Marko").isEmpty(), "No people with last name 'Marko' should remain");
     }
 
 }

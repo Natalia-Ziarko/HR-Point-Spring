@@ -1,6 +1,6 @@
-package com.point.hr.dao;
+package com.point.hr.service;
 
-import com.point.hr.model.Country;
+import com.point.hr.entity.Country;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,12 +9,12 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class CountryDAOImpl implements CountryDAO {
+public class CountryServiceImpl implements CountryService {
 
     private final EntityManager entityManager;
 
     @Autowired
-    public CountryDAOImpl(EntityManager entityManager) {
+    public CountryServiceImpl(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
 

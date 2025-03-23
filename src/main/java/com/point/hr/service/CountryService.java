@@ -1,10 +1,10 @@
-package com.point.hr.dao;
+package com.point.hr.service;
 
-import com.point.hr.model.Country;
+import com.point.hr.entity.Country;
 
 import java.util.List;
 
-public interface CountryDAO {
+public interface CountryService {
     List<Country> findByName(String theName);
 
     Country findById(Integer theId);

@@ -1,7 +1,7 @@
 package com.point.hr.api.repository;
 
-import com.point.hr.dao.PersonDAO;
-import com.point.hr.model.Person;
+import com.point.hr.service.PersonService;
+import com.point.hr.entity.Person;
 import com.point.hr.validation.ColumnLengthRetrieve;
 import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.Test;
@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class ValidationTests {
 
     @Autowired
-    private PersonDAO personDAO;
+    private PersonService personService;
 
     @Autowired
     private ColumnLengthRetrieve columnLengthRetrieve;
@@ -62,7 +62,7 @@ public class ValidationTests {
                 .build();
 
         // Act & Assert
-        assertThrows(ConstraintViolationException.class, () -> personDAO.save(person),
+        assertThrows(ConstraintViolationException.class, () -> personService.save(person),
                 "Expected ConstraintViolationException for firstName exceeding 63-char limit"
         );
     }

@@ -1,5 +1,7 @@
-package com.point.hr.model;
+package com.point.hr.entity;
 
+import com.point.hr.validation.ColumnLength;
+import com.point.hr.validation.PersonSocialNumber;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
@@ -12,6 +14,7 @@ import lombok.*;
 @NoArgsConstructor // INFO: Lombok generates an empty constructor (for JPA)
 public class Person {
 
+    @Transient
     private final String TABLE_NAME = "people";
 
     @Id
@@ -22,16 +25,20 @@ public class Person {
     @Column(name="perSocialNo")
     @NotNull(message = "is required")
     @Pattern(regexp = "^[0-9]+$", message = "only digits")
+    @PersonSocialNumber
+    @ColumnLength(tableName = TABLE_NAME, columnName = "perSocialNo")
     private String socialNo;
 
     @Column(name="perLastName")
     @NotNull(message = "is required")
     @Pattern(regexp = "^[a-zA-Z]+$", message = "only chars")
+    @ColumnLength(tableName = TABLE_NAME, columnName = "perLastName")
     private String lastName;
 
     @Column(name="perFirstName")
     @NotNull(message = "is required")
     @Pattern(regexp = "^[a-zA-Z]+$", message = "only chars")
+    @ColumnLength(tableName = TABLE_NAME, columnName = "perFirstName")
     private String firstName;
 
     @Column(name="perCountryId")
@@ -41,22 +48,27 @@ public class Person {
     @Column(name="perCity")
     @NotNull(message = "is required")
     @Pattern(regexp = "^[a-zA-Z]+$", message = "only chars")
+    @ColumnLength(tableName = TABLE_NAME, columnName = "perCity")
     private String city;
 
     @Column(name="perZipCode")
     @NotNull(message = "is required")
+    @ColumnLength(tableName = TABLE_NAME, columnName = "perZipCode")
     private String zipCode;
 
     @Column(name="perStreet")
     @NotNull(message = "is required")
     @Pattern(regexp = "^[a-zA-Z0-9]+$", message = "only chars")
+    @ColumnLength(tableName = TABLE_NAME, columnName = "perStreet")
     private String street;
 
     @Column(name="perBuildNo")
     @NotNull(message = "is required")
+    @ColumnLength(tableName = TABLE_NAME, columnName = "perBuildNo")
     private String buildNo;
 
     @Column(name="perApartNo")
+    @ColumnLength(tableName = TABLE_NAME, columnName = "perApartNo")
     private String apartNo;
 
     public Integer getId() {
