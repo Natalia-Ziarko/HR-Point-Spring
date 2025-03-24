@@ -1,0 +1,46 @@
+:root {
+    --light-grey: #D3D3D3;
+    --light-green: #50C878;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: auto 1fr; /* Labels, inputs */
+    gap: 10px 20px; /* Row gap, column gap */
+    max-width: 800px;
+    margin: 20px auto;
+    align-items: center;
+}
+
+.logout-button, .login-button {
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
+    width: 10%;
+    padding: 8px 16px;
+    color: navy-blue;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+.login-button {
+    grid-column: 2;
+    width: 100%;
+    background-color: var(--light-green);
+}
+
+.login-button:hover {
+    background-color: var(--light-grey);
+}
+
+.logout-button {
+    grid-column: 1;
+    background-color: var(--light-grey);
+}
+
+.logout-button:hover {
+    background-color: var(--light-green);
+}
