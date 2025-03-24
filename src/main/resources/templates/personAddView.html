@@ -1,11 +1,25 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Person added - HR Point</title>
 </head>
 <body>
     <h3>Form completed!</h3>
+
+    <form action="#" th:action="@{/logout}" method="POST" class="oneline-form">
+        <p>
+            <input type="submit" value="Logout" class="logout-button" />
+            User:
+            <span sec:authentication="principal.username"></span>
+            | Role(s):
+            <span sec:authentication="principal.authorities"></span>
+        </p>
+    </form>
+
+    <a th:href="@{/people/personAddFormView}" class="redirect_button">Add Person</a>
+    <br><br>
 
     <p>Person: <span style="color:blue" th:text="${thePerson.firstName} + ' ' + ${thePerson.lastName}"></span></p>
 </body>
