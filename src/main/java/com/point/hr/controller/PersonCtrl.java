@@ -39,9 +39,6 @@ public class PersonCtrl {
         // DEBUG binding errors to make custom error messages
         // System.out.println("Binding results: " + theBindRes.toString() + "\n");
 
-        // DEBUG perSocialNo length
-        // if (thePerson.getSocialNo() != null)
-        //     System.out.println("Input " + thePerson.getSocialNo() + ", length: " + thePerson.getSocialNo().length());
 
         if (theBindRes.hasErrors()) {
             theModel.addAttribute("countryList", countryService.findAll());
