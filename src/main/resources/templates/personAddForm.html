@@ -1,12 +1,4 @@
 <!DOCTYPE html>
-<<<<<<< Updated upstream
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Home - HR Point</title>
-
-    <link rel="stylesheet" th:href="@{/css/form.css}" />
-=======
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
@@ -16,16 +8,24 @@
     <link rel="stylesheet" type="text/css" th:href="@{/css/form.css}" />
     <link rel="stylesheet" type="text/css" th:href="@{/css/logInOut.css}">
     <title>New person - HR Point</title>
->>>>>>> Stashed changes
 </head>
 <body>
-
     <h3>New Person Form</h3>
 
     <a th:href="@{/home}">Home page</a>
+    <br>
 
-    <form action="#" th:action="@{/personAddFormProcess}" th:object="${thePerson}" method="POST" class="form-container">
-    <!--<form th:action="@{/personAddFormProcess}" th:object="${thePerson}" method="POST" class="form-container">-->
+    <form action="#" th:action="@{/logout}" method="POST" class="oneline-form">
+        <p>
+            <input type="submit" value="Logout" class="logout-button" />
+            User:
+            <span sec:authentication="principal.username"></span>
+            | Role(s):
+            <span sec:authentication="principal.authorities"></span>
+        </p>
+    </form>
+
+    <form action="#" th:action="@{/people/personAddFormProcess}" th:object="${thePerson}" method="POST" class="form-container">
         <label th:for="*{firstName}">First Name:</label>
         <div class="input-wrapper">
             <input type="text"
@@ -130,7 +130,7 @@
                    id="*{apartNo}"
                    th:field="*{apartNo}"
                    placeholder="Apartment number"
-                   class="not_required-input"> <!-- No triangle as optional -->
+                   class="not_required-input">
         </div>
 
         <div th:if="${#fields.hasErrors('*')}" class="general-error">

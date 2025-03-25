@@ -1,4 +1,4 @@
-package com.point.hr.model;
+package com.point.hr.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;

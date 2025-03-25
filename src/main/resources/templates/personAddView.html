@@ -1,11 +1,7 @@
 <!DOCTYPE html>
-<<<<<<< Updated upstream
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
-=======
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
->>>>>>> Stashed changes
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" th:href="@{/css/util.css}" />
@@ -15,11 +11,9 @@
 <body>
     <h3>Form completed!</h3>
 
-<<<<<<< Updated upstream
-=======
     <a th:href="@{/home}">Home page</a>
     <br>
-
+  
     <form action="#" th:action="@{/logout}" method="POST" class="oneline-form">
         <p>
             <input type="submit" value="Logout" class="logout-button" />
@@ -33,7 +27,6 @@
     <a th:href="@{/people/personAddFormView}" class="redirect_button">Add Person</a>
     <br><br>
 
->>>>>>> Stashed changes
     <p>Person: <span style="color:blue" th:text="${thePerson.firstName} + ' ' + ${thePerson.lastName}"></span></p>
 </body>
 </html>

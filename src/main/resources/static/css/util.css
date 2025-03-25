@@ -1,0 +1,45 @@
+:root {
+    --light-grey: #D3D3D3;
+    --light-green: #50C878;
+    --dark-green: #06402B;
+    --red: #CD1C18;
+}
+
+.success-msg {
+    color: var(--dark-green);
+    background-color: var(--light-grey);
+    width: 50%;
+    margin-top: 10px;
+    padding: 8px 16px;
+    border-radius: 4px;
+}
+
+.error-msg {
+    color: var(--red);
+    background-color: var(--light-grey);
+    width: 50%;
+    margin-top: 10px;
+    padding: 8px 16px;
+    border-radius: 4px;
+}
+
+.oneline-form {
+    display: inline;
+    margin: 0;
+    padding: 0;
+}
+
+.redirect_button {
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
+    width: 15%;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}

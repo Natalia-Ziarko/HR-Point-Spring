@@ -1,6 +1,6 @@
-package com.point.hr.dao;
+package com.point.hr.service;
 
-import com.point.hr.model.Person;
+import com.point.hr.entity.Person;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,12 +10,12 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Repository
-public class PersonDAOImpl implements PersonDAO {
+public class PersonServiceImpl implements PersonService {
 
     private final EntityManager entityManager;
 
     @Autowired
-    public PersonDAOImpl(EntityManager entityManager) {
+    public PersonServiceImpl(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
 
