@@ -1,41 +1,66 @@
 package com.point.hr.service;
 
-import com.point.hr.entity.Country;
+import com.point.hr.entity.User;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.time.LocalDateTime;
 
 @Repository
-public class CountryServiceImpl implements CountryService {
-
-    private final EntityManager entityManager;
+public class UserServiceImpl implements UserService {
 
     @Autowired
-    public CountryServiceImpl(EntityManager entityManager) {
-        this.entityManager = entityManager;
+    private EntityManager entityManager;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    public String hashPassword(String rawPassword) {
+        return passwordEncoder.encode(rawPassword);
     }
 
     @Override
-    public List<Country> findByName(String theName) {
-        TypedQuery<Country> theQuery = entityManager.createQuery("FROM Country WHERE ctName=:theName", Country.class);
+    @Transactional
+    public User save(User theUser) {
+        String rawPassword = theUser.getPassword();
+        String hashedPassword = hashPassword(rawPassword);
+        theUser.setPassword(hashedPassword);
 
-        theQuery.setParameter("theName", theName);
+        entityManager.persist(theUser);
 
-        return theQuery.getResultList();
+        return theUser;
     }
 
     @Override
-    public Country findById(Integer theId) {
-        return entityManager.find(Country.class, theId);
+    public User findById(Integer theUserId) {
+        return entityManager.find(User.class, theUserId);
     }
 
     @Override
-    public List<Country> findAll() {
-        TypedQuery<Country> theQuery = entityManager.createQuery("FROM Country", Country.class);
+    @Transactional
+    public User update(User theUser) {
+        String rawPassword = theUser.getPassword();
+        String hashedPassword = hashPassword(rawPassword);
+        theUser.setPassword(hashedPassword);
 
-        return theQuery.getResultList();
+        theUser.setUserCreatedDate(LocalDateTime.now());
+
+        entityManager.merge(theUser);
+
+        return theUser;
+    }
+
+    @Override
+    @Transactional
+    public Integer deleteById(Integer theUserId) {
+        User theUser = findById(theUserId);
+
+        entityManager.remove(theUser);
+
+        return theUserId;
     }
 }

@@ -1,14 +1,15 @@
 package com.point.hr.service;
 
-import com.point.hr.entity.Country;
+import com.point.hr.entity.User;
+import jakarta.validation.Valid;
 
-import java.util.List;
+public interface UserService {
+    User save(@Valid User theUser);
 
-public interface CountryService {
-    List<Country> findByName(String theName);
+    User findById(Integer theUserId);
 
-    Country findById(Integer theId);
+    User update(User theUser);
 
-    List<Country> findAll();
+    Integer deleteById(Integer theUserId);
 
 }

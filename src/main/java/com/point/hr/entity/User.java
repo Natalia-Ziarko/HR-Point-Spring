@@ -1,75 +1,47 @@
 package com.point.hr.entity;
 
-import com.point.hr.validation.ColumnLength;
-import com.point.hr.validation.PersonSocialNumber;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
-import lombok.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
 
 @Entity
-@Table(name="people")
-@Data
-@Builder
+@Table(name="users")
+//@Data
+//@Builder
 @AllArgsConstructor // INFO: Lombok generates a constructor with all fields
 @NoArgsConstructor // INFO: Lombok generates an empty constructor (for JPA)
-public class Person {
+public class User {
 
     @Transient
-    private final String TABLE_NAME = "people";
+    private final String TABLE_NAME = "users";
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name="perId")
+    @Column(name="userId")
+    @NotNull(message = "is required")
     private Integer id;
 
-    @Column(name="perSocialNo")
+    @Column(name="userPw")
     @NotNull(message = "is required")
-    @Pattern(regexp = "^[0-9]+$", message = "only digits")
-    @PersonSocialNumber
-    @ColumnLength(tableName = TABLE_NAME, columnName = "perSocialNo")
-    private String socialNo;
+    @Size(max = 254, message = "max 254 chars")
+    private String password;
 
-    @Column(name="perLastName")
+    @Column(name="userPerId", unique = true)
     @NotNull(message = "is required")
-    @Pattern(regexp = "^[a-zA-Z]+$", message = "only chars")
-    @ColumnLength(tableName = TABLE_NAME, columnName = "perLastName")
-    private String lastName;
+    private Integer personId;
 
-    @Column(name="perFirstName")
+    @Column(name="userIfActive")
     @NotNull(message = "is required")
-    @Pattern(regexp = "^[a-zA-Z]+$", message = "only chars")
-    @ColumnLength(tableName = TABLE_NAME, columnName = "perFirstName")
-    private String firstName;
+    private Boolean ifActive;
 
-    @Column(name="perCountryId")
-    @NotNull(message = "is required")
-    private Integer countryId;
-
-    @Column(name="perCity")
-    @NotNull(message = "is required")
-    @Pattern(regexp = "^[a-zA-Z]+$", message = "only chars")
-    @ColumnLength(tableName = TABLE_NAME, columnName = "perCity")
-    private String city;
-
-    @Column(name="perZipCode")
-    @NotNull(message = "is required")
-    @ColumnLength(tableName = TABLE_NAME, columnName = "perZipCode")
-    private String zipCode;
-
-    @Column(name="perStreet")
-    @NotNull(message = "is required")
-    @Pattern(regexp = "^[a-zA-Z0-9]+$", message = "only chars")
-    @ColumnLength(tableName = TABLE_NAME, columnName = "perStreet")
-    private String street;
-
-    @Column(name="perBuildNo")
-    @NotNull(message = "is required")
-    @ColumnLength(tableName = TABLE_NAME, columnName = "perBuildNo")
-    private String buildNo;
-
-    @Column(name="perApartNo")
-    @ColumnLength(tableName = TABLE_NAME, columnName = "perApartNo")
-    private String apartNo;
+    @Column(name="userCreatedDate")
+    private LocalDateTime userCreatedDate;
 
     public Integer getId() {
         return id;
@@ -79,91 +51,45 @@ public class Person {
         this.id = id;
     }
 
-    public @NotNull(message = "is required") @Pattern(regexp = "^[0-9]+$", message = "only digits") String getSocialNo() {
-        return socialNo;
+    public @NotNull(message = "is required") @Size(max = 254, message = "max 254 chars") String getPassword() {
+        return password;
     }
 
-    public void setSocialNo(@NotNull(message = "is required") @Pattern(regexp = "^[0-9]+$", message = "only digits") String socialNo) {
-        this.socialNo = socialNo;
+    public void setPassword(@NotNull(message = "is required") @Size(max = 254, message = "max 254 chars") String password) {
+        this.password = password;
     }
 
-    public @NotNull(message = "is required") @Pattern(regexp = "^[a-zA-Z]+$", message = "only chars") String getLastName() {
-        return lastName;
+    public @NotNull(message = "is required") Integer getPersonId() {
+        return personId;
     }
 
-    public void setLastName(@NotNull(message = "is required") @Pattern(regexp = "^[a-zA-Z]+$", message = "only chars") String lastName) {
-        this.lastName = lastName;
+    public void setPersonId(@NotNull(message = "is required") Integer personId) {
+        this.personId = personId;
     }
 
-    public @NotNull(message = "is required") @Pattern(regexp = "^[a-zA-Z]+$", message = "only chars") String getFirstName() {
-        return firstName;
+    public @NotNull(message = "is required") Boolean getIfActive() {
+        return ifActive;
     }
 
-    public void setFirstName(@NotNull(message = "is required") @Pattern(regexp = "^[a-zA-Z]+$", message = "only chars") String firstName) {
-        this.firstName = firstName;
+    public void setIfActive(@NotNull(message = "is required") Boolean ifActive) {
+        this.ifActive = ifActive;
     }
 
-    public @NotNull(message = "is required") Integer getCountryId() {
-        return countryId;
+    public LocalDateTime getUserCreatedDate() {
+        return userCreatedDate;
     }
 
-    public void setCountryId(@NotNull(message = "is required") Integer countryId) {
-        this.countryId = countryId;
-    }
-
-    public @NotNull(message = "is required") @Pattern(regexp = "^[a-zA-Z]+$", message = "only chars") String getCity() {
-        return city;
-    }
-
-    public void setCity(@NotNull(message = "is required") @Pattern(regexp = "^[a-zA-Z]+$", message = "only chars") String city) {
-        this.city = city;
-    }
-
-    public @NotNull(message = "is required") String getZipCode() {
-        return zipCode;
-    }
-
-    public void setZipCode(@NotNull(message = "is required") String zipCode) {
-        this.zipCode = zipCode;
-    }
-
-    public @NotNull(message = "is required") @Pattern(regexp = "^[a-zA-Z0-9]+$", message = "only chars") String getStreet() {
-        return street;
-    }
-
-    public void setStreet(@NotNull(message = "is required") @Pattern(regexp = "^[a-zA-Z0-9]+$", message = "only chars") String street) {
-        this.street = street;
-    }
-
-    public @NotNull(message = "is required") String getBuildNo() {
-        return buildNo;
-    }
-
-    public void setBuildNo(@NotNull(message = "is required") String buildNo) {
-        this.buildNo = buildNo;
-    }
-
-    public String getApartNo() {
-        return apartNo;
-    }
-
-    public void setApartNo(String apartNo) {
-        this.apartNo = apartNo;
+    public void setUserCreatedDate(LocalDateTime userCreatedDate) {
+        this.userCreatedDate = userCreatedDate;
     }
 
     @Override
     public String toString() {
-        return "Person{" +
+        return "User{" +
                 "id=" + id +
-                ", socialNo=" + socialNo +
-                ", lastName='" + lastName + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", countryId=" + countryId +
-                ", city='" + city + '\'' +
-                ", zipCode='" + zipCode + '\'' +
-                ", street='" + street + '\'' +
-                ", buildNo='" + buildNo + '\'' +
-                ", apartNo='" + apartNo + '\'' +
+                ", password='" + password + '\'' +
+                ", personId=" + personId +
+                ", ifActive=" + ifActive +
                 '}';
     }
 }
