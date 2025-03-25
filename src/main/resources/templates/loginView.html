@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" th:href="@{/css/util.css}">
@@ -7,7 +8,6 @@
     <title>Login - HR Point</title>
 </head>
 <body>
-
     <h3>Login Form</h3>
 
     <div th:if="${param.error}" class="error-msg">
@@ -21,12 +21,12 @@
     </div>
 
     <form action="#" th:action="@{/authenticateTheUser}" method="POST" class="container">
-        <label th:for="username">User name:</label>
+        <label th:for="username">User ID:</label>
         <div>
             <input type="text"
                    name="username"
                    id="username"
-                   placeholder="username">
+                   placeholder="User ID">
         </div>
 
         <label th:for="password">Password:</label>

@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-                xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" th:href="@{/css/util.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/css/logInOut.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{/css/home.css}">
     <title>People - HR Point</title>
 </head>
 <body>
@@ -27,6 +27,9 @@
     <h3>People list</h3>
 
     <a th:href="@{/people/personAddFormView}" class="redirect_button">Add Person</a>
+    <br><br>
+
+    <a th:href="@{/users/userUpdateFormView}" class="redirect_button">Update User</a>
     <br><br>
 
     <table>
