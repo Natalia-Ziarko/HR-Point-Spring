@@ -1,36 +1,79 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" th:href="@{/css/util.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/form.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/css/logInOut.css}">
     <title>Update user - HR Point</title>
 </head>
 <body>
-
     <h3>User update form</h3>
 
-    <form action="#" th:action="@{/users/updateTheUser}" th:object="${theUser}" method="POST" class="container">
+    <a th:href="@{/home}">Home page</a>
+    <br>
+
+    <form action="#" th:action="@{/logout}" method="POST" class="oneline-form">
+        <p>
+            <input type="submit" value="Logout" class="logout-button" />
+            User:
+            <span sec:authentication="principal.username"></span>
+            | Role(s):
+            <span sec:authentication="principal.authorities"></span>
+        </p>
+    </form>
+
+    <form action="#" th:action="@{/users/updateTheUser}" th:object="${theUser}" method="POST" class="form-container">
         <label th:for="*{id}">User ID:</label>
         <div>
             <input type="text"
                    name="userid"
                    id="*{id}"
                    th:field="*{id}"
+                   class="required-input"
                    placeholder="user ID">
         </div>
+        <span class="error-message" th:if="${#fields.hasErrors('id')}" th:text="${#fields.errors('id')}"></span>
 
         <label th:for="*{password}">Password:</label>
         <div>
             <input type="password"
-                   name="pw"
+                   name="password"
                    id="*{password}"
                    th:field="*{password}"
+                   class="required-input"
                    placeholder="password">
+        </div>
+        <span class="error-message" th:if="${#fields.hasErrors('password')}" th:text="${#fields.errors('password')}"></span>
+
+        <label th:for="*{personId}">Person ID:</label>
+        <div>
+            <input type="number"
+                   name="personId"
+                   id="*{personId}"
+                   th:field="*{personId}"
+                   class="not_required-input"
+                   placeholder="Person ID">
+        </div>
+        <span class="error-message" th:if="${#fields.hasErrors('personId')}" th:text="${#fields.errors('personId')}"></span>
+
+        <label th:for="*{ifActive}">Active:</label>
+        <div>
+            <input type="checkbox"
+                   name="ifActive"
+                   id="*{ifActive}"
+                   th:field="*{ifActive}">
+        </div>
+        <span class="error-message" th:if="${#fields.hasErrors('ifActive')}" th:text="${#fields.errors('ifActive')}"></span>
+
+        <div th:if="${#fields.hasErrors('*')}" class="general-error">
+            <p>Please fix the errors above.</p>
         </div>
 
         <div class="submit-container">
-            <input type="submit" value="Update" class="login-button" />
+            <input type="submit" value="Update" class="submit-button" />
         </div>
     </form>
 
