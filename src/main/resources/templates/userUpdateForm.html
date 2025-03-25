@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/util.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/logInOut.css}">
+    <title>Update user - HR Point</title>
+</head>
+<body>
+
+    <h3>User update form</h3>
+
+    <form action="#" th:action="@{/users/updateTheUser}" th:object="${theUser}" method="POST" class="container">
+        <label th:for="*{id}">User ID:</label>
+        <div>
+            <input type="text"
+                   name="userid"
+                   id="*{id}"
+                   th:field="*{id}"
+                   placeholder="user ID">
+        </div>
+
+        <label th:for="*{password}">Password:</label>
+        <div>
+            <input type="password"
+                   name="pw"
+                   id="*{password}"
+                   th:field="*{password}"
+                   placeholder="password">
+        </div>
+
+        <div class="submit-container">
+            <input type="submit" value="Update" class="login-button" />
+        </div>
+    </form>
+
+</body>
+</html>
