@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/util.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/logInOut.css}">
+    <title>Login - HR Point</title>
+</head>
+<body>
+    <h3>Login Form</h3>
+
+    <div th:if="${param.error}" class="error-msg">
+        <p>Error! Username/password is invalid.</p>
+        <br><br>
+    </div>
+
+    <div th:if="${param.logout}" class="success-msg">
+        <p>Success! You have been logged out.</p>
+        <br><br>
+    </div>
+
+    <form action="#" th:action="@{/authenticateTheUser}" method="POST" class="container">
+        <label th:for="username">User ID:</label>
+        <div>
+            <input type="text"
+                   name="username"
+                   id="username"
+                   placeholder="User ID">
+        </div>
+
+        <label th:for="password">Password:</label>
+        <div>
+            <input type="password"
+                   name="password"
+                   id="password"
+                   placeholder="password">
+        </div>
+
+        <div class="submit-container">
+            <input type="submit" value="Login" class="login-button" />
+        </div>
+    </form>
+
+</body>
+</html>
