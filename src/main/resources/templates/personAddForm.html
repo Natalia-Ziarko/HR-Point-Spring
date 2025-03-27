@@ -25,7 +25,7 @@
         </p>
     </form>
 
-    <form action="#" th:action="@{/people/personAddFormProcess}" th:object="${thePerson}" method="POST" class="form-container">
+    <form action="#" th:action="@{/people/addPersonProcess}" th:object="${thePerson}" method="POST" class="form-container">
         <label th:for="*{firstName}">First Name:</label>
         <div class="input-wrapper">
             <input type="text"

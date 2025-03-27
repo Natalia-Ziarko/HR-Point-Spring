@@ -1,5 +1,6 @@
 package com.point.hr.controller;
 
+import com.point.hr.entity.Person;
 import com.point.hr.entity.User;
 import com.point.hr.service.UserService;
 import jakarta.validation.Valid;
@@ -19,37 +20,47 @@ public class UserCtrl {
     @Autowired
     private UserService userService;
 
-    @RequestMapping("/userUpdateFormView")
-    public String home(Model theModel) {
+    @RequestMapping("/addUser")
+    public String addUser(Model theModel) {
+
+        theModel.addAttribute("theUser", new User());
+
+        return "userAddForm";
+    }
+
+    @PostMapping("/addUserProcess")
+    public String addUserProcess(@Valid @ModelAttribute("theUser") User theUser,
+                                       BindingResult theBindRes,
+                                       Model theModel) {
+
+        if (theBindRes.hasErrors()) {
+            theModel.addAttribute("theUser", theUser);
+
+            return "userAddForm";
+        }
+
+        userService.save(theUser);
+
+        return "redirect:/home";
+    }
+
+    @RequestMapping("/updateUser")
+    public String updateUser(Model theModel) {
 
         theModel.addAttribute("theUser", new User());
 
         return "userUpdateForm";
     }
 
-    @PostMapping("/addTheUser")
-    public String addTheUser(@Valid @ModelAttribute("theUser") User theUser,
-                                       BindingResult theBindRes,
-                                       Model theModel) {
+    @PostMapping("/updateUserProcess")
+    public String updateUserProcess(@Valid @ModelAttribute("theUser") User theUser,
+                             BindingResult theBindRes,
+                             Model theModel) {
 
         if (theBindRes.hasErrors()) {
             theModel.addAttribute("theUser", theUser);
 
-            return "/userAddForm";
-        }
-
-        return "redirect:/home";
-    }
-
-    @PostMapping("/updateTheUser")
-    public String updateTheUser(@Valid @ModelAttribute("theUser") User theUser,
-                                       BindingResult theBindRes,
-                                       Model theModel) {
-
-        if (theBindRes.hasErrors()) {
-            theModel.addAttribute("theUser", theUser);
-
-            return "/userUpdateForm";
+            return "userUpdateForm";
         }
 
         userService.update(theUser);

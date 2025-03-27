@@ -27,7 +27,7 @@ public class SecurityConfig {
                 .anyRequest().authenticated() // INFO: Secure other endpoints
         ).formLogin(
                 form -> form
-                .loginPage("/showLoginPage")
+                .loginPage("/login")
                 .loginProcessingUrl("/authenticateTheUser")
                 .defaultSuccessUrl("/home")
                 .permitAll()

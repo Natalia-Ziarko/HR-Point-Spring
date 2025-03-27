@@ -24,9 +24,9 @@
         </p>
     </form>
 
-    <a th:href="@{/people/personAddFormView}" class="redirect_button">Add Person</a>
+    <a th:href="@{/people/addPerson}" class="redirect_button">Add next Person</a>
     <br><br>
 
-    <p>Person: <span style="color:blue" th:text="${thePerson.firstName} + ' ' + ${thePerson.lastName}"></span></p>
+    <p>Added Person: <span style="color:blue" th:text="${thePerson.firstName} + ' ' + ${thePerson.lastName}"></span></p>
 </body>
 </html>

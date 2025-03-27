@@ -22,8 +22,8 @@ public class PersonCtrl {
     @Autowired
     private PersonService personService;
 
-    @RequestMapping("/personAddFormView")
-    public String home(Model theModel) {
+    @RequestMapping("/addPerson")
+    public String addPerson(Model theModel) {
 
         theModel.addAttribute("thePerson", new Person());
         theModel.addAttribute("countryList", countryService.findAll());
@@ -31,8 +31,8 @@ public class PersonCtrl {
         return "personAddForm";
     }
 
-    @PostMapping("/personAddFormProcess")
-    public String personAddFormProcess(@Valid @ModelAttribute("thePerson") Person thePerson,
+    @PostMapping("/addPersonProcess")
+    public String addPersonProcess(@Valid @ModelAttribute("thePerson") Person thePerson,
                                        BindingResult theBindRes,
                                        Model theModel) {
 

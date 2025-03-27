@@ -25,7 +25,7 @@
         </p>
     </form>
 
-    <form action="#" th:action="@{/users/updateTheUser}" th:object="${theUser}" method="POST" class="form-container">
+    <form action="#" th:action="@{/users/updateUserProcess}" th:object="${theUser}" method="POST" class="form-container">
         <label th:for="*{id}">User ID:</label>
         <div>
             <input type="text"
