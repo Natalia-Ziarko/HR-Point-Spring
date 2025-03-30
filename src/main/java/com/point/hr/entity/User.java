@@ -50,7 +50,7 @@ public class User {
     /* Relationships */
 
     @OneToOne
-    @JoinColumn(name = "userPerId", referencedColumnName = "perId", insertable = false, updatable = false)
+    @JoinColumn(name = "userPerId", referencedColumnName = "perId")
     private Person person;
 
 }

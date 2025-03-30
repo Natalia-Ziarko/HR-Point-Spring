@@ -2,16 +2,15 @@ package com.point.hr.controller;
 
 import com.point.hr.entity.Person;
 import com.point.hr.entity.User;
+import com.point.hr.service.PersonService;
 import com.point.hr.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/users")
@@ -20,10 +19,18 @@ public class UserCtrl {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private PersonService personService;
+
     @RequestMapping("/addUser")
     public String addUser(Model theModel) {
 
-        theModel.addAttribute("theUser", new User());
+        User theUser = new User();
+
+        Person thePerson = personService.findById(18);
+        theUser.setPerson(thePerson);
+
+        theModel.addAttribute("theUser", theUser);
 
         return "userAddForm";
     }
@@ -39,15 +46,39 @@ public class UserCtrl {
             return "userAddForm";
         }
 
-        userService.save(theUser);
+        try {
+            userService.save(theUser);
+        } catch (DataIntegrityViolationException e) {
+            // INFO: Handle duplicate userPerId error
+            Integer personId = theUser.getPerson() != null ? theUser.getPerson().getId() : null;
+            User existingUser = userService.findByPersonId(personId);
+            theBindRes.rejectValue("person.id", "duplicate.person.id",
+                    "The user exists with ID: " + existingUser.getId());
+
+            theUser.setId(existingUser.getId()); // INFO: Add userId to the form
+
+            theModel.addAttribute("theUser", theUser);
+
+            return "userUpdateForm";
+        } catch (Exception e) {
+            theBindRes.reject("general.error", "An unexpected error occurred. Please try again.");
+            theModel.addAttribute("theUser", theUser);
+
+            return "userAddForm";
+        }
 
         return "redirect:/home";
     }
 
     @RequestMapping("/updateUser")
-    public String updateUser(Model theModel) {
+    public String updateUser(@RequestParam("userId") Integer userId, Model theModel) {
 
-        theModel.addAttribute("theUser", new User());
+        User theUser = userService.findById(userId);
+
+        if (theUser == null)
+            return "redirect:/home";
+
+        theModel.addAttribute("theUser", theUser);
 
         return "userUpdateForm";
     }
@@ -61,6 +92,15 @@ public class UserCtrl {
             theModel.addAttribute("theUser", theUser);
 
             return "userUpdateForm";
+        }
+
+        if (theUser.getPerson() != null && theUser.getPerson().getId() != null) {
+            Person person = personService.findById(theUser.getPerson().getId());
+            if (person != null) {
+                theUser.setPerson(person);
+            } else {
+                throw new RuntimeException("Person not found");
+            }
         }
 
         userService.update(theUser);
