@@ -8,6 +8,8 @@ public interface UserService {
 
     User findById(Integer theUserId);
 
+    User findByPersonId(Integer thePersonId);
+
     User update(User theUser);
 
     Integer deleteById(Integer theUserId);
