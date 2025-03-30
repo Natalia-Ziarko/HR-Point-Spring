@@ -8,148 +8,71 @@ import lombok.*;
 
 @Entity
 @Table(name="people")
-@Data
-@Builder
-@AllArgsConstructor // INFO: Lombok generates a constructor with all fields
-@NoArgsConstructor // INFO: Lombok generates an empty constructor (for JPA)
+@Data // INFO: Lombok generates getters, setters, toString, equals, and hashCode method
+@Builder // INFO: Lombok creates a builder pattern implementation for the class
+@AllArgsConstructor // INFO: Lombok generates a constructor with all fields as parameters
+@NoArgsConstructor // INFO: Lombok generates a default constructor with no parameters (for JPA)
 public class Person {
 
     @Transient
     private final String TABLE_NAME = "people";
 
+    //@Getter
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name="perId")
     private Integer id;
 
-    @Column(name="perSocialNo")
+    @Column(name="perSocialNo", nullable = false)
     @NotNull(message = "is required")
     @Pattern(regexp = "^[0-9]+$", message = "only digits")
     @PersonSocialNumber
     @ColumnLength(tableName = TABLE_NAME, columnName = "perSocialNo")
     private String socialNo;
 
-    @Column(name="perLastName")
+    @Column(name="perLastName", nullable = false)
     @NotNull(message = "is required")
     @Pattern(regexp = "^[a-zA-Z]+$", message = "only chars")
     @ColumnLength(tableName = TABLE_NAME, columnName = "perLastName")
     private String lastName;
 
-    @Column(name="perFirstName")
+    @Column(name="perFirstName", nullable = false)
     @NotNull(message = "is required")
     @Pattern(regexp = "^[a-zA-Z]+$", message = "only chars")
     @ColumnLength(tableName = TABLE_NAME, columnName = "perFirstName")
     private String firstName;
 
-    @Column(name="perCountryId")
+    @Column(name="perCountryId", nullable = false)
     @NotNull(message = "is required")
     private Integer countryId;
 
-    @Column(name="perCity")
+    @Column(name="perCity", nullable = false)
     @NotNull(message = "is required")
     @Pattern(regexp = "^[a-zA-Z]+$", message = "only chars")
     @ColumnLength(tableName = TABLE_NAME, columnName = "perCity")
     private String city;
 
-    @Column(name="perZipCode")
+    @Column(name="perZipCode", nullable = false)
     @NotNull(message = "is required")
     @ColumnLength(tableName = TABLE_NAME, columnName = "perZipCode")
     private String zipCode;
 
-    @Column(name="perStreet")
+    @Column(name="perStreet", nullable = false)
     @NotNull(message = "is required")
     @Pattern(regexp = "^[a-zA-Z0-9]+$", message = "only chars")
     @ColumnLength(tableName = TABLE_NAME, columnName = "perStreet")
     private String street;
 
-    @Column(name="perBuildNo")
+    @Column(name="perBuildNo", nullable = false)
     @NotNull(message = "is required")
     @ColumnLength(tableName = TABLE_NAME, columnName = "perBuildNo")
     private String buildNo;
 
+    //@Getter
     @Column(name="perApartNo")
     @ColumnLength(tableName = TABLE_NAME, columnName = "perApartNo")
     private String apartNo;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public @NotNull(message = "is required") @Pattern(regexp = "^[0-9]+$", message = "only digits") String getSocialNo() {
-        return socialNo;
-    }
-
-    public void setSocialNo(@NotNull(message = "is required") @Pattern(regexp = "^[0-9]+$", message = "only digits") String socialNo) {
-        this.socialNo = socialNo;
-    }
-
-    public @NotNull(message = "is required") @Pattern(regexp = "^[a-zA-Z]+$", message = "only chars") String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(@NotNull(message = "is required") @Pattern(regexp = "^[a-zA-Z]+$", message = "only chars") String lastName) {
-        this.lastName = lastName;
-    }
-
-    public @NotNull(message = "is required") @Pattern(regexp = "^[a-zA-Z]+$", message = "only chars") String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(@NotNull(message = "is required") @Pattern(regexp = "^[a-zA-Z]+$", message = "only chars") String firstName) {
-        this.firstName = firstName;
-    }
-
-    public @NotNull(message = "is required") Integer getCountryId() {
-        return countryId;
-    }
-
-    public void setCountryId(@NotNull(message = "is required") Integer countryId) {
-        this.countryId = countryId;
-    }
-
-    public @NotNull(message = "is required") @Pattern(regexp = "^[a-zA-Z]+$", message = "only chars") String getCity() {
-        return city;
-    }
-
-    public void setCity(@NotNull(message = "is required") @Pattern(regexp = "^[a-zA-Z]+$", message = "only chars") String city) {
-        this.city = city;
-    }
-
-    public @NotNull(message = "is required") String getZipCode() {
-        return zipCode;
-    }
-
-    public void setZipCode(@NotNull(message = "is required") String zipCode) {
-        this.zipCode = zipCode;
-    }
-
-    public @NotNull(message = "is required") @Pattern(regexp = "^[a-zA-Z0-9]+$", message = "only chars") String getStreet() {
-        return street;
-    }
-
-    public void setStreet(@NotNull(message = "is required") @Pattern(regexp = "^[a-zA-Z0-9]+$", message = "only chars") String street) {
-        this.street = street;
-    }
-
-    public @NotNull(message = "is required") String getBuildNo() {
-        return buildNo;
-    }
-
-    public void setBuildNo(@NotNull(message = "is required") String buildNo) {
-        this.buildNo = buildNo;
-    }
-
-    public String getApartNo() {
-        return apartNo;
-    }
-
-    public void setApartNo(String apartNo) {
-        this.apartNo = apartNo;
-    }
 
     @Override
     public String toString() {
@@ -166,4 +89,19 @@ public class Person {
                 ", apartNo='" + apartNo + '\'' +
                 '}';
     }
+
+
+    /* Relationships */
+
+    @OneToOne(mappedBy = "person", cascade=CascadeType.ALL)
+    private Employee employee;
+
+    @OneToOne(mappedBy = "person", cascade=CascadeType.ALL)
+    private User user;
+
+    /* FIX when Department entity added
+    @OneToOne(cascade=CascadeType.ALL)
+    @JoinColumn(name="departmentId")
+    private Department department;
+     */
 }
