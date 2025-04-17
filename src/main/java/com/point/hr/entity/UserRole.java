@@ -1,41 +1,48 @@
 package com.point.hr.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
-@Table(name="countries")
+@Table(name="usersRoles")
 @Data
 @Builder
 @AllArgsConstructor // INFO: Lombok generates a constructor with all fields
 @NoArgsConstructor // INFO: Lombok generates an empty constructor (for JPA)
-public class Country {
+public class UserRole {
 
-    @Getter
-    @Setter
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name="ctId")
-    @NotNull(message = "is required")
+    @Column(name="urId")
     private Integer id;
 
-    @Getter
-    @Setter
-    @Column(name="ctName")
-    private String name;
+    /* Relationships */
 
-    @Getter
-    @Setter
-    @Column(name="ctSymbol")
-    private String symbol;
+    @ManyToOne
+    @JoinColumn(name = "urUserId", referencedColumnName = "userId", insertable=false, updatable=false)
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "urRoleId", referencedColumnName = "roleId", insertable=false, updatable=false)
+    private Role role;
+
+    @ManyToOne
+    @JoinColumn(name = "urCreatedBy", referencedColumnName = "perId", insertable=false, updatable=false)
+    private Person createdBy;
+
+    @ManyToOne
+    @JoinColumn(name = "urUpdatedBy", referencedColumnName = "perId", insertable=false, updatable=false)
+    private Person updatedBy;
+
+
 
     @Override
     public String toString() {
-        return "Country{" +
+        return "UserRole{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
-                ", symbol='" + symbol + '\'' +
                 '}';
     }
+
 }

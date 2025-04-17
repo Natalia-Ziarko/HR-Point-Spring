@@ -29,9 +29,6 @@
     <a th:href="@{/people/addPerson}" class="redirect_button">Add Person</a>
     <br><br>
 
-    <a th:href="@{/users/addUser}" class="redirect_button">Add User</a>
-    <br><br>
-
     <table>
         <tr>
             <th>Name</th>
@@ -42,6 +39,7 @@
             <th>Street</th>
             <th>Building num</th>
             <th>Apartment num</th>
+            <th></th> <!--Details-->
         </tr>
         <tr th:each="person : ${peopleList}">
             <td th:text="${person.firstName}"></td>
@@ -52,6 +50,16 @@
             <td th:text="${person.street}"></td>
             <td th:text="${person.buildNo}"></td>
             <td th:text="${person.apartNo}"></td>
+            <td>
+                <form th:action="@{/people/showPerson}" method="post">
+                    <input type="hidden" name="perId" th:value="${person.id}">
+                    <button type="submit">Show details</button>
+                </form>
+                <form th:action="@{/users/updateUser}" method="post">
+                    <input type="hidden" name="perId" th:value="${person.id}">
+                    <button type="submit">Update user</button>
+                </form>
+            </td>
         </tr>
     </table>
 </body>

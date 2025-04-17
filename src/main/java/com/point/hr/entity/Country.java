@@ -30,6 +30,8 @@ public class Country {
     @Column(name="ctSymbol")
     private String symbol;
 
+
+
     @Override
     public String toString() {
         return "Country{" +

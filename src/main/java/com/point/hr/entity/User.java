@@ -35,6 +35,13 @@ public class User {
     @Column(name="userCreatedDate", nullable = false)
     private LocalDateTime userCreatedDate = LocalDateTime.now();
 
+    /* Relationships */
+
+    @OneToOne
+    @JoinColumn(name = "userPerId", referencedColumnName = "perId")
+    private Person person;
+
+
 
     @Override
     public String toString() {
@@ -45,12 +52,5 @@ public class User {
                 ", person=" + (person != null ? person.getId() : null) +
                 '}';
     }
-
-
-    /* Relationships */
-
-    @OneToOne
-    @JoinColumn(name = "userPerId", referencedColumnName = "perId")
-    private Person person;
 
 }

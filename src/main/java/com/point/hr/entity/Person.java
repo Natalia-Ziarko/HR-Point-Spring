@@ -17,7 +17,6 @@ public class Person {
     @Transient
     private final String TABLE_NAME = "people";
 
-    //@Getter
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name="perId")
@@ -68,10 +67,18 @@ public class Person {
     @ColumnLength(tableName = TABLE_NAME, columnName = "perBuildNo")
     private String buildNo;
 
-    //@Getter
     @Column(name="perApartNo")
     @ColumnLength(tableName = TABLE_NAME, columnName = "perApartNo")
     private String apartNo;
+
+    /* Relationships */
+
+    @OneToOne(mappedBy = "person", cascade=CascadeType.ALL)
+    private Employee employee;
+
+    @OneToOne(mappedBy = "person", cascade=CascadeType.ALL)
+    private User user;
+
 
 
     @Override
@@ -90,18 +97,4 @@ public class Person {
                 '}';
     }
 
-
-    /* Relationships */
-
-    @OneToOne(mappedBy = "person", cascade=CascadeType.ALL)
-    private Employee employee;
-
-    @OneToOne(mappedBy = "person", cascade=CascadeType.ALL)
-    private User user;
-
-    /* FIX when Department entity added
-    @OneToOne(cascade=CascadeType.ALL)
-    @JoinColumn(name="departmentId")
-    private Department department;
-     */
 }

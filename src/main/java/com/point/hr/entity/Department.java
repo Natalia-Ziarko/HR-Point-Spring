@@ -2,81 +2,46 @@ package com.point.hr.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
-@Table(name="employees")
+@Table(name="departments")
 @Data // INFO: Lombok generates getters, setters, toString, equals, and hashCode method
 @Builder // INFO: Lombok creates a builder pattern implementation for the class
 @AllArgsConstructor // INFO: Lombok generates a constructor with all fields as parameters
 @NoArgsConstructor // INFO: Lombok generates a default constructor with no parameters (for JPA)
-public class Employee {
+public class Department {
 
     @Transient
-    private final String TABLE_NAME = "employees";
+    private final String TABLE_NAME = "departments";
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name="empId")
+    @Column(name="depId")
     private Integer id;
 
-    @Column(name = "empPerId", nullable = false, unique = true)
+    @Column(name="depName")
     @NotNull(message = "is required")
-    private Integer personId;
+    private String name;
 
-    @Column(name="empManagerPerId", nullable = true)
-    private Integer managerId;
+    /* Relationships */
 
-    @Column(name="empDepId", nullable = true)
-    private Integer departmentId;
+    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
+    private List<Employee> employees;
 
-    @Column(name="empCreatedBy", nullable = true)
-    private Integer createdById;
-
-    @Column(name="empCreatedDate", nullable = false)
-    @NotNull(message = "is required")
-    private LocalDateTime createdDate = LocalDateTime.now();
-
-    @Column(name="empUpdatedBy", nullable = true)
-    private Integer updatedById;
-
-    @Column(name="empUpdatedDate", nullable = true)
-    private LocalDateTime updatedDate;
 
 
     @Override
     public String toString() {
-        return "Employee{" +
+        return "Department{" +
                 "id=" + id +
-                ", personId=" + personId +
-                ", managerId=" + managerId +
-                ", departmentId=" + departmentId +
-                ", createdById=" + createdById +
-                ", createdDate=" + createdDate +
-                ", updatedById=" + updatedById +
-                ", updatedDate=" + updatedDate +
+                ", name=" + name +
                 '}';
     }
-
-
-    /* Relationships */
-
-    @OneToOne
-    @JoinColumn(name = "empPerId", referencedColumnName = "perId", insertable = false, updatable = false)
-    private Person person;
-
-    @ManyToOne
-    @JoinColumn(name = "empManagerPerId", referencedColumnName = "perId", insertable=false, updatable=false)
-    private Person managerTeam;
-
-    @ManyToOne
-    @JoinColumn(name = "empCreatedBy", referencedColumnName = "perId", insertable=false, updatable=false)
-    private Person createdBy;
-
-    @ManyToOne
-    @JoinColumn(name = "empUpdatedBy", referencedColumnName = "perId", insertable=false, updatable=false)
-    private Person updatedBy;
 
 }

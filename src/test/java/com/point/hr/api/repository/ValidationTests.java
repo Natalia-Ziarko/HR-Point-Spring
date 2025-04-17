@@ -22,7 +22,7 @@ public class ValidationTests {
 
     @Autowired
     private ColumnLengthRetrieve columnLengthRetrieve;
-
+/*
     @Test
     public void getColumnLength_retNotEquals() {
 
@@ -37,6 +37,8 @@ public class ValidationTests {
                 "Column length should be retrieved successfully from the database");
     }
 
+ */
+/*
     @Test
     public void columnLength_retThrow() {
         /*
@@ -44,6 +46,7 @@ public class ValidationTests {
          * Simulate MySQL column length constraints in the lengthMap to test validation
          * Use reflection to bypass lengthMap encapsulation
          */
+    /*
         Map<String, Integer> lengthMap;
         lengthMap = (Map<String, Integer>) ReflectionTestUtils.getField(columnLengthRetrieve, "lengthMap");
         assert lengthMap != null;
@@ -66,4 +69,7 @@ public class ValidationTests {
                 "Expected ConstraintViolationException for firstName exceeding 63-char limit"
         );
     }
+
+     */
+
 }

@@ -28,7 +28,7 @@
     <form action="#" th:action="@{/users/updateUserProcess}" th:object="${theUser}" method="POST" class="form-container">
         <label th:for="*{id}">User ID:</label>
         <div>
-            <input type="text"
+            <input type="number"
                    name="userid"
                    id="*{id}"
                    th:field="*{id}"

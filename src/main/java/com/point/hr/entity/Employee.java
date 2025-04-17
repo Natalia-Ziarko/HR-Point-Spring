@@ -45,6 +45,29 @@ public class Employee {
     @Column(name="empUpdatedDate", nullable = true)
     private LocalDateTime updatedDate;
 
+    /* Relationships */
+
+    @OneToOne
+    @JoinColumn(name = "empPerId", referencedColumnName = "perId", insertable = false, updatable = false)
+    private Person person;
+
+    @ManyToOne
+    @JoinColumn(name = "empManagerPerId", referencedColumnName = "perId", insertable=false, updatable=false)
+    private Person managerTeam;
+
+    @ManyToOne
+    @JoinColumn(name = "empDepId", referencedColumnName = "depId", insertable=false, updatable=false)
+    private Department department;
+
+    @ManyToOne
+    @JoinColumn(name = "empCreatedBy", referencedColumnName = "perId", insertable=false, updatable=false)
+    private Person createdBy;
+
+    @ManyToOne
+    @JoinColumn(name = "empUpdatedBy", referencedColumnName = "perId", insertable=false, updatable=false)
+    private Person updatedBy;
+
+
 
     @Override
     public String toString() {
@@ -59,24 +82,5 @@ public class Employee {
                 ", updatedDate=" + updatedDate +
                 '}';
     }
-
-
-    /* Relationships */
-
-    @OneToOne
-    @JoinColumn(name = "empPerId", referencedColumnName = "perId", insertable = false, updatable = false)
-    private Person person;
-
-    @ManyToOne
-    @JoinColumn(name = "empManagerPerId", referencedColumnName = "perId", insertable=false, updatable=false)
-    private Person managerTeam;
-
-    @ManyToOne
-    @JoinColumn(name = "empCreatedBy", referencedColumnName = "perId", insertable=false, updatable=false)
-    private Person createdBy;
-
-    @ManyToOne
-    @JoinColumn(name = "empUpdatedBy", referencedColumnName = "perId", insertable=false, updatable=false)
-    private Person updatedBy;
 
 }

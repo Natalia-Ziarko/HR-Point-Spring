@@ -1,14 +1,15 @@
 package com.point.hr.service;
 
-import com.point.hr.entity.Country;
+import com.point.hr.entity.Employee;
 
 import java.util.List;
 
-public interface CountryService {
-    List<Country> findByName(String theName);
+public interface EmployeeService {
 
-    Country findById(Integer theId);
+    Employee findById(Integer theId);
 
-    List<Country> findAll();
+    List<Employee> findByManagerId(Integer theManagerId);
+
+    List<Employee> findAll();
 
 }

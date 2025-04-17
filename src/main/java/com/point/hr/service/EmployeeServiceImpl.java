@@ -1,6 +1,6 @@
 package com.point.hr.service;
 
-import com.point.hr.entity.Country;
+import com.point.hr.entity.Employee;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,32 +9,31 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class CountryServiceImpl implements CountryService {
+public class EmployeeServiceImpl implements EmployeeService {
 
     private final EntityManager entityManager;
 
     @Autowired
-    public CountryServiceImpl(EntityManager entityManager) {
+    public EmployeeServiceImpl(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
 
     @Override
-    public List<Country> findByName(String theName) {
-        TypedQuery<Country> theQuery = entityManager.createQuery("FROM Country WHERE ctName=:theName", Country.class);
+    public Employee findById(Integer theId) {
+        return entityManager.find(Employee.class, theId);
+    }
 
-        theQuery.setParameter("theName", theName);
+    @Override
+    public List<Employee> findByManagerId(Integer theManagerId) {
+        TypedQuery<Employee> theQuery = entityManager.createQuery("FROM Employee WHERE managerId = :theManagerId", Employee.class);
+        theQuery.setParameter("theManagerId", theManagerId);
 
         return theQuery.getResultList();
     }
 
     @Override
-    public Country findById(Integer theId) {
-        return entityManager.find(Country.class, theId);
-    }
-
-    @Override
-    public List<Country> findAll() {
-        TypedQuery<Country> theQuery = entityManager.createQuery("FROM Country", Country.class);
+    public List<Employee> findAll() {
+        TypedQuery<Employee> theQuery = entityManager.createQuery("FROM Employee", Employee.class);
 
         return theQuery.getResultList();
     }

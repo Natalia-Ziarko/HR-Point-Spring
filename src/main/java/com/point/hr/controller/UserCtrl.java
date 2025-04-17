@@ -27,9 +27,6 @@ public class UserCtrl {
 
         User theUser = new User();
 
-        Person thePerson = personService.findById(18);
-        theUser.setPerson(thePerson);
-
         theModel.addAttribute("theUser", theUser);
 
         return "userAddForm";
@@ -37,8 +34,8 @@ public class UserCtrl {
 
     @PostMapping("/addUserProcess")
     public String addUserProcess(@Valid @ModelAttribute("theUser") User theUser,
-                                       BindingResult theBindRes,
-                                       Model theModel) {
+                                 BindingResult theBindRes,
+                                 Model theModel) {
 
         if (theBindRes.hasErrors()) {
             theModel.addAttribute("theUser", theUser);
@@ -71,9 +68,10 @@ public class UserCtrl {
     }
 
     @RequestMapping("/updateUser")
-    public String updateUser(@RequestParam("userId") Integer userId, Model theModel) {
+    public String updateUser(@RequestParam("perId") Integer perId,
+                             Model theModel) {
 
-        User theUser = userService.findById(userId);
+        User theUser = userService.findByPersonId(perId);
 
         if (theUser == null)
             return "redirect:/home";
@@ -85,8 +83,8 @@ public class UserCtrl {
 
     @PostMapping("/updateUserProcess")
     public String updateUserProcess(@Valid @ModelAttribute("theUser") User theUser,
-                             BindingResult theBindRes,
-                             Model theModel) {
+                                    BindingResult theBindRes,
+                                    Model theModel) {
 
         if (theBindRes.hasErrors()) {
             theModel.addAttribute("theUser", theUser);
@@ -96,6 +94,7 @@ public class UserCtrl {
 
         if (theUser.getPerson() != null && theUser.getPerson().getId() != null) {
             Person person = personService.findById(theUser.getPerson().getId());
+
             if (person != null) {
                 theUser.setPerson(person);
             } else {

@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" th:href="@{/css/util.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/css/logInOut.css}">
-    <title>People - HR Point</title>
+    <title>Person Details - HR Point</title>
 </head>
 <body>
     <h2>HR Point</h2>
@@ -24,37 +24,45 @@
         </p>
     </form>
 
-    <h3>People list</h3>
+    <h3>Person details</h3>
+    <p>ID: <span th:text="${person.id}"></span></p>
+    <p>First name: <span th:text="${person.firstName}"></span></p>
+    <p>Last name: <span th:text="${person.lastName}"></span></p>
 
-    <a th:href="@{/people/addPerson}" class="redirect_button">Add Person</a>
-    <br><br>
+    <div th:if="${person.employee != null}">
+        <p>Manager ID: <span th:text="${person.employee.managerId != null ? person.employee.managerId : 'None'}"></span></p>
+        <p>Department ID: <span th:text="${person.employee.departmentId != null ? person.employee.departmentId : 'None'}"></span></p>
+    </div>
 
-    <a th:href="@{/users/addUser}" class="redirect_button">Add User</a>
-    <br><br>
+    <!-- Employee Table -->
+    <!-- FIX checking row person roles, not only logged person -->
+    <div th:if="${#authentication.principal.authorities != null
+    and (#strings.toString(#authentication.principal.authorities).contains('2')
+        or #strings.toString(#authentication.principal.authorities).contains('3'))}">
+        <h2>Employees</h2>
+        <table>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Surname</th>
+                <th>Details</th>
+            </tr>
+            <tr th:each="employee : ${employeesList}">
+                <td th:text="${employee.person.id}"></td>
+                <td th:text="${employee.person.firstName}"></td>
+                <td th:text="${employee.person.lastName}"></td>
+                <td>
+                    <form th:action="@{/people/showPerson}" method="post">
+                        <input type="hidden" name="perId" th:value="${employee.person.id}">
+                        <button type="submit">Show details</button>
+                    </form>
+                </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(employeesList)}">
+                <td colspan="4">No employees found.</td>
+            </tr>
+        </table>
+    </div>
 
-    <table>
-        <tr>
-            <th>Name</th>
-            <th>Surname</th>
-            <th>Social sec num</th>
-            <th>Zip code</th>
-            <th>City</th>
-            <th>Street</th>
-            <th>Building num</th>
-            <th>Apartment num</th>
-            <th></th>
-        </tr>
-        <tr th:each="person : ${peopleList}">
-            <td th:text="${person.firstName}"></td>
-            <td th:text="${person.lastName}"></td>
-            <td th:text="${person.socialNo}"></td>
-            <td th:text="${person.zipCode}"></td>
-            <td th:text="${person.city}"></td>
-            <td th:text="${person.street}"></td>
-            <td th:text="${person.buildNo}"></td>
-            <td th:text="${person.apartNo}"></td>
-            <td th:href="@{/people/addPerson}" class="redirect_button">Show details</td>
-        </tr>
-    </table>
 </body>
 </html>
