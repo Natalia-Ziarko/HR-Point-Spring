@@ -31,6 +31,7 @@
 
     <table>
         <tr>
+            <th>ID</th>
             <th>Name</th>
             <th>Surname</th>
             <th>Social sec num</th>
@@ -39,9 +40,10 @@
             <th>Street</th>
             <th>Building num</th>
             <th>Apartment num</th>
-            <th></th> <!--Details-->
+            <th></th> <!--Row actions-->
         </tr>
         <tr th:each="person : ${peopleList}">
+            <td th:text="${person.id}"></td>
             <td th:text="${person.firstName}"></td>
             <td th:text="${person.lastName}"></td>
             <td th:text="${person.socialNo}"></td>
