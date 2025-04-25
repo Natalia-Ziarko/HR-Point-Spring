@@ -1,6 +1,7 @@
 package com.point.hr.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.point.hr.entity.Person;
 import jakarta.validation.Valid;
@@ -10,7 +11,7 @@ public interface PersonService {
 
     List<Person> saveAll(List<Person> thePeople);
 
-    Person findById(Integer thePersonId);
+    Optional<Person> findById(Integer thePersonId);
 
     List<Person> findAll();
 
@@ -19,6 +20,4 @@ public interface PersonService {
     Person update(Person thePerson);
 
     Integer deleteById(Integer thePersonId);
-
-    Integer deleteAll();
 }

@@ -1,82 +1,65 @@
 package com.point.hr.service;
 
 import com.point.hr.entity.Person;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.TypedQuery;
+import com.point.hr.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class PersonServiceImpl implements PersonService {
 
-    private final EntityManager entityManager;
+    private final PersonRepository personRepository;
 
     @Autowired
-    public PersonServiceImpl(EntityManager entityManager) {
-        this.entityManager = entityManager;
+    public PersonServiceImpl(PersonRepository personRepository) {
+        this.personRepository = personRepository;
     }
 
     @Override
     @Transactional
     public Person save(Person thePerson) {
-        entityManager.persist(thePerson);
-
-        return thePerson;
+        return personRepository.save(thePerson);
     }
 
     @Override
     @Transactional
     public List<Person> saveAll(List<Person> thePeople) {
-        for (Person p : thePeople) entityManager.persist(p);
+        for (Person p : thePeople) personRepository.save(p);
 
         return thePeople;
     }
 
     @Override
-    public Person findById(Integer thePersonId) {
-        return entityManager.find(Person.class, thePersonId);
+    public Optional<Person> findById(Integer thePersonId) {
+        return personRepository.findById(thePersonId);
     }
 
     @Override
     public List<Person> findAll() {
-        TypedQuery<Person> theQuery = entityManager.createQuery("FROM Person", Person.class);
-
-        return theQuery.getResultList();
+        return personRepository.findAll();
     }
 
     @Override
     public List<Person> findByLastName(String theLastName) {
-        TypedQuery<Person> theQuery = entityManager.createQuery("FROM Person WHERE lastName=:lastName", Person.class);
-
-        theQuery.setParameter("lastName", theLastName);
-
-        return theQuery.getResultList();
+        return personRepository.findByLastName(theLastName);
     }
 
     @Override
     @Transactional
     public Person update(Person thePerson) {
-        entityManager.merge(thePerson);
-
-        return thePerson;
+        return personRepository.save(thePerson);
     }
 
     @Override
     @Transactional
     public Integer deleteById(Integer thePersonId) {
-        Person thePerson = findById(thePersonId);
 
-        entityManager.remove(thePerson);
+        personRepository.deleteById(thePersonId);
 
         return thePersonId;
-    }
-
-    @Override
-    @Transactional
-    public Integer deleteAll() {
-        return entityManager.createQuery("DELETE FROM Person").executeUpdate();
     }
 }

@@ -1,41 +1,35 @@
 package com.point.hr.service;
 
 import com.point.hr.entity.Country;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.TypedQuery;
+import com.point.hr.repository.CountryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
-@Repository
+@Service
 public class CountryServiceImpl implements CountryService {
 
-    private final EntityManager entityManager;
+    private final CountryRepository countryRepository;
 
     @Autowired
-    public CountryServiceImpl(EntityManager entityManager) {
-        this.entityManager = entityManager;
+    public CountryServiceImpl(CountryRepository countryRepository) {
+        this.countryRepository = countryRepository;
     }
 
     @Override
-    public List<Country> findByName(String theName) {
-        TypedQuery<Country> theQuery = entityManager.createQuery("FROM Country WHERE ctName=:theName", Country.class);
-
-        theQuery.setParameter("theName", theName);
-
-        return theQuery.getResultList();
+    public Optional<Country> findByName(String theName) {
+        return countryRepository.findByName(theName);
     }
 
     @Override
-    public Country findById(Integer theId) {
-        return entityManager.find(Country.class, theId);
+    public Optional<Country>  findById(Integer theId) {
+        return countryRepository.findById(theId);
     }
 
     @Override
     public List<Country> findAll() {
-        TypedQuery<Country> theQuery = entityManager.createQuery("FROM Country", Country.class);
-
-        return theQuery.getResultList();
+        return countryRepository.findAll();
     }
 }

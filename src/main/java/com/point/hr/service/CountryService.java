@@ -3,11 +3,12 @@ package com.point.hr.service;
 import com.point.hr.entity.Country;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface CountryService {
-    List<Country> findByName(String theName);
+    Optional<Country> findByName(String name);
 
-    Country findById(Integer theId);
+    Optional<Country> findById(Integer id);
 
     List<Country> findAll();
 

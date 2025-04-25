@@ -12,6 +12,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @Controller
 @RequestMapping("/users")
 public class UserCtrl {
@@ -47,12 +49,15 @@ public class UserCtrl {
             userService.save(theUser);
         } catch (DataIntegrityViolationException e) {
             // INFO: Handle duplicate userPerId error
-            Integer personId = theUser.getPerson() != null ? theUser.getPerson().getId() : null;
-            User existingUser = userService.findByPersonId(personId);
-            theBindRes.rejectValue("person.id", "duplicate.person.id",
-                    "The user exists with ID: " + existingUser.getId());
+            Integer thePersonId = theUser.getPerson() != null ? theUser.getPerson().getId() : null;
+            Optional<User> existingUser = userService.findByPersonId(thePersonId);
 
-            theUser.setId(existingUser.getId()); // INFO: Add userId to the form
+            if (existingUser.isPresent()) {
+                theBindRes.rejectValue("person.id", "duplicate.person.id",
+                        "The user exists with ID: " + existingUser.get().getId());
+
+                theUser.setId(existingUser.get().getId()); // INFO: Add userId to the form
+            }
 
             theModel.addAttribute("theUser", theUser);
 
@@ -68,15 +73,15 @@ public class UserCtrl {
     }
 
     @RequestMapping("/updateUser")
-    public String updateUser(@RequestParam("perId") Integer perId,
+    public String updateUser(@RequestParam("perId") Integer thePersonId,
                              Model theModel) {
 
-        User theUser = userService.findByPersonId(perId);
+        Optional<User> theUser = userService.findByPersonId(thePersonId);
 
-        if (theUser == null)
+        if (theUser.isEmpty())
             return "redirect:/home";
 
-        theModel.addAttribute("theUser", theUser);
+        theModel.addAttribute("theUser", theUser.get());
 
         return "userUpdateForm";
     }
@@ -93,12 +98,12 @@ public class UserCtrl {
         }
 
         if (theUser.getPerson() != null && theUser.getPerson().getId() != null) {
-            Person person = personService.findById(theUser.getPerson().getId());
+            Optional<Person> person = personService.findById(theUser.getPerson().getId());
 
-            if (person != null) {
-                theUser.setPerson(person);
+            if (person.isPresent()) {
+                theUser.setPerson(person.get());
             } else {
-                throw new RuntimeException("Person not found");
+                return "userUpdateForm";
             }
         }
 

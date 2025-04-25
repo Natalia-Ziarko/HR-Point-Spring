@@ -3,15 +3,18 @@ package com.point.hr.service;
 import com.point.hr.entity.User;
 import jakarta.validation.Valid;
 
+import java.util.Optional;
+
 public interface UserService {
-    User save(@Valid User theUser);
 
-    User findById(Integer theUserId);
+    User save(@Valid User user);
 
-    User findByPersonId(Integer thePersonId);
+    Optional<User> findById(Integer id);
 
-    User update(User theUser);
+    Optional<User> findByPersonId(Integer personId);
 
-    Integer deleteById(Integer theUserId);
+    User update(User user);
+
+    Integer deleteById(Integer userId);
 
 }

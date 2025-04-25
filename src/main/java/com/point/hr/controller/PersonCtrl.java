@@ -1,7 +1,6 @@
 package com.point.hr.controller;
 
 import com.point.hr.entity.Employee;
-import com.point.hr.entity.User;
 import com.point.hr.service.CountryService;
 import com.point.hr.service.EmployeeService;
 import com.point.hr.service.PersonService;
@@ -11,12 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/people")
@@ -31,11 +28,10 @@ public class PersonCtrl {
     @Autowired
     private EmployeeService employeeService;
 
-    @RequestMapping("/addPerson")
-    public String addPerson(@Valid @ModelAttribute("thePerson") Person thePerson,
-                            Model theModel) {
+    @GetMapping("/addPerson")
+    public String addPerson(Model theModel) {
 
-        theModel.addAttribute("thePerson", thePerson);
+        theModel.addAttribute("thePerson", new Person());
         theModel.addAttribute("countryList", countryService.findAll());
 
         return "personAddForm";
@@ -57,8 +53,7 @@ public class PersonCtrl {
 
         personService.save(thePerson);
 
-        // INFO: Redirect prevents duplicate submissions
-        return "redirect:/people/list";
+        return "redirect:/people/list"; // INFO: Redirect prevents duplicate submissions
     }
 
     @RequestMapping("/list")
@@ -72,8 +67,15 @@ public class PersonCtrl {
     public String showPerson(@RequestParam("perId") Integer perId,
                              Model model) {
 
-        Person thePerson = personService.findById(perId);
-        model.addAttribute("person", thePerson);
+        if (perId != null) {
+            Optional<Person> person = personService.findById(perId);
+
+            if (person.isPresent()) {
+                model.addAttribute("person", person.get());
+            } else {
+                return "redirect:/people/list"; // INFO: Redirect prevents duplicate submissions
+            }
+        }
 
         List<Employee> theEmployeesList = employeeService.findByManagerId(perId);
         model.addAttribute("employeesList", theEmployeesList);
