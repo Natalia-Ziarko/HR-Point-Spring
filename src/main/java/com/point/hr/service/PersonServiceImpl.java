@@ -62,4 +62,11 @@ public class PersonServiceImpl implements PersonService {
 
         return thePersonId;
     }
+
+
+    @Override
+    @Transactional
+    public int deleteAllPeople() {
+        return personRepository.deleteAllPeople();
+    }
 }

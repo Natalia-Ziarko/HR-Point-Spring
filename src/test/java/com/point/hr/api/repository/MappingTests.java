@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -65,7 +66,7 @@ public class MappingTests {
         Person savedPerson = personService.save(person);
 
         // Retrieve the User
-        User foundUser = userService.findById(savedPerson.getId());
+        Optional<User> foundUser = userService.findById(savedPerson.getId());
         assertNotNull(foundUser);
     }
 }

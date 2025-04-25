@@ -5,6 +5,9 @@ import java.util.Optional;
 
 import com.point.hr.entity.Person;
 import jakarta.validation.Valid;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Transactional;
 
 public interface PersonService {
     Person save(@Valid Person thePerson);
@@ -20,4 +23,6 @@ public interface PersonService {
     Person update(Person thePerson);
 
     Integer deleteById(Integer thePersonId);
+
+    int deleteAllPeople();  // INFO: returns the number of rows deleted
 }

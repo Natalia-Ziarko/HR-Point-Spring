@@ -222,7 +222,7 @@ public class PersonTests {
         personService.saveAll(people);
 
         // Act
-        int deletedCount = personService.deleteAll();
+        int deletedCount = personService.deleteAllPeople();
 
         // Assert
         assertEquals(2, deletedCount, "Should delete exactly 2 people");
