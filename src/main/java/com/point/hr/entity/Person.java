@@ -1,5 +1,6 @@
 package com.point.hr.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.point.hr.validation.ColumnLength;
 import com.point.hr.validation.PersonSocialNumber;
 import jakarta.persistence.*;

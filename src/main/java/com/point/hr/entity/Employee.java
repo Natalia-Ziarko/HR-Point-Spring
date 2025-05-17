@@ -1,5 +1,6 @@
 package com.point.hr.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -15,7 +16,8 @@ import java.time.LocalDateTime;
 public class Employee {
 
     @Transient
-    private final String TABLE_NAME = "employees";
+    @JsonIgnore
+    private final String table_NAME = "employees";
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -33,38 +35,47 @@ public class Employee {
     private Integer departmentId;
 
     @Column(name="empCreatedBy", nullable = true)
+    @JsonIgnore
     private Integer createdById;
 
     @Column(name="empCreatedDate", nullable = false)
     @NotNull(message = "is required")
+    @JsonIgnore
     private LocalDateTime createdDate = LocalDateTime.now();
 
     @Column(name="empUpdatedBy", nullable = true)
+    @JsonIgnore
     private Integer updatedById;
 
     @Column(name="empUpdatedDate", nullable = true)
+    @JsonIgnore
     private LocalDateTime updatedDate;
 
     /* Relationships */
 
     @OneToOne
     @JoinColumn(name = "empPerId", referencedColumnName = "perId", insertable = false, updatable = false)
+    @JsonIgnore // INFO: Path in JSON output is not needed
     private Person person;
 
     @ManyToOne
     @JoinColumn(name = "empManagerPerId", referencedColumnName = "perId", insertable=false, updatable=false)
+    @JsonIgnore // INFO: Path in JSON output is not needed
     private Person managerTeam;
 
     @ManyToOne
     @JoinColumn(name = "empDepId", referencedColumnName = "depId", insertable=false, updatable=false)
+    @JsonIgnore // INFO: Path in JSON output is not needed
     private Department department;
 
     @ManyToOne
     @JoinColumn(name = "empCreatedBy", referencedColumnName = "perId", insertable=false, updatable=false)
+    @JsonIgnore // INFO: Path in JSON output is not needed
     private Person createdBy;
 
     @ManyToOne
     @JoinColumn(name = "empUpdatedBy", referencedColumnName = "perId", insertable=false, updatable=false)
+    @JsonIgnore // INFO: Path in JSON output is not needed
     private Person updatedBy;
 
 
