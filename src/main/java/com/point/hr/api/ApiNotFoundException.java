@@ -5,4 +5,5 @@ public class ApiNotFoundException extends RuntimeException {
     public ApiNotFoundException(String msg) {
         super(msg);
     }
+
 }

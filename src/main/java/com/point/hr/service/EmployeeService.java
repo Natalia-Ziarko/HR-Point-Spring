@@ -12,4 +12,8 @@ public interface EmployeeService {
 
     List<Employee> findAll();
 
+    Employee save(Employee theEmployee);
+
+    Integer deleteById(Integer theId);
+
 }
