@@ -14,7 +14,7 @@ public interface PersonService {
 
     List<Person> saveAll(List<Person> thePeople);
 
-    Optional<Person> findById(Integer thePersonId);
+    Person findById(Integer thePersonId);
 
     List<Person> findAll();
 

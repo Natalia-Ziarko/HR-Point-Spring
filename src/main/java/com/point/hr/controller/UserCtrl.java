@@ -1,5 +1,6 @@
 package com.point.hr.controller;
 
+import com.point.hr.dto.UserUpdateDTO;
 import com.point.hr.entity.Person;
 import com.point.hr.entity.User;
 import com.point.hr.service.PersonService;
@@ -7,6 +8,7 @@ import com.point.hr.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,10 +26,20 @@ public class UserCtrl {
     @Autowired
     private PersonService personService;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    public String hashPassword(String rawPassword) {
+        return passwordEncoder.encode(rawPassword);
+    }
+
     @RequestMapping("/addUser")
-    public String addUser(Model theModel) {
+    public String addUser(Model theModel, @RequestParam("perId") Integer thePersonId) {
 
         User theUser = new User();
+
+        if (thePersonId != null)
+            theUser.setPerson(personService.findById(thePersonId));
 
         theModel.addAttribute("theUser", theUser);
 
@@ -87,27 +99,29 @@ public class UserCtrl {
     }
 
     @PostMapping("/updateUserProcess")
-    public String updateUserProcess(@Valid @ModelAttribute("theUser") User theUser,
+    public String updateUserProcess(@Valid @ModelAttribute("theUser") UserUpdateDTO theUserDTO,
                                     BindingResult theBindRes,
                                     Model theModel) {
 
+        User existingUser = userService.findById(theUserDTO.getId()).orElseThrow(() -> new IllegalArgumentException("User not found"));
+
         if (theBindRes.hasErrors()) {
-            theModel.addAttribute("theUser", theUser);
+            theModel.addAttribute("theUser", theUserDTO);
 
             return "userUpdateForm";
         }
 
-        if (theUser.getPerson() != null && theUser.getPerson().getId() != null) {
-            Optional<Person> person = personService.findById(theUser.getPerson().getId());
+        if (theUserDTO.getPerson() != null && theUserDTO.getPerson().getId() != null) {
+            Person person = personService.findById(theUserDTO.getPerson().getId());
 
-            if (person.isPresent()) {
-                theUser.setPerson(person.get());
+            if (person != null) {
+                theUserDTO.setPerson(person);
             } else {
                 return "userUpdateForm";
             }
         }
 
-        userService.update(theUser);
+        userService.update(theUserDTO);
 
         return "redirect:/home";
     }

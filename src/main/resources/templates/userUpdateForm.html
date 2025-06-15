@@ -18,14 +18,25 @@
     <form action="#" th:action="@{/logout}" method="POST" class="oneline-form">
         <p>
             <input type="submit" value="Logout" class="logout-button" />
-            User:
-            <span sec:authentication="principal.username"></span>
-            | Role(s):
-            <span sec:authentication="principal.authorities"></span>
+            User: <span sec:authentication="principal.username"></span>
+            | Role(s): <span sec:authentication="principal.authorities"></span>
         </p>
     </form>
 
     <form action="#" th:action="@{/users/updateUserProcess}" th:object="${theUser}" method="POST" class="form-container">
+
+        <label th:for="*{person.id}">Person ID:</label>
+        <div>
+            <input type="number"
+                   name="person.id"
+                   id="*{person.id}"
+                   th:field="*{person.id}"
+                   class="readonly-input"
+                   placeholder="Person ID"
+                   readonly>
+        </div>
+        <span class="error-message" th:if="${#fields.hasErrors('person.id')}" th:text="${#fields.errors('person.id')}"></span>
+
         <label th:for="*{id}">User ID:</label>
         <div>
             <input type="number"
@@ -44,21 +55,10 @@
                    name="password"
                    id="*{password}"
                    th:field="*{password}"
-                   class="required-input"
-                   placeholder="password">
+                   class="not_required-input"
+                   placeholder="New password (optional)">
         </div>
         <span class="error-message" th:if="${#fields.hasErrors('password')}" th:text="${#fields.errors('password')}"></span>
-
-        <label th:for="*{person.id}">Person ID:</label>
-        <div>
-            <input type="number"
-                   name="person.id"
-                   id="*{person.id}"
-                   th:field="*{person.id}"
-                   class="readonly-input"
-                   placeholder="Person ID">
-        </div>
-        <span class="error-message" th:if="${#fields.hasErrors('person.id')}" th:text="${#fields.errors('person.id')}"></span>
 
         <label th:for="*{ifActive}">Active:</label>
         <div>
@@ -74,7 +74,7 @@
         </div>
 
         <div class="submit-container">
-            <input type="submit" value="Update" class="submit-button" />
+            <input type="submit" value="Update user account" class="submit-button" />
         </div>
     </form>
 

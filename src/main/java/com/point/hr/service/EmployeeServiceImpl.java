@@ -25,6 +25,15 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    public Employee findByPersonId(Integer thePersonId) {
+        TypedQuery<Employee> theQuery = entityManager.createQuery("FROM Employee WHERE personId = :thePersonId", Employee.class);
+        theQuery.setParameter("thePersonId", thePersonId);
+        List<Employee> results = theQuery.getResultList();
+
+        return results.isEmpty() ? null : results.getFirst();
+    }
+
+    @Override
     public List<Employee> findByManagerId(Integer theManagerId) {
 
         TypedQuery<Employee> theQuery = entityManager.createQuery("FROM Employee WHERE managerId = :theManagerId", Employee.class);

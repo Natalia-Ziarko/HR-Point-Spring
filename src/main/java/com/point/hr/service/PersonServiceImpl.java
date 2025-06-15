@@ -34,8 +34,8 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public Optional<Person> findById(Integer thePersonId) {
-        return personRepository.findById(thePersonId);
+    public Person findById(Integer thePersonId) {
+        return personRepository.findById(thePersonId).orElse(null);
     }
 
     @Override

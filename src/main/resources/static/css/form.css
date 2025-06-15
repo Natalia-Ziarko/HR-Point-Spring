@@ -84,7 +84,7 @@ select.required-input {
 }
 
 .submit-button {
-    width: 50%; /* Match the input width */
+    width: 100%; /* Match the input width */
     padding: 8px 16px;
     background-color: #4CAF50;
     color: white;
