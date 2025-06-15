@@ -5,6 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" th:href="@{/css/util.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/home.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/css/logInOut.css}">
     <title>People - HR Point</title>
 </head>
@@ -53,14 +54,24 @@
             <td th:text="${person.buildNo}"></td>
             <td th:text="${person.apartNo}"></td>
             <td>
-                <form th:action="@{/people/showPerson}" method="post">
-                    <input type="hidden" name="perId" th:value="${person.id}">
-                    <button type="submit">Show details</button>
-                </form>
-                <form th:action="@{/users/updateUser}" method="post">
-                    <input type="hidden" name="perId" th:value="${person.id}">
-                    <button type="submit">Update user</button>
-                </form>
+                <div style="display: flex; gap: 10px;">
+                    <form th:action="@{/people/showPerson}" method="post">
+                        <input type="hidden" name="perId" th:value="${person.id}">
+                        <button type="submit" class="btn btn-show">Show details</button>
+                    </form>
+                    <div th:if="${ifUserExists[person.id]}">
+                        <form th:action="@{/users/updateUser}" method="post">
+                            <input type="hidden" name="perId" th:value="${person.id}">
+                            <button type="submit" class="btn btn-update">Update user</button>
+                        </form>
+                    </div>
+                    <div th:if="${!ifUserExists[person.id]}">
+                        <form th:action="@{/users/addUser}" method="post">
+                            <input type="hidden" name="perId" th:value="${person.id}">
+                            <button type="submit" class="btn btn-add">Add user</button>
+                        </form>
+                    </div>
+                </div>
             </td>
         </tr>
     </table>

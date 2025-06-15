@@ -1,10 +1,12 @@
 package com.point.hr.controller;
 
 import com.point.hr.entity.Employee;
+import com.point.hr.entity.User;
 import com.point.hr.service.CountryService;
 import com.point.hr.service.EmployeeService;
 import com.point.hr.service.PersonService;
 import com.point.hr.entity.Person;
+import com.point.hr.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,7 +14,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Controller
@@ -27,6 +31,9 @@ public class PersonCtrl {
 
     @Autowired
     private EmployeeService employeeService;
+
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/addPerson")
     public String addPerson(Model theModel) {
@@ -58,7 +65,15 @@ public class PersonCtrl {
 
     @RequestMapping("/list")
     public String list(Model theModel) {
-        theModel.addAttribute("peopleList", personService.findAll());
+        List<Person> thePeople = personService.findAll();
+        theModel.addAttribute("peopleList", thePeople);
+
+        Map<Integer, Boolean> userExistenceMap = new HashMap<>();
+        for (Person person : thePeople) {
+            Optional<User> userOpt = userService.findByPersonId(person.getId());
+            userExistenceMap.put(person.getId(), userOpt.isPresent());
+        }
+        theModel.addAttribute("ifUserExists", userExistenceMap);
 
         return "peopleListView";
     }
@@ -68,10 +83,10 @@ public class PersonCtrl {
                              Model model) {
 
         if (perId != null) {
-            Optional<Person> person = personService.findById(perId);
+            Person person = personService.findById(perId);
 
-            if (person.isPresent()) {
-                model.addAttribute("person", person.get());
+            if (person != null) {
+                model.addAttribute("person", person);
             } else {
                 return "redirect:/people/list"; // INFO: Redirect prevents duplicate submissions
             }

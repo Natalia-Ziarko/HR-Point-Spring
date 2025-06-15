@@ -1,5 +1,6 @@
 package com.point.hr.service;
 
+import com.point.hr.dto.UserUpdateDTO;
 import com.point.hr.entity.User;
 import jakarta.validation.Valid;
 
@@ -14,6 +15,8 @@ public interface UserService {
     Optional<User> findByPersonId(Integer personId);
 
     User update(User user);
+
+    UserUpdateDTO update(UserUpdateDTO userUpdateDTO);
 
     Integer deleteById(Integer userId);
 
