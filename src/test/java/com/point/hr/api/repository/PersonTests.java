@@ -66,12 +66,10 @@ public class PersonTests {
         Integer savedId = savedPerson.getId();
 
         // Act
-        Optional<Person> foundPersonOptional = personService.findById(savedId);
+        Person foundPerson = personService.findById(savedId);
 
         // Assert
-        assertTrue(foundPersonOptional.isPresent(), "Found person should be present");
-
-        Person foundPerson = foundPersonOptional.get();
+        assertNotNull(foundPerson, "Found person should be present");
 
         assertEquals(savedId, foundPerson.getId(), "Person IDs should match");
         assertEquals(findPerson.getSocialNo(), foundPerson.getSocialNo(), "Social numbers should match");
@@ -84,10 +82,10 @@ public class PersonTests {
 
         // Act
         Integer notExistPersonId = 0;
-        Optional<Person> foundPersonOptional = personService.findById(notExistPersonId);
+        Person foundPerson = personService.findById(notExistPersonId);
 
         // Assert
-        assertFalse(foundPersonOptional.isPresent(), "Person should not be present");
+        assertNull(foundPerson, "Person should not be present");
     }
 
     @Test
@@ -131,15 +129,13 @@ public class PersonTests {
         Integer personId = savedPerson.getId();
 
         // Act
-        Optional<Person> foundPersonOptional = personService.findById(personId);
-        Person personToUpdate = foundPersonOptional.get();
+        Person personToUpdate = personService.findById(personId);
         personToUpdate.setLastName("Markos");
         personToUpdate.setFirstName("Aneta");
         personService.save(personToUpdate);
 
         // Assert
-        Optional<Person> foundUpdatedPersonOptional = personService.findById(personId);
-        Person updatedPerson = foundUpdatedPersonOptional.get();
+        Person updatedPerson = personService.findById(personId);
         assertEquals("Markos", updatedPerson.getLastName(), "Last name should be updated");
         assertEquals("Aneta", updatedPerson.getFirstName(), "First name should be updated");
         assertEquals(personId, updatedPerson.getId(), "ID should remain the same");
@@ -165,8 +161,8 @@ public class PersonTests {
         personService.deleteById(personId);
 
         // Assert
-        Optional<Person> deletedPerson = personService.findById(personId);
-        assertFalse(deletedPerson.isPresent(), "Person should be null after deletion");
+        Person deletedPerson = personService.findById(personId);
+        assertNull(deletedPerson, "Person should be null after deletion");
     }
 
     @Test
