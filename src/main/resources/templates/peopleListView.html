@@ -5,75 +5,85 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" th:href="@{/css/util.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{/css/home.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{/css/logInOut.css}">
     <title>People - HR Point</title>
 </head>
 <body>
-    <h2>HR Point</h2>
+    <div class="navbar">
+        <div class="left">
+            <img th:src="@{/favicon.ico}" alt="HR_Point-Logo" src="">
+            <div class="title">HR Point</div>
+            <div class="nav-links">
+                <a th:href="@{/home}">➤ Home page</a>
+                <span>➤ People list</span>
+            </div>
+        </div>
 
-    <a th:href="@{/home}">Home page</a>
-    <br>
+        <div class="right">
+            <div class="user-info">
+                <span>User: <span sec:authentication="principal.username"></span></span>
+                <span>|    Role(s): <span sec:authentication="principal.authorities"></span></span>
 
-    <form action="#" th:action="@{/logout}" method="POST" class="oneline-form">
-        <p>
-            <input type="submit" value="Logout" class="logout-button" />
-              User:
-            <span sec:authentication="principal.username"></span>
-             | Role(s):
-            <span sec:authentication="principal.authorities"></span>
-        </p>
-    </form>
-
-    <h3>People list</h3>
-
-    <a th:href="@{/people/addPerson}" class="redirect_button">Add Person</a>
-    <br><br>
-
-    <table>
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Surname</th>
-            <th>Social sec num</th>
-            <th>Zip code</th>
-            <th>City</th>
-            <th>Street</th>
-            <th>Building num</th>
-            <th>Apartment num</th>
-            <th></th> <!--Row actions-->
-        </tr>
-        <tr th:each="person : ${peopleList}">
-            <td th:text="${person.id}"></td>
-            <td th:text="${person.firstName}"></td>
-            <td th:text="${person.lastName}"></td>
-            <td th:text="${person.socialNo}"></td>
-            <td th:text="${person.zipCode}"></td>
-            <td th:text="${person.city}"></td>
-            <td th:text="${person.street}"></td>
-            <td th:text="${person.buildNo}"></td>
-            <td th:text="${person.apartNo}"></td>
-            <td>
-                <div style="display: flex; gap: 10px;">
-                    <form th:action="@{/people/showPerson}" method="post">
-                        <input type="hidden" name="perId" th:value="${person.id}">
-                        <button type="submit" class="btn btn-show">Show details</button>
-                    </form>
-                    <div th:if="${ifUserExists[person.id]}">
-                        <form th:action="@{/users/updateUser}" method="post">
-                            <input type="hidden" name="perId" th:value="${person.id}">
-                            <button type="submit" class="btn btn-update">Update user</button>
-                        </form>
-                    </div>
-                    <div th:if="${!ifUserExists[person.id]}">
-                        <form th:action="@{/users/addUser}" method="post">
-                            <input type="hidden" name="perId" th:value="${person.id}">
-                            <button type="submit" class="btn btn-add">Add user</button>
-                        </form>
-                    </div>
-                </div>
-            </td>
-        </tr>
-    </table>
+                <form action="#" th:action="@{/logout}" method="POST">
+                    <input type="submit" value="Logout" class="logout-btn" />
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="main">
+        <div class="main-content">
+            <a th:href="@{/people/addPerson}" class="main-btn">Add Person</a>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Surname</th>
+                        <th>Social sec num</th>
+                        <th>Zip code</th>
+                        <th>City</th>
+                        <!--
+                        <th>Street</th>
+                        <th>Building num</th>
+                        <th>Apartment num</th>
+                        -->
+                        <th></th> <!--Row actions-->
+                    </tr>
+                </thead>
+                <tr th:each="person : ${peopleList}">
+                    <td th:text="${person.id}"></td>
+                    <td th:text="${person.firstName}"></td>
+                    <td th:text="${person.lastName}"></td>
+                    <td th:text="${person.socialNo}"></td>
+                    <td th:text="${person.zipCode}"></td>
+                    <td th:text="${person.city}"></td>
+                    <!--
+                    <td th:text="${person.street}"></td>
+                    <td th:text="${person.buildNo}"></td>
+                    <td th:text="${person.apartNo}"></td>
+                    -->
+                    <td>
+                        <div style="display: flex; gap: 10px;">
+                            <form th:action="@{/people/showPerson}" method="post">
+                                <input type="hidden" name="perId" th:value="${person.id}">
+                                <button type="submit" class="btn table-btn-show">Show details</button>
+                            </form>
+                            <div th:if="${ifUserExists[person.id]}">
+                                <form th:action="@{/users/updateUser}" method="post">
+                                    <input type="hidden" name="perId" th:value="${person.id}">
+                                    <button type="submit" class="btn table-btn-update">Update user</button>
+                                </form>
+                            </div>
+                            <div th:if="${!ifUserExists[person.id]}">
+                                <form th:action="@{/users/addUser}" method="post">
+                                    <input type="hidden" name="perId" th:value="${person.id}">
+                                    <button type="submit" class="btn table-btn-add">Add user</button>
+                                </form>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
 </body>
 </html>
