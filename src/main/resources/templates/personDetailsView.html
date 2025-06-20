@@ -5,64 +5,93 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" th:href="@{/css/util.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{/css/logInOut.css}">
     <title>Person Details - HR Point</title>
 </head>
 <body>
-    <h2>HR Point</h2>
+    <div class="navbar">
+        <div class="left">
+            <div class="title">HR Point</div>
 
-    <a th:href="@{/home}">Home page</a>
-    <br>
+            <div class="nav-links">
+                <a th:href="@{/home}">➤ Home page</a>
+                <a th:href="@{/home}">➤ People list</a>
+                <span>➤ Person details</span>
+            </div>
+        </div>
 
-    <form action="#" th:action="@{/logout}" method="POST" class="oneline-form">
-        <p>
-            <input type="submit" value="Logout" class="logout-button" />
-              User:
-            <span sec:authentication="principal.username"></span>
-             | Role(s):
-            <span sec:authentication="principal.authorities"></span>
-        </p>
-    </form>
+        <div class="right">
+            <div class="user-info">
+                <span>User: <span sec:authentication="principal.username"></span></span>
+                <span>|    Role(s): <span sec:authentication="principal.authorities"></span></span>
 
-    <h3>Person details</h3>
-    <p>ID: <span th:text="${person.id}"></span></p>
-    <p>First name: <span th:text="${person.firstName}"></span></p>
-    <p>Last name: <span th:text="${person.lastName}"></span></p>
-
-    <div th:if="${person.employee != null}">
-        <p>Manager ID: <span th:text="${person.employee.managerId != null ? person.employee.managerId : 'None'}"></span></p>
-        <p>Department ID: <span th:text="${person.employee.departmentId != null ? person.employee.departmentId : 'None'}"></span></p>
+                <form action="#" th:action="@{/logout}" method="POST">
+                    <input type="submit" value="Logout" class="logout-btn" />
+                </form>
+            </div>
+        </div>
     </div>
+    <div class="main">
+        <div class="main-content">
+            <table class="dictionary-table">
+                <tbody>
+                <tr>
+                    <th>Person ID</th>
+                    <td th:text="${person.id}"></td>
+                </tr>
+                <tr>
+                    <th>First Name</th>
+                    <td th:text="${person.firstName}"></td>
+                </tr>
+                <tr>
+                    <th>Last Name</th>
+                    <td th:text="${person.lastName}"></td>
+                </tr>
 
-    <!-- Employee Table -->
-    <!-- FIX checking row person roles, not only logged person -->
-    <div th:if="${#authentication.principal.authorities != null
-    and (#strings.toString(#authentication.principal.authorities).contains('2')
-        or #strings.toString(#authentication.principal.authorities).contains('3'))}">
-        <h2>Employees</h2>
-        <table>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Surname</th>
-                <th>Details</th>
-            </tr>
-            <tr th:each="employee : ${employeesList}">
-                <td th:text="${employee.person.id}"></td>
-                <td th:text="${employee.person.firstName}"></td>
-                <td th:text="${employee.person.lastName}"></td>
-                <td>
-                    <form th:action="@{/people/showPerson}" method="post">
-                        <input type="hidden" name="perId" th:value="${employee.person.id}">
-                        <button type="submit">Show details</button>
-                    </form>
-                </td>
-            </tr>
-            <tr th:if="${#lists.isEmpty(employeesList)}">
-                <td colspan="4">No employees found.</td>
-            </tr>
-        </table>
+                <tr th:if="${person.employee != null}">
+                    <th>Manager ID</th>
+                    <td th:text="${person.employee.managerId != null ? person.employee.managerId : 'N/A'}"></td>
+                </tr>
+                <tr th:if="${person.employee != null}">
+                    <th>Department ID</th>
+                    <td th:text="${person.employee.departmentId != null ? person.employee.departmentId : 'None'}"></td>
+                </tr>
+                </tbody>
+            </table>
+
+            <!-- Employee Table -->
+            <!-- FIX checking row person roles, not only logged person -->
+            <div th:if="${#authentication.principal.authorities != null
+            and (#strings.toString(#authentication.principal.authorities).contains('2')
+                or #strings.toString(#authentication.principal.authorities).contains('3'))}">
+                <h2>Employees</h2>
+                <table class="table small-table">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Name</th>
+                            <th>Surname</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tr th:each="employee : ${employeesList}">
+                        <td th:text="${employee.person.id}"></td>
+                        <td th:text="${employee.person.firstName}"></td>
+                        <td th:text="${employee.person.lastName}"></td>
+                        <td>
+                            <div style="display: flex; gap: 10px;">
+                                <form th:action="@{/people/showPerson}" method="post">
+                                    <input type="hidden" name="perId" th:value="${employee.person.id}">
+                                    <button type="submit" class="btn table-btn-show">Show details</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(employeesList)}">
+                        <td colspan="4">The Person is not a manager or no employee found</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
     </div>
-
 </body>
 </html>

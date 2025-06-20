@@ -4,43 +4,57 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" th:href="@{/css/util.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/form.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/css/logInOut.css}">
     <title>Login - HR Point</title>
 </head>
 <body>
-    <h3>Login Form</h3>
+    <div class="navbar">
+        <div class="left">
+            <div class="title">HR Point</div>
 
-    <div th:if="${param.error}" class="error-msg">
-        <p>Error! Username/password is invalid.</p>
-        <br><br>
+            <div class="nav-links">
+                <span>➤ Login</span>
+            </div>
+        </div>
+
+        <div class="right">
+            <div class="user-info">
+            </div>
+        </div>
     </div>
+    <div class="main">
+        <div class="main-content">
+            <form action="#" th:action="@{/authenticateTheUser}" method="POST" class="form-container">
+                <div th:if="${param.error}" class="msg error-msg">
+                    <p><b>Error! </b>Username/password is invalid.</p>
+                </div>
 
-    <div th:if="${param.logout}" class="success-msg">
-        <p>Success! You have been logged out.</p>
-        <br><br>
+                <div th:if="${param.logout}" class="msg success-msg">
+                    <p><b>Success! </b>You have been logged out.</p>
+                </div>
+
+                <label th:for="username">User ID:</label>
+                <div>
+                    <input type="text"
+                           name="username"
+                           id="username"
+                           placeholder="User ID">
+                </div>
+
+                <label th:for="password">Password:</label>
+                <div>
+                    <input type="password"
+                           name="password"
+                           id="password"
+                           placeholder="password">
+                </div>
+
+                <div class="submit-container">
+                    <input type="submit" value="Login" class="submit-button" />
+                </div>
+            </form>
+        </div>
     </div>
-
-    <form action="#" th:action="@{/authenticateTheUser}" method="POST" class="container">
-        <label th:for="username">User ID:</label>
-        <div>
-            <input type="text"
-                   name="username"
-                   id="username"
-                   placeholder="User ID">
-        </div>
-
-        <label th:for="password">Password:</label>
-        <div>
-            <input type="password"
-                   name="password"
-                   id="password"
-                   placeholder="password">
-        </div>
-
-        <div class="submit-container">
-            <input type="submit" value="Login" class="login-button" />
-        </div>
-    </form>
-
 </body>
 </html>

@@ -1,27 +1,47 @@
 :root {
+    --dirty-white: #f9f9f9;
+
     --light-grey: #D3D3D3;
+    --grey: #dddddd;
+    --dark-grey: #333333;
+
+    --fresh-green: #28a745;
     --light-green: #50C878;
     --dark-green: #06402B;
-    --blue:#007bff;
-    --red: #CD1C18;
+
+    --water-blue: #f0f8ff;
+    --baby-blue: #89cff0;
+    --blue: #007bff;
+    --dark-blue: #0056b3;
+    --navy-blue: #073763;
+
+    --orange: #ff813d;
+    --light-orange: #fef3c7;
+    --dark-orange: #CF783A;
+
+    --light-red: #f87171;
+    --red: #cd1c18;
+}
+
+.msg {
+    color: black;
+    background-color: var(--light-grey);
+    grid-column: 1 / -1; /* spans from first to last column */
+    width: 80%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    padding: 8px 16px;
+    border-radius: 4px;
 }
 
 .success-msg {
-    color: var(--dark-green);
-    background-color: var(--light-grey);
-    width: 50%;
-    margin-top: 10px;
-    padding: 8px 16px;
-    border-radius: 4px;
+    color: var(--light-green);
 }
 
 .error-msg {
     color: var(--red);
-    background-color: var(--light-grey);
-    width: 50%;
-    margin-top: 10px;
-    padding: 8px 16px;
-    border-radius: 4px;
 }
 
 .oneline-form {
@@ -30,27 +50,12 @@
     padding: 0;
 }
 
-.redirect_button {
-    display: inline-block;
-    text-align: center;
-    text-decoration: none;
-    width: 15%;
-    padding: 10px 20px;
-    background-color: var(--blue);
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 15px;
-    font-weight: 600;
-    transition: background-color 0.3s;
-}
+/****************    BUTTONS    ****************/
 
-/* Table row buttons */
 .btn {
     padding: 8px 16px;
-    font-size: 15px;
-    font-weight: 600;
+    font-size: 14px;
+    font-weight: 500;
     cursor: pointer;
     border: none;
     border-radius: 5px;
@@ -60,20 +65,285 @@
     user-select: none;
 }
 
-.btn-add {
-    background-color: #28a745;  /* fresh green */
+.redirect_button {
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
+    width: 20%;
+    padding: 10px 20px;
+    background-color: var(--blue);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s;
 }
 
-.btn-add:hover {
-    background-color: #218838;
+.redirect_button:hover {
+    background-color: var(--navy-blue);
+    box-shadow: 0 5px 10px rgba(90,98,104,0.4);
+}
+
+
+/****************    Top Navigation Bar    ****************/
+
+.navbar {
+    background-color: var(--navy-blue);
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 24px;
+    border-radius: 8px;
+    /*margin-bottom: 20px;*/
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Flex children */
+.navbar .left,
+.navbar .right {
+    display: flex;
+    align-items: center;
+}
+
+/* Logo */
+
+
+/* Title */
+.navbar .title {
+    font-size: 20px;
+    font-weight: 550;
+    margin-left: 20px;
+    margin-right: 10px;
+}
+
+/* Navigation Links */
+.navbar a {
+    color: var(--dirty-white);
+    text-decoration: none;
+    margin-right: 4px;
+    font-weight: 500;
+}
+
+.navbar a:hover {
+    text-decoration: underline;
+}
+
+/* User Info & Logout */
+.navbar .user-info {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 18px;
+    margin-right: 20px;
+}
+
+.navbar .logout-btn {
+    background-color: var(--light-red);
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.navbar .logout-btn:hover {
+    background-color: var(--red);
+}
+
+/****************    MAIN CONTENT    ****************/
+
+.main {
+    width: 100%;
+    margin: 0;
+    background-color: var(--water-blue);
+}
+
+.main-content {
+    width: 96%;
+    margin: 0px auto;
+    padding-top: 10px;
+    padding-bottom: 40px;
+}
+
+.main-btn {
+    display: inline-block; /* allows adding margins */
+    background-color: var(--orange);
+    color: black;
+    text-decoration: none;
+    text-align: center;
+    padding: 12px 36px;
+    font-size: 18px;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    margin-top: 16px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(249, 115, 22, 0.3);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.main-btn:hover {
+    background-color: var(--dark-orange);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(234, 88, 12, 0.4);
+}
+
+
+/****************    TABLE    ****************/
+
+/* Base table styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: left;
+    color: black;
+    margin-bottom: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Header styling */
+thead {
+
+}
+
+thead th {
+    background-color: var(--navy-blue);
+    padding: 8px 16px;
+    font-weight: 550;
+    color: white;
+}
+
+/* Body styling */
+tbody tr {
+    border-bottom: 1px solid var(--grey);
+}
+
+tbody tr:nth-child(even) {
+    background-color: var(--dirty-white);
+}
+
+tbody td {
+    padding: 8px 16px;
+}
+
+/* Hover effect */
+tbody tr:hover {
+    /*color: var(--dirty-white);*/
+    background-color: var(--baby-blue);
+}
+
+.small-table {
+    width: 60%;
+    /*margin-bottom: 16px;*/
+}
+
+/* Responsive table */
+@media screen and (max-width: 600px) {
+        table,
+        thead,
+        tbody,
+        th,
+        td,
+        tr {
+        display: block;
+    }
+
+    thead {
+        display: none;
+    }
+
+    tbody td {
+        position: relative;
+        padding-left: 50%;
+    }
+
+    tbody td::before {
+        position: absolute;
+        left: 15px;
+        top: 12px;
+        white-space: nowrap;
+        font-weight: bold;
+        color: var(--light-grey);
+        content: attr(data-label);
+    }
+}
+
+/* Table row buttons */
+
+.table-btn {
+    padding: 8px 16px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    color: white;
+    background-color: var(--dark-grey);
+    box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+    user-select: none;
+}
+
+.table-btn-show {
+    background-color: var(--navy-blue);
+    user-select: none;
+}
+
+.table-btn-show:hover {
+    background-color: var(--dark-blue);
+    box-shadow: 0 5px 10px rgba(90,98,104,0.4);
+}
+
+.table-btn-add {
+    color: black;
+    background-color: var(--fresh-green);
+}
+
+.table-btn-add:hover {
+    background-color: var(--dark-green);
     box-shadow: 0 5px 10px rgba(33,136,56,0.4);
 }
 
-.btn-update {
-    background-color: #007bff; /* bright blue */
+.table-btn-update {
+    color: black;
+    background-color: var(--blue);
 }
 
-.btn-update:hover {
-    background-color: #0056b3;
+.table-btn-update:hover {
+    background-color: var(--dark-blue);
     box-shadow: 0 5px 10px rgba(0,86,179,0.4);
+}
+
+
+/****************    DICTIONARY TABLE    ****************/
+
+.dictionary-table {
+    width: 40%;
+    max-width: 600px;
+    margin-top: 16px;
+    border-collapse: collapse;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: black;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.dictionary-table th {
+    background-color: var(--dark-orange);
+    text-align: left;
+    padding: 12px 16px;
+    width: 40%;
+    font-weight: 550;
+    border-bottom: 1px solid var(--light-orange);
+}
+
+.dictionary-table td {
+    padding: 12px 16px;
+    background-color: var(--dirty-white);
+    border-bottom: 1px solid var(--light-orange);
 }

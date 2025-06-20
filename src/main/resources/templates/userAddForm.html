@@ -6,68 +6,77 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" th:href="@{/css/util.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/css/form.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{/css/logInOut.css}">
     <title>Add user - HR Point</title>
 </head>
 <body>
-    <h3>User add form</h3>
+    <div class="navbar">
+        <div class="left">
+            <div class="title">HR Point</div>
 
-    <a th:href="@{/home}">Home page</a>
-    <br>
-
-    <form action="#" th:action="@{/logout}" method="POST" class="oneline-form">
-        <p>
-            <input type="submit" value="Logout" class="logout-button" />
-            User:
-            <span sec:authentication="principal.username"></span>
-            | Role(s):
-            <span sec:authentication="principal.authorities"></span>
-        </p>
-    </form>
-
-    <form action="#" th:action="@{/users/addUserProcess}" th:object="${theUser}" method="POST" class="form-container">
-        <label th:for="*{password}">Password:</label>
-        <div>
-            <input type="password"
-                   name="password"
-                   id="*{password}"
-                   th:field="*{password}"
-                   class="required-input"
-                   placeholder="password">
-        </div>
-        <span class="error-message" th:if="${#fields.hasErrors('password')}" th:text="${#fields.errors('password')}"></span>
-
-        <label th:for="*{person.id}">Person ID:</label>
-        <div>
-            <input type="number"
-                   name="perId"
-                   id="*{person.id}"
-                   th:field="*{person.id}"
-                   class="readonly-input"
-                   placeholder="Person ID"
-                   readonly>
-        </div>
-        <span class="error-message" th:if="${#fields.hasErrors('person.id')}" th:text="${#fields.errors('person.id')}"></span>
-
-        <label th:for="*{ifActive}">Active:</label>
-        <div>
-            <input type="checkbox"
-                   name="ifActive"
-                   id="*{ifActive}"
-                   class="readonly"
-                   th:field="*{ifActive}"
-                   disabled>
-        </div>
-        <span class="error-message" th:if="${#fields.hasErrors('ifActive')}" th:text="${#fields.errors('ifActive')}"></span>
-
-        <div th:if="${#fields.hasErrors('*')}" class="general-error">
-            <p>Please fix the errors above.</p>
+            <div class="nav-links">
+                <a th:href="@{/home}">➤ Home page</a>
+                <a th:href="@{/home}">➤ People list</a>
+                <span>➤ Add user</span>
+            </div>
         </div>
 
-        <div class="submit-container">
-            <input type="submit" value="Create user account" class="submit-button" />
-        </div>
-    </form>
+        <div class="right">
+            <div class="user-info">
+                <span>User: <span sec:authentication="principal.username"></span></span>
+                <span>|    Role(s): <span sec:authentication="principal.authorities"></span></span>
 
+                <form action="#" th:action="@{/logout}" method="POST">
+                    <input type="submit" value="Logout" class="logout-btn" />
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="main">
+        <div class="main-content">
+            <form action="#" th:action="@{/users/addUserProcess}" th:object="${theUser}" method="POST" class="form-container">
+                <label th:for="*{password}">Password:</label>
+                <div>
+                    <input type="password"
+                           name="password"
+                           id="*{password}"
+                           th:field="*{password}"
+                           class="required-input"
+                           placeholder="password">
+                </div>
+                <span class="error-message" th:if="${#fields.hasErrors('password')}" th:text="${#fields.errors('password')}"></span>
+
+                <label th:for="*{person.id}">Person ID:</label>
+                <div>
+                    <input type="number"
+                           name="perId"
+                           id="*{person.id}"
+                           th:field="*{person.id}"
+                           class="readonly-input"
+                           placeholder="Person ID"
+                           readonly>
+                </div>
+                <span class="error-message" th:if="${#fields.hasErrors('person.id')}" th:text="${#fields.errors('person.id')}"></span>
+
+                <label th:for="*{ifActive}">Active:</label>
+                <div>
+                    <input type="checkbox"
+                           name="ifActive"
+                           id="*{ifActive}"
+                           class="readonly"
+                           th:field="*{ifActive}"
+                           disabled>
+                </div>
+                <span class="error-message" th:if="${#fields.hasErrors('ifActive')}" th:text="${#fields.errors('ifActive')}"></span>
+
+                <div th:if="${#fields.hasErrors('*')}" class="msg error-msg">
+                    <p>Please fix the errors above.</p>
+                </div>
+
+                <div class="submit-container">
+                    <input type="submit" value="Create user account" class="submit-button" />
+                </div>
+            </form>
+        </div>
+    </div>
 </body>
 </html>
