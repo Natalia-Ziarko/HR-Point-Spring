@@ -4,19 +4,16 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" th:href="@{/css/util.css}" />
-    <link rel="stylesheet" type="text/css" th:href="@{/css/logInOut.css}">
-    <title>Person added - HR Point</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/util.css}">
+    <title>Home - HR Point</title>
 </head>
 <body>
     <div class="navbar">
         <div class="left">
+            <img th:src="@{/favicon.ico}" alt="HR_Point-Logo" src="">
             <div class="title">HR Point</div>
-
             <div class="nav-links">
-                <a th:href="@{/home}">➤ Home page</a>
-                <a th:href="@{/people/list}">➤ People list</a>
-                <span>➤ New person added!</span>
+                <span>➤ Home page</span>
             </div>
         </div>
 
@@ -33,10 +30,8 @@
     </div>
     <div class="main">
         <div class="main-content">
-            <a th:href="@{/people/addPerson}" class="redirect_button">Add next Person</a>
-            <br><br>
-
-            <p>Added Person: <span style="color:blue" th:text="${thePerson.firstName} + ' ' + ${thePerson.lastName}"></span></p>
+            <a th:href="@{/people/addPerson}" class="main-btn">Add Person</a>
+            <a th:href="@{/people/list}" class="main-btn">Show people</a>
         </div>
     </div>
 </body>

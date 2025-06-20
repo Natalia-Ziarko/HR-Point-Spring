@@ -8,6 +8,6 @@ public class HomeCtrl {
 
     @RequestMapping("/home")
     public String home() {
-        return "redirect:/people/list"; // INFO: Redirect prevents duplicate submissions
+        return "home";
     }
 }
