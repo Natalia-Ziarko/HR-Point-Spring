@@ -7,6 +7,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Table(name="people")
 @Data // INFO: Lombok generates getters, setters, toString, equals, and hashCode method
@@ -79,6 +81,9 @@ public class Person {
 
     @OneToOne(mappedBy = "person", cascade=CascadeType.ALL)
     private User user;
+
+    //@OneToMany(mappedBy = "person", cascade=CascadeType.ALL)
+    //private List<LeaveRequest> leaveRequests;
 
 
 
