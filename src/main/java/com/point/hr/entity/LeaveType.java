@@ -34,7 +34,7 @@ public class LeaveType {
 
     @Getter
     @Setter
-    @Column(name="stIfActive")
+    @Column(name="ltIfActive")
     private Boolean ifActive;
 
 

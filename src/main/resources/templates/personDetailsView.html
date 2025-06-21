@@ -32,6 +32,11 @@
     </div>
     <div class="main">
         <div class="main-content">
+            <form th:action="@{/people/addLeaveRequest}" method="post">
+                <input type="hidden" name="perId" th:value="${person.id}">
+                <button type="submit" class="main-btn">Add leave request</button>
+            </form>
+
             <table class="dictionary-table">
                 <tbody>
                 <tr>
@@ -58,8 +63,43 @@
                 </tbody>
             </table>
 
+            <!-- Leave requests Table -->
+            <!-- FIXME checking row person roles, not only logged person -->
+            <div th:if="${#authentication.principal.authorities != null
+            and (#strings.toString(#authentication.principal.authorities).contains('2')
+                or #strings.toString(#authentication.principal.authorities).contains('3'))}">
+                <h2>Leave requests</h2>
+                <table class="table small-table">
+                    <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>Leave type ID</th>
+                        <th>Start date</th>
+                        <th>End date</th>
+                        <th>Duration [days]</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tr th:each="req, iterStat : ${leaveRequestList}">
+                        <td th:text="${iterStat.index + 1}"></td>
+                        <td th:text="${req.leaveTypeId}"></td>
+                        <td th:text="${req.startDate}"></td>
+                        <td th:text="${req.endDate}"></td>
+                        <td th:text="${req.durationDays}"></td>
+                        <td>
+                            <div style="display: flex; gap: 10px;">
+                                <!-- FIXME action buttons here -->
+                            </div>
+                        </td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(leaveRequestList)}">
+                        <td colspan="6">No leave requests found</td>
+                    </tr>
+                </table>
+            </div>
+
             <!-- Employee Table -->
-            <!-- FIX checking row person roles, not only logged person -->
+            <!-- FIXME checking row person roles, not only logged person -->
             <div th:if="${#authentication.principal.authorities != null
             and (#strings.toString(#authentication.principal.authorities).contains('2')
                 or #strings.toString(#authentication.principal.authorities).contains('3'))}">
@@ -67,13 +107,15 @@
                 <table class="table small-table">
                     <thead>
                         <tr>
+                            <th>No.</th>
                             <th>Id</th>
                             <th>Name</th>
                             <th>Surname</th>
                             <th></th>
                         </tr>
                     </thead>
-                    <tr th:each="employee : ${employeesList}">
+                    <tr th:each="employee, iterStat : ${employeesList}">
+                        <td th:text="${iterStat.index + 1}"></td>
                         <td th:text="${employee.person.id}"></td>
                         <td th:text="${employee.person.firstName}"></td>
                         <td th:text="${employee.person.lastName}"></td>
@@ -87,7 +129,7 @@
                         </td>
                     </tr>
                     <tr th:if="${#lists.isEmpty(employeesList)}">
-                        <td colspan="4">The Person is not a manager or no employee found</td>
+                        <td colspan="5">The Person is not a manager or no employee found</td>
                     </tr>
                 </table>
             </div>

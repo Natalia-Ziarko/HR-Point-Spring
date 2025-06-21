@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/util.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/form.css}" />
+    <title>New leave request - HR Point</title>
+</head>
+<body>
+    <div class="navbar">
+        <div class="left">
+            <div class="title">HR Point</div>
+
+            <div class="nav-links">
+                <a th:href="@{/home}">➤ Home page</a>
+                <a th:href="@{/people/list}">➤ People list</a>
+                <a th:href="@{/people/showPerson}">➤ Person details</a> <!-- FIXME -->
+                <span>➤ Add leave request</span>
+            </div>
+        </div>
+
+        <div class="right">
+            <div class="user-info">
+                <span>User: <span sec:authentication="principal.username"></span></span>
+                <span>|    Role(s): <span sec:authentication="principal.authorities"></span></span>
+
+                <form action="#" th:action="@{/logout}" method="POST">
+                    <input type="submit" value="Logout" class="logout-btn" />
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="main">
+        <div class="main-content">
+            <!-- -->
+            <form action="#" th:action="@{/people/addLeaveRequestProcess}" th:object="${leaveRequest}" method="POST" class="form-container">
+                <label th:for="*{leaveTypeId}">Leave type:</label>
+                <div class="input-wrapper">
+                    <!-- FIXME -->
+                    <select class="required-input"
+                            id="*{leaveTypeId}"
+                            th:field="*{leaveTypeId}"
+                            th:classappend="${#fields.hasErrors('leaveTypeId')} ? 'error' : ''">
+                        <option th:if="${leaveTypeList == null}" value="" disabled selected>No leave types available</option>
+                        <option th:value="1" th:text="'Paid leave'"></option>
+                        <!--
+                        <option th:each="lt : ${leaveTypeList}"
+                                th:value="${lt.id}"
+                                th:text="${lt.longName}"></option>
+                         -->
+                    </select>
+                    <span class="triangle"></span>
+                </div>
+                <span class="error-message" th:if="${#fields.hasErrors('leaveTypeId')}" th:text="${#fields.errors('leaveTypeId')}"></span>
+
+                <label th:for="*{startDate}">Start date:</label>
+                <div class="input-wrapper">
+                    <input type="date"
+                           id="*{startDate}"
+                           class="required-input"
+                           th:field="*{startDate}"
+                           placeholder="Start date"
+                           th:classappend="${#fields.hasErrors('startDate')} ? 'error' : ''">
+                    <span class="triangle"></span>
+                </div>
+                <span class="error-message" th:if="${#fields.hasErrors('startDate')}" th:text="${#fields.errors('startDate')}"></span>
+
+                <label th:for="*{endDate}">End date:</label>
+                <div class="input-wrapper">
+                    <input type="date"
+                           id="*{endDate}"
+                           class="required-input"
+                           th:field="*{endDate}"
+                           placeholder="End date"
+                           th:classappend="${#fields.hasErrors('endDate')} ? 'error' : ''">
+                    <span class="triangle"></span>
+                </div>
+                <span class="error-message" th:if="${#fields.hasErrors('endDate')}" th:text="${#fields.errors('endDate')}"></span>
+
+                <div th:if="${#fields.hasErrors('*')}" class="msg error-msg">
+                    <p>Please fix the errors above.</p>
+                </div>
+
+                <div class="submit-container">
+                    <input type="submit" value="Add leave request" class="submit-button" />
+                </div>
+            </form>
+
+        </div>
+    </div>
+</body>
+</html>

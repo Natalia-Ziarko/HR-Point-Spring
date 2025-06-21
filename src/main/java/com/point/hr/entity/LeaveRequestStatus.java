@@ -1,5 +1,6 @@
 package com.point.hr.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -36,15 +37,17 @@ public class LeaveRequestStatus {
 
     @Getter
     @Setter
-    @Column(name="lrsWhoAdded")
-    @NotNull(message = "is required")
-    private Person whoAdded;
-
-    @Getter
-    @Setter
     @Column(name="lrsWhenAdded")
     @NotNull(message = "is required")
     private LocalDateTime whenAdded;
+
+    /* Relationships */
+
+    @ManyToOne
+    @JoinColumn(name = "lrsWhoAdded", referencedColumnName = "perId", insertable=false, updatable=false)
+    @JsonIgnore // INFO: Path in JSON output is not needed
+    private Person whoAdded;
+
 
 
     @Override
@@ -53,7 +56,7 @@ public class LeaveRequestStatus {
                 "id=" + id +
                 ", leaveId=" + leaveId +
                 ", statusId=" + statusId +
-                ", whoAdded=" + whoAdded +
+                //", whoAdded=" + whoAdded +
                 ", whenAdded=" + whenAdded +
                 '}';
     }
