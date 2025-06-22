@@ -16,7 +16,7 @@
             <div class="nav-links">
                 <a th:href="@{/home}">➤ Home page</a>
                 <a th:href="@{/people/list}">➤ People list</a>
-                <a th:href="@{/people/showPerson}">➤ Person details</a> <!-- FIXME -->
+                <a th:href="@{/people/showPerson(perId=${perId})}">➤ Person details</a> <!-- FIXME -->
                 <span>➤ Add leave request</span>
             </div>
         </div>

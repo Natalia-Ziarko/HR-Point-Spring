@@ -9,6 +9,7 @@ public interface LeaveRequestService {
     LeaveRequest addLeaveRequest(LeaveRequest theLeaveRequest);
 
     LeaveRequest changeLeaveRequest(LeaveRequest theLeaveRequest);
+    LeaveRequest changeLeaveRequest(LeaveRequest theLeaveRequest, Integer newStatusId, Integer whoAddedId);
 
     List<LeaveRequest> showPersonLeaveRequests(Integer thePersonId);
 

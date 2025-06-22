@@ -32,10 +32,6 @@
     </div>
     <div class="main">
         <div class="main-content">
-            <form th:action="@{/people/addLeaveRequest}" method="post">
-                <input type="hidden" name="perId" th:value="${person.id}">
-                <button type="submit" class="main-btn">Add leave request</button>
-            </form>
 
             <table class="dictionary-table">
                 <tbody>
@@ -63,47 +59,72 @@
                 </tbody>
             </table>
 
-            <!-- Leave requests Table -->
+            <!-- Leave requests -->
             <!-- FIXME checking row person roles, not only logged person -->
             <div th:if="${#authentication.principal.authorities != null
             and (#strings.toString(#authentication.principal.authorities).contains('2')
                 or #strings.toString(#authentication.principal.authorities).contains('3'))}">
-                <h2>Leave requests</h2>
+                <div class="navbar table-bar">
+                    <div class="left">
+                        <h2>Leave requests</h2>
+                    </div>
+                    <div class="right">
+                        <form th:action="@{/people/addLeaveRequest}" method="post">
+                            <input type="hidden" name="perId" th:value="${person.id}">
+                            <button type="submit" class="main-btn table-bar-btn">Add leave request</button>
+                        </form>
+                    </div>
+                </div>
                 <table class="table small-table">
                     <thead>
                     <tr>
                         <th>No.</th>
-                        <th>Leave type ID</th>
+                        <th>Leave type</th>
                         <th>Start date</th>
                         <th>End date</th>
                         <th>Duration [days]</th>
+                        <th>Status</th>
                         <th></th>
                     </tr>
                     </thead>
                     <tr th:each="req, iterStat : ${leaveRequestList}">
                         <td th:text="${iterStat.index + 1}"></td>
-                        <td th:text="${req.leaveTypeId}"></td>
-                        <td th:text="${req.startDate}"></td>
-                        <td th:text="${req.endDate}"></td>
-                        <td th:text="${req.durationDays}"></td>
+                        <td th:text="${req.leaveRequest.leaveType.longName}"></td>
+                        <td th:text="${req.leaveRequest.startDate}"></td>
+                        <td th:text="${req.leaveRequest.endDate}"></td>
+                        <td th:text="${req.leaveRequest.durationDays}"></td>
+                        <td th:text="${req.lastStatus}"></td>
                         <td>
                             <div style="display: flex; gap: 10px;">
-                                <!-- FIXME action buttons here -->
+                                <div th:if="${req.lastStatus} == 'New'">
+                                    <form th:action="@{/people/removeLeaveRequestProcess}" method="post">
+                                        <input type="hidden" name="leaveRequestId" th:value="${req.leaveRequest.id}">
+                                        <input type="hidden" name="perId" th:value="${person.id}">
+                                        <button type="submit" class="btn table-btn-remove">Cancel</button>
+                                    </form>
+                                </div>
                             </div>
                         </td>
                     </tr>
                     <tr th:if="${#lists.isEmpty(leaveRequestList)}">
-                        <td colspan="6">No leave requests found</td>
+                        <td colspan="8">No leave requests found</td>
                     </tr>
                 </table>
             </div>
 
-            <!-- Employee Table -->
+            <!-- Employees -->
             <!-- FIXME checking row person roles, not only logged person -->
             <div th:if="${#authentication.principal.authorities != null
             and (#strings.toString(#authentication.principal.authorities).contains('2')
                 or #strings.toString(#authentication.principal.authorities).contains('3'))}">
-                <h2>Employees</h2>
+                <div class="navbar table-bar">
+                    <div class="left">
+                        <h2>Employees</h2>
+                    </div>
+                    <div class="right">
+
+                    </div>
+                </div>
                 <table class="table small-table">
                     <thead>
                         <tr>
@@ -120,16 +141,16 @@
                         <td th:text="${employee.person.firstName}"></td>
                         <td th:text="${employee.person.lastName}"></td>
                         <td>
-                            <div style="display: flex; gap: 10px;">
+                            <div style="display: flex; justify-content: flex-end; gap: 10px;">
                                 <form th:action="@{/people/showPerson}" method="post">
                                     <input type="hidden" name="perId" th:value="${employee.person.id}">
-                                    <button type="submit" class="btn table-btn-show">Show details</button>
+                                    <button type="submit" class="btn table-btn-show">Show person details</button>
                                 </form>
                             </div>
                         </td>
                     </tr>
                     <tr th:if="${#lists.isEmpty(employeesList)}">
-                        <td colspan="5">The Person is not a manager or no employee found</td>
+                        <td colspan="5" th:text="${person.firstName} + ' ' + ${person.lastName} + ' is not a manager or no employees found'"></td>
                     </tr>
                 </table>
             </div>

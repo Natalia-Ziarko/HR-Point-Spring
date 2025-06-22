@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/util.css}">
+    <title>People - HR Point</title>
+</head>
+<body>
+    <div class="navbar">
+        <div class="left">
+            <img th:src="@{/favicon.ico}" alt="HR_Point-Logo" src="">
+            <div class="title">HR Point</div>
+            <div class="nav-links">
+                <a th:href="@{/home}">➤ Home page</a>
+                <span>➤ Leave request list</span>
+            </div>
+        </div>
+
+        <div class="right">
+            <div class="user-info">
+                <span>User: <span sec:authentication="principal.username"></span></span>
+                <span>|    Role(s): <span sec:authentication="principal.authorities"></span></span>
+
+                <form action="#" th:action="@{/logout}" method="POST">
+                    <input type="submit" value="Logout" class="logout-btn" />
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="main">
+        <div class="main-content">
+            <!-- FIXME checking row person roles, not only logged person -->
+            <div th:if="${#authentication.principal.authorities != null
+            and (#strings.toString(#authentication.principal.authorities).contains('2')
+                or #strings.toString(#authentication.principal.authorities).contains('3'))}">
+                <div class="navbar table-bar">
+                    <div class="left">
+                        <h2>Leave requests</h2>
+                    </div>
+                    <div class="right">
+
+                    </div>
+                </div>
+                <table class="table small-table">
+                    <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>Person ID</th>
+                        <th>Leave type</th>
+                        <th>Start date</th>
+                        <th>End date</th>
+                        <th>Duration [days]</th>
+                        <th>Status</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tr th:each="req, iterStat : ${leaveRequestList}">
+                        <td th:text="${iterStat.index + 1}"></td>
+                        <td th:text="${req.leaveRequest.personId}"></td>
+                        <td th:text="${req.leaveRequest.leaveType.longName}"></td>
+                        <td th:text="${req.leaveRequest.startDate}"></td>
+                        <td th:text="${req.leaveRequest.endDate}"></td>
+                        <td th:text="${req.leaveRequest.durationDays}"></td>
+                        <td th:text="${req.lastStatus}"></td>
+                        <td>
+                            <div style="display: flex; gap: 10px;">
+                                <div th:if="${req.lastStatus} == 'New'">
+                                    <form th:action="@{/people/removeLeaveRequestProcess}" method="post">
+                                        <input type="hidden" name="leaveRequestId" th:value="${req.leaveRequest.id}">
+                                        <button type="submit" class="btn table-btn-remove">Cancel leave request</button>
+                                    </form>
+                                </div>
+                                <form th:action="@{/people/showPerson}" method="post">
+                                    <input type="hidden" name="perId" th:value="${req.leaveRequest.personId}">
+                                    <button type="submit" class="btn table-btn-show">Show person</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(leaveRequestList)}">
+                        <td colspan="8">No leave requests found</td>
+                    </tr>
+                </table>
+            </div>
+    </div>
+</body>
+</html>

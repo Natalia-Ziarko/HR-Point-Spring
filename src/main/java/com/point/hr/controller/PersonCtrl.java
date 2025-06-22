@@ -1,5 +1,6 @@
 package com.point.hr.controller;
 
+import com.point.hr.dto.LeaveRequestDetailsDTO;
 import com.point.hr.entity.*;
 import com.point.hr.repository.LeaveRequestRepository;
 import com.point.hr.repository.LeaveTypeRepository;
@@ -12,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/people")
@@ -34,6 +36,9 @@ public class PersonCtrl {
 
     @Autowired
     private LeaveRequestService leaveRequestService;
+
+    @Autowired
+    private LeaveRequestStatusService leaveRequestStatusService;
 
     @Autowired
     private LeaveTypeRepository leaveTypeRepository;
@@ -81,27 +86,52 @@ public class PersonCtrl {
         return "peopleListView";
     }
 
-    @PostMapping("/showPerson")
-    public String showPerson(@RequestParam("perId") Integer perId,
-                             Model theModel) {
-
+    // INFO: Shared person view logic
+    private String preparePersonView(Integer perId, Model theModel) {
         if (perId != null) {
             Person person = personService.findById(perId);
-
             if (person != null) {
                 theModel.addAttribute("person", person);
             } else {
-                return "redirect:/people/list"; // INFO: Redirect prevents duplicate submissions
+                return "redirect:/people/list";
             }
         }
 
         List<Employee> theEmployeesList = employeeService.findByManagerId(perId);
         theModel.addAttribute("employeesList", theEmployeesList);
 
-        List<LeaveRequest> theLeaveRequestsList = leaveRequestRepository.findByPersonId(perId);
-        theModel.addAttribute("leaveRequestList", theLeaveRequestsList);
+        List<LeaveRequest> theLeaveRequestsList = leaveRequestService.showPersonLeaveRequests(perId);
+        List<LeaveRequestDetailsDTO> listWithStatus = theLeaveRequestsList.stream()
+                .map(lr -> new LeaveRequestDetailsDTO(lr, leaveRequestStatusService.showLeaveRequestLastStatus(lr.getId())))
+                .collect(Collectors.toList());
+        theModel.addAttribute("leaveRequestList", listWithStatus);
 
         return "personDetailsView";
+    }
+
+    @PostMapping("/showPerson")
+    public String showPersonPost(@RequestParam("perId") Integer perId,
+                                 Model theModel) {
+        return preparePersonView(perId, theModel);
+    }
+
+    @GetMapping("/showPerson")
+    public String showPersonGet(@RequestParam("perId") Integer perId,
+                                    Model theModel) {
+        return preparePersonView(perId, theModel);
+    }
+
+    @RequestMapping("/leaveRequestList")
+    public String leaveRequestList(Model theModel) {
+
+        List<LeaveRequest> theLeaveRequestsList = leaveRequestService.showAllLeaveRequests();
+        List<LeaveRequestDetailsDTO> listWithStatus = theLeaveRequestsList
+                .stream()
+                .map(lr -> new LeaveRequestDetailsDTO(lr, leaveRequestStatusService.showLeaveRequestLastStatus(lr.getId())))
+                .collect(Collectors.toList());
+        theModel.addAttribute("leaveRequestList", listWithStatus);
+
+        return "leaveRequestListView";
     }
 
     @PostMapping("/addLeaveRequest")
@@ -121,6 +151,8 @@ public class PersonCtrl {
             }
         }
 
+        theModel.addAttribute("perId", perId); // FIXME
+
         List<LeaveType> leaveTypeList = leaveTypeRepository.findAll();
         //System.out.println("leaveTypeList: " + leaveTypeList); // DEBUG
         theModel.addAttribute("leaveTypeList", leaveTypeList);
@@ -135,8 +167,10 @@ public class PersonCtrl {
                                          BindingResult theBindRes,
                                          Model theModel) {
 
+        Integer perId = theLeaveRequest.getPersonId();
+
         // DEBUG binding errors to make custom error messages
-        System.out.println("Binding results: " + theBindRes.toString() + "\n");
+        //System.out.println("Binding results: " + theBindRes.toString() + "\n");
 
         if (theBindRes.hasErrors()) {
             theModel.addAttribute("leaveTypeList", leaveTypeRepository.findAll());
@@ -147,7 +181,22 @@ public class PersonCtrl {
 
         leaveRequestService.addLeaveRequest(theLeaveRequest);
 
-        return "redirect:/people/list"; // INFO: Redirect prevents duplicate submissions
+        return showPersonGet(perId, theModel);
     }
 
+    @PostMapping("/removeLeaveRequestProcess")
+    public String removeLeaveRequestProcess(@RequestParam("leaveRequestId") Integer theLeaveRequestId,
+                                            Integer perId,
+                                            Model theModel) {
+
+        Integer cancelLeaveRequestId = 4; // FIXME
+
+        Optional<LeaveRequest> optionalLeaveRequest = leaveRequestRepository.findById(theLeaveRequestId);
+        if (optionalLeaveRequest.isPresent()) {
+            LeaveRequest theLeaveRequest = optionalLeaveRequest.get();
+            leaveRequestService.changeLeaveRequest(theLeaveRequest, cancelLeaveRequestId, perId);
+        }
+
+        return preparePersonView(perId, theModel);
+    }
 }
