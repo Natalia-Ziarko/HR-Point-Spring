@@ -20,7 +20,7 @@ public class LeaveRequestStatus {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name="lrsId")
-    @NotNull(message = "is required")
+    //@NotNull(message = "is required")
     private Integer id;
 
     @Getter
@@ -39,14 +39,24 @@ public class LeaveRequestStatus {
     @Setter
     @Column(name="lrsWhenAdded")
     @NotNull(message = "is required")
-    private LocalDateTime whenAdded;
+    private LocalDateTime whenAdded = LocalDateTime.now();
 
     /* Relationships */
 
-    @ManyToOne
-    @JoinColumn(name = "lrsWhoAdded", referencedColumnName = "perId", insertable=false, updatable=false)
-    @JsonIgnore // INFO: Path in JSON output is not needed
+    @Getter
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "lrsWhoAdded", nullable = false)
     private Person whoAdded;
+
+    @Getter
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "lrsLeaveId", insertable = false, updatable = false)
+    private LeaveRequest leaveRequest;
+
+    @Getter
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "lrsStatusId", referencedColumnName = "stId", insertable = false, updatable = false)
+    private Status status;
 
 
 

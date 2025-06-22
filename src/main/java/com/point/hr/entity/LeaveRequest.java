@@ -7,6 +7,7 @@ import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name="leaveRequests")
@@ -71,6 +72,16 @@ public class LeaveRequest {
     @Column(name="lrWhoAdded")
     private Integer whoAdded;
 
+    @Getter
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "lrLeaveTypeId", insertable = false, updatable = false)
+    private LeaveType leaveType;
+
+    @Getter
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "leaveRequest")
+    //@OneToMany(fetch = FetchType.EAGER)
+    //@JoinColumn(name = "lrId", referencedColumnName = "lrsLeaveId", insertable = false, updatable = false)
+    private List<LeaveRequestStatus> leaveRequestStatuses;
 
 
     @Override

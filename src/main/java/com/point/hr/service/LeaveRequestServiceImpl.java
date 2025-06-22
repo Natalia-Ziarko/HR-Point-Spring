@@ -1,6 +1,8 @@
 package com.point.hr.service;
 
 import com.point.hr.entity.LeaveRequest;
+import com.point.hr.entity.LeaveRequestStatus;
+import com.point.hr.entity.Person;
 import com.point.hr.repository.LeaveRequestRepository;
 import com.point.hr.repository.LeaveRequestStatusRepository;
 import com.point.hr.repository.PersonRepository;
@@ -8,6 +10,7 @@ import com.point.hr.repository.StatusRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.SQLOutput;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -15,22 +18,19 @@ import java.util.List;
 @Service
 public class LeaveRequestServiceImpl implements LeaveRequestService{
 
+    private final PersonRepository personRepository;
+    private final StatusRepository statusRepository;
     private final LeaveRequestRepository leaveRequestRepository;
 
-    private final PersonRepository personRepository;
-
     private final PersonService personService;
+    private final LeaveRequestStatusService leaveRequestStatusService;
 
-    private final StatusRepository statusRepository;
-
-    private final LeaveRequestStatusRepository leaveRequestStatusRepository;
-
-    public LeaveRequestServiceImpl(LeaveRequestRepository leaveRequestRepository, PersonRepository personRepository, PersonService personService, StatusRepository statusRepository, LeaveRequestStatusRepository leaveRequestStatusRepository) {
-        this.leaveRequestRepository = leaveRequestRepository;
+    public LeaveRequestServiceImpl(PersonRepository personRepository, StatusRepository statusRepository, LeaveRequestRepository leaveRequestRepository, PersonService personService, LeaveRequestStatusService leaveRequestStatusService) {
         this.personRepository = personRepository;
-        this.personService = personService;
         this.statusRepository = statusRepository;
-        this.leaveRequestStatusRepository = leaveRequestStatusRepository;
+        this.leaveRequestRepository = leaveRequestRepository;
+        this.personService = personService;
+        this.leaveRequestStatusService = leaveRequestStatusService;
     }
 
     @Override
@@ -56,6 +56,28 @@ public class LeaveRequestServiceImpl implements LeaveRequestService{
          */
 
         return leaveRequestRepository.save(theLeaveRequest);
+    }
+
+    @Override
+    public LeaveRequest changeLeaveRequest(LeaveRequest theLeaveRequest, Integer newStatusId, Integer whoAddedId) {
+        LeaveRequest originalLeaveRequest = leaveRequestRepository.findById(theLeaveRequest.getId()).orElseThrow(() -> new IllegalArgumentException("Leave request not found"));
+
+        LeaveRequestStatus newLeaveRequestStatus = new LeaveRequestStatus();
+        newLeaveRequestStatus.setLeaveId(originalLeaveRequest.getId());
+
+        newLeaveRequestStatus.setStatusId(newStatusId);
+
+        Person whoAdded = personService.findById(whoAddedId);
+        //System.out.println("LeaveRequestServiceImpl.changeLeaveRequest whoAdded: " + whoAdded); // DEBUG
+        if (whoAdded != null) {
+            newLeaveRequestStatus.setWhoAdded(whoAdded);
+        } else {
+            newLeaveRequestStatus.setWhoAdded(personService.findById(19)); // FIXME
+        }
+
+        leaveRequestStatusService.addLeaveRequestNewStatus(newLeaveRequestStatus);
+
+        return null;
     }
 
     @Override
