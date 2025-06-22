@@ -1,6 +1,7 @@
 :root {
     --dirty-white: #f9f9f9;
 
+    --background-beige: #faf8f5;
     --light-beige: #d3c5b2;
     --beige: #b3a394;
     --dark-beige: #9b8a7a;
@@ -63,7 +64,12 @@
 
 /****************    BUTTONS    ****************/
 
-.btn {
+.btn,
+.table-btn,
+.table-btn-show,
+.table-btn-update,
+.table-btn-add,
+.table-btn-remove {
     padding: 8px 16px;
     font-size: 14px;
     font-weight: 500;
@@ -71,9 +77,58 @@
     border: none;
     border-radius: 5px;
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
-    color: white;
+    color: var(--font-black);
     box-shadow: 0 3px 6px rgba(0,0,0,0.1);
     user-select: none;
+}
+
+
+/* Table row buttons */
+
+.table-btn,
+.table-btn-show,
+.table-btn-update,
+.table-btn-add,
+.table-btn-remove {
+    font-size: 15px;
+    font-weight: 600;
+    border: 1px solid var(--font-black);
+}
+
+.table-btn-show {
+    background-color: var(--light-steel-blue);
+}
+
+.table-btn-show:hover {
+    background-color: var(--dirty-white);
+    box-shadow: 0 5px 10px rgba(90,98,104,0.4);
+}
+
+.table-btn-remove {
+    background-color: var(--coral);
+}
+
+.table-btn-remove:hover {
+    background-color: var(--dirty-white);
+    box-shadow: 0 5px 10px rgba(90,98,104,0.4);
+}
+
+.table-btn-add {
+    background-color: var(--fresh-green);
+}
+
+.table-btn-add:hover {
+    background-color: var(--dirty-white);
+    box-shadow: 0 5px 10px rgba(33,136,56,0.4);
+}
+
+.table-btn-update {
+    background-color: var(--blue);
+}
+
+.table-btn-update:hover {
+    background-color: var(--dirty-white);
+    box-shadow: 0 5px 10px rgba(0,86,179,0.4);
 }
 
 .redirect_button {
@@ -169,8 +224,9 @@
 
 .main {
     width: 100%;
+    min-height: 100vh;
     margin: 0;
-    background-color: var(--water-blue);
+    background-color: var(--background-beige);
 }
 
 .main-content {
@@ -199,7 +255,7 @@
 }
 
 .main-btn:hover {
-    background-color: var(--dark-orange);
+    background-color: var(--region-btn-orange);
     transform: translateY(-2px);
     box-shadow: 0 6px 12px rgba(234, 88, 12, 0.4);
 }
@@ -301,74 +357,12 @@ tbody tr:hover {
     }
 }
 
-/* Table row buttons */
-
-.table-btn {
-    padding: 8px 16px;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-    border: none;
-    border-radius: 5px;
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
-    color: white;
-    background-color: var(--dark-grey);
-    box-shadow: 0 3px 6px rgba(0,0,0,0.1);
-    user-select: none;
-}
-
-.table-btn-show {
-    background-color: var(--light-steel-blue);
-    border: 1px solid var(--font-black);
-    color: var(--font-black);
-    font-weight: 600;
-    user-select: none;
-}
-
-.table-btn-show:hover {
-    background-color: var(--dark-blue);
-    box-shadow: 0 5px 10px rgba(90,98,104,0.4);
-}
-
-.table-btn-remove {
-    background-color: var(--coral);
-    border: 1px solid var(--font-black);
-    color: var(--font-black);
-    font-weight: 600;
-    user-select: none;
-}
-
-.table-btn-remove:hover {
-    background-color: var(--dirty-white);
-    box-shadow: 0 5px 10px rgba(90,98,104,0.4);
-}
-
-.table-btn-add {
-    color: var(--font-black);
-    background-color: var(--fresh-green);
-}
-
-.table-btn-add:hover {
-    background-color: var(--dark-green);
-    box-shadow: 0 5px 10px rgba(33,136,56,0.4);
-}
-
-.table-btn-update {
-    color: var(--font-black);
-    background-color: var(--blue);
-}
-
-.table-btn-update:hover {
-    background-color: var(--dark-blue);
-    box-shadow: 0 5px 10px rgba(0,86,179,0.4);
-}
-
 
 /****************    DICTIONARY TABLE    ****************/
 
 .dictionary-table {
-    width: 40%;
-    max-width: 600px;
+    width: 100%;
+    /*max-width: 600px;*/
     margin-top: 8px;
     border-collapse: collapse;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -379,9 +373,9 @@ tbody tr:hover {
 
 .dictionary-table th {
     background-color: var(--dark-beige);
-    text-align: left;
+    text-align: right;
     padding: 12px 16px;
-    width: 40%;
+    width: 30%;
     font-weight: 600;
     border-bottom: 1px solid var(--beige);
 }
@@ -392,3 +386,21 @@ tbody tr:hover {
     border-bottom: 1px solid var(--beige);
     font-weight: 500;
 }
+
+
+/****************    2 COLUMN DIV    ****************/
+
+.row {
+  display: flex;
+  gap: 20px;
+}
+
+.column {
+  flex: 1;
+}
+
+.column table {
+  width: 100%;
+  border-collapse: collapse;
+}
+

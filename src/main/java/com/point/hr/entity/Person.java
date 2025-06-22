@@ -79,11 +79,12 @@ public class Person {
     @OneToOne(mappedBy = "person", cascade=CascadeType.ALL)
     private Employee employee;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "perCountryId", insertable = false, updatable = false)
+    private Country country;
+
     @OneToOne(mappedBy = "person", cascade=CascadeType.ALL)
     private User user;
-
-    //@OneToMany(mappedBy = "person", cascade=CascadeType.ALL)
-    //private List<LeaveRequest> leaveRequests;
 
 
 

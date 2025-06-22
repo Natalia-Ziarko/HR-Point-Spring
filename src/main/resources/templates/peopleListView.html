@@ -31,11 +31,20 @@
     </div>
     <div class="main">
         <div class="main-content">
-            <a th:href="@{/people/addPerson}" class="main-btn">Add Person</a>
+            <div class="navbar table-bar">
+                <div class="left">
+                    <h2>People list</h2>
+                </div>
+                <div class="right">
+                    <a th:href="@{/people/addPerson}" class="main-btn">Add Person</a>
+                </div>
+            </div>
+
             <table>
                 <thead>
                     <tr>
-                        <th>ID</th>
+                        <th>No.</th>
+                        <th>Person ID</th>
                         <th>Name</th>
                         <th>Surname</th>
                         <th>Social sec num</th>
@@ -49,7 +58,8 @@
                         <th></th> <!--Row actions-->
                     </tr>
                 </thead>
-                <tr th:each="person : ${peopleList}">
+                <tr th:each="person, iterStat : ${peopleList}">
+                    <td th:text="${iterStat.index + 1}"></td>
                     <td th:text="${person.id}"></td>
                     <td th:text="${person.firstName}"></td>
                     <td th:text="${person.lastName}"></td>
@@ -65,18 +75,18 @@
                         <div style="display: flex; gap: 10px;">
                             <form th:action="@{/people/showPerson}" method="post">
                                 <input type="hidden" name="perId" th:value="${person.id}">
-                                <button type="submit" class="btn table-btn-show">Show details</button>
+                                <button type="submit" class="table-btn-show">Show details</button>
                             </form>
                             <div th:if="${ifUserExists[person.id]}">
                                 <form th:action="@{/users/updateUser}" method="post">
                                     <input type="hidden" name="perId" th:value="${person.id}">
-                                    <button type="submit" class="btn table-btn-update">Update user</button>
+                                    <button type="submit" class="table-btn-update">Update user</button>
                                 </form>
                             </div>
                             <div th:if="${!ifUserExists[person.id]}">
                                 <form th:action="@{/users/addUser}" method="post">
                                     <input type="hidden" name="perId" th:value="${person.id}">
-                                    <button type="submit" class="btn table-btn-add">Add user</button>
+                                    <button type="submit" class="table-btn-add">Add user</button>
                                 </form>
                             </div>
                         </div>
