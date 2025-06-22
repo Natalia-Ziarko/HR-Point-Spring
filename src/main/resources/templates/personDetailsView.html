@@ -32,32 +32,83 @@
     </div>
     <div class="main">
         <div class="main-content">
+            <div class="row">
+                <div class="column">
+                    <div class="navbar table-bar">
+                        <div class="left">
+                            <h2>Person details</h2>
+                        </div>
+                        <div class="right">
+                        </div>
+                    </div>
+                    <table class="dictionary-table">
+                        <tbody>
+                        <tr>
+                            <th>Person ID</th>
+                            <td th:text="${person.id}"></td>
+                        </tr>
+                        <tr>
+                            <th>First Name</th>
+                            <td th:text="${person.firstName}"></td>
+                        </tr>
+                        <tr>
+                            <th>Last Name</th>
+                            <td th:text="${person.lastName}"></td>
+                        </tr>
+                        <tr>
+                            <th>Social number</th>
+                            <td th:text="${person.socialNo}"></td>
+                        </tr>
 
-            <table class="dictionary-table">
-                <tbody>
-                <tr>
-                    <th>Person ID</th>
-                    <td th:text="${person.id}"></td>
-                </tr>
-                <tr>
-                    <th>First Name</th>
-                    <td th:text="${person.firstName}"></td>
-                </tr>
-                <tr>
-                    <th>Last Name</th>
-                    <td th:text="${person.lastName}"></td>
-                </tr>
-
-                <tr th:if="${person.employee != null}">
-                    <th>Manager ID</th>
-                    <td th:text="${person.employee.managerId != null ? person.employee.managerId : 'N/A'}"></td>
-                </tr>
-                <tr th:if="${person.employee != null}">
-                    <th>Department ID</th>
-                    <td th:text="${person.employee.departmentId != null ? person.employee.departmentId : 'None'}"></td>
-                </tr>
-                </tbody>
-            </table>
+                        <tr th:if="${person.employee != null}">
+                            <th>Manager ID</th>
+                            <td th:text="${person.employee.managerId != null ? person.employee.managerId : 'N/A'}"></td>
+                        </tr>
+                        <tr th:if="${person.employee != null}">
+                            <th>Department</th>
+                            <td th:text="${person.employee.departmentId != null ? person.employee.department.name : 'None'}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="column">
+                    <div class="navbar table-bar">
+                        <div class="left">
+                            <h2>Address</h2>
+                        </div>
+                        <div class="right">
+                        </div>
+                    </div>
+                    <table class="dictionary-table">
+                        <tbody>
+                            <tr>
+                                <th>Street</th>
+                                <td th:text="${person.street}"></td>
+                            </tr>
+                            <tr>
+                                <th>Building number</th>
+                                <td th:text="${person.buildNo}"></td>
+                            </tr>
+                            <tr>
+                                <th>Apartment number</th>
+                                <td th:text="${person.apartNo}"></td>
+                            </tr>
+                            <tr>
+                                <th>City</th>
+                                <td th:text="${person.city}"></td>
+                            </tr>
+                            <tr>
+                                <th>Zip code</th>
+                                <td th:text="${person.zipCode}"></td>
+                            </tr>
+                            <tr>
+                                <th>Country</th>
+                                <td th:text="${person.country.name}"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
 
             <!-- Leave requests -->
             <!-- FIXME checking row person roles, not only logged person -->
