@@ -35,7 +35,7 @@
             <div th:if="${#authentication.principal.authorities != null
             and (#strings.toString(#authentication.principal.authorities).contains('2')
                 or #strings.toString(#authentication.principal.authorities).contains('3'))}">
-                <div class="navbar table-bar">
+                <div class="region-bar">
                     <div class="left">
                         <h2>Leave requests</h2>
                     </div>
