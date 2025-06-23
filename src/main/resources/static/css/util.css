@@ -13,6 +13,9 @@
     --fresh-green: #28a745;
     --light-green: #50C878;
     --dark-green: #06402B;
+    --light-teal-blue: #e0f2f1;
+    --teal-blue: #4ba3a3;
+    --dark-teal-blue: #006d77;
 
     --water-blue: #f0f8ff;
     --light-steel-blue: #91b4d1;
@@ -155,7 +158,8 @@
 
 /****************    Top Navigation Bar    ****************/
 
-.navbar {
+.navbar,
+.region-bar {
     background-color: var(--navy-blue);
     color: white;
     display: flex;
@@ -236,7 +240,8 @@
     padding-bottom: 40px;
 }
 
-.main-btn {
+.main-btn,
+.region-bar-btn {
     display: inline-block; /* allows adding margins */
     background-color: var(--orange);
     color: var(--font-black);
@@ -261,24 +266,45 @@
 }
 
 
-/****************    TABLE    ****************/
 
-/* Table bar */
-/* The .table-bar class is on the same element as .navbar */
-.navbar.table-bar {
-    background-color: var(--region-header-blue);
+/****************    2 COLUMN DIV    ****************/
+
+.row {
+  display: flex;
+  gap: 20px;
+}
+
+.column {
+  flex: 1;
+}
+
+.column table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+
+
+/****************    REGION HEADER    ****************/
+
+/* Region bar */
+.region-bar {
+    background-color: var(--dark-teal-blue);
     margin-top: 24px;
     padding: 4px 24px;
 }
 
 /* Table bar button btn*/
-.table-bar .main-btn {
+.region-bar-btn {
     background-color: var(--region-btn-orange);
     color: var(--font-black);
     border: 1px solid var(--font-black);
     /*box-shadow: 0 3px 6px rgba(255, 255, 255);*/
 }
 
+
+
+/****************    TABLE    ****************/
 
 /* Base table styling */
 table {
@@ -297,7 +323,7 @@ thead {
 }
 
 thead th {
-    background-color: var(--blue);
+    background-color: var(--teal-blue);
     padding: 16px 16px;
     font-size: 16px;
     font-weight: 600;
@@ -385,22 +411,5 @@ tbody tr:hover {
     background-color: var(--dirty-white);
     border-bottom: 1px solid var(--beige);
     font-weight: 500;
-}
-
-
-/****************    2 COLUMN DIV    ****************/
-
-.row {
-  display: flex;
-  gap: 20px;
-}
-
-.column {
-  flex: 1;
-}
-
-.column table {
-  width: 100%;
-  border-collapse: collapse;
 }
 

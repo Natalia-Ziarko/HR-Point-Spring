@@ -34,7 +34,7 @@
         <div class="main-content">
             <div class="row">
                 <div class="column">
-                    <div class="navbar table-bar">
+                    <div class="region-bar">
                         <div class="left">
                             <h2>Person details</h2>
                         </div>
@@ -72,7 +72,7 @@
                     </table>
                 </div>
                 <div class="column">
-                    <div class="navbar table-bar">
+                    <div class="region-bar">
                         <div class="left">
                             <h2>Address</h2>
                         </div>
@@ -115,14 +115,14 @@
             <div th:if="${#authentication.principal.authorities != null
             and (#strings.toString(#authentication.principal.authorities).contains('2')
                 or #strings.toString(#authentication.principal.authorities).contains('3'))}">
-                <div class="navbar table-bar">
+                <div class="region-bar">
                     <div class="left">
                         <h2>Leave requests</h2>
                     </div>
                     <div class="right">
                         <form th:action="@{/people/addLeaveRequest}" method="post">
                             <input type="hidden" name="perId" th:value="${person.id}">
-                            <button type="submit" class="main-btn table-bar-btn">Add leave request</button>
+                            <button type="submit" class="region-bar-btn">Add leave request</button>
                         </form>
                     </div>
                 </div>
@@ -168,7 +168,7 @@
             <div th:if="${#authentication.principal.authorities != null
             and (#strings.toString(#authentication.principal.authorities).contains('2')
                 or #strings.toString(#authentication.principal.authorities).contains('3'))}">
-                <div class="navbar table-bar">
+                <div class="region-bar">
                     <div class="left">
                         <h2>Employees</h2>
                     </div>
