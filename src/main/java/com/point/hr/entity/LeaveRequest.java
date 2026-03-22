@@ -2,6 +2,7 @@ package com.point.hr.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
@@ -83,6 +84,12 @@ public class LeaveRequest {
     //@JoinColumn(name = "lrId", referencedColumnName = "lrsLeaveId", insertable = false, updatable = false)
     private List<LeaveRequestStatus> leaveRequestStatuses;
 
+    @AssertTrue(message = "End date cannot be earlier than start date")
+    public boolean isEndDateAfterStartDate() {
+        if (startDate == null || endDate == null) return true;
+
+        return !endDate.isBefore(startDate);
+    }
 
     @Override
     public String toString() {

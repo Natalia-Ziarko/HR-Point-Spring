@@ -1,16 +1,28 @@
 <!DOCTYPE html>
-<html lang="en"
-      xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" th:href="@{/css/util.css}">
     <title>Error occurred - HR Point</title>
 </head>
 <body>
-<h3>Something went wrong!</h3>
 
-<h2>Our Engineers are on it</h2>
+    <!-- NAVBAR -->
 
-<a th:href="@{/home}">Home page</a>
+    <div th:replace="~{navbar :: navbar(~{:: #navLinks})}">
+        <div id="navLinks">
+            <a th:href="@{/home}">➤ Home page</a>
+        </div>
+    </div>
+
+    <!-- MAIN -->
+
+    <div class="main">
+        <div class="main-content">
+            <h3>Something went wrong!</h3>
+
+            <h2>Our Engineers are on it...</h2>
+        </div>
+    </div>
 </body>
 </html>

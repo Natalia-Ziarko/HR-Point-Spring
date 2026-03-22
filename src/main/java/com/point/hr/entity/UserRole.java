@@ -37,7 +37,6 @@ public class UserRole {
     private Person updatedBy;
 
 
-
     @Override
     public String toString() {
         return "UserRole{" +

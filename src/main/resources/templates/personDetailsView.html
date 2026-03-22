@@ -1,35 +1,26 @@
 <!DOCTYPE html>
-<html lang="en"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" th:href="@{/css/util.css}">
     <title>Person Details - HR Point</title>
 </head>
 <body>
-    <div class="navbar">
-        <div class="left">
-            <div class="title">HR Point</div>
 
-            <div class="nav-links">
+    <!-- NAVBAR -->
+
+    <div th:replace="~{navbar :: navbar(~{:: #navLinks})}">
+        <div th:replace="~{navbar :: navbar(~{:: #navLinks})}">
+            <div id="navLinks">
                 <a th:href="@{/home}">➤ Home page</a>
                 <a th:href="@{/people/list}">➤ People list</a>
                 <span>➤ Person details</span>
             </div>
         </div>
-
-        <div class="right">
-            <div class="user-info">
-                <span>User: <span sec:authentication="principal.username"></span></span>
-                <span>|    Role(s): <span sec:authentication="principal.authorities"></span></span>
-
-                <form action="#" th:action="@{/logout}" method="POST">
-                    <input type="submit" value="Logout" class="logout-btn" />
-                </form>
-            </div>
-        </div>
     </div>
+
+    <!-- MAIN -->
+
     <div class="main">
         <div class="main-content">
             <div class="row">
@@ -120,7 +111,7 @@
                         <h2>Leave requests</h2>
                     </div>
                     <div class="right">
-                        <form th:action="@{/people/addLeaveRequest}" method="post">
+                        <form th:action="@{/people/addLeaveRequest}" method="get">
                             <input type="hidden" name="perId" th:value="${person.id}">
                             <button type="submit" class="region-bar-btn">Add leave request</button>
                         </form>

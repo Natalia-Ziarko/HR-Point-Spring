@@ -208,6 +208,8 @@
     gap: 16px;
     font-size: 18px;
     margin-right: 20px;
+    flex-wrap: nowrap;
+    white-space: nowrap;
 }
 
 .navbar .logout-btn {

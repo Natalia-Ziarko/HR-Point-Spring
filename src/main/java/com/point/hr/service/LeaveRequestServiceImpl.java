@@ -10,6 +10,7 @@ import com.point.hr.repository.StatusRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.Principal;
 import java.sql.SQLOutput;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -39,8 +40,8 @@ public class LeaveRequestServiceImpl implements LeaveRequestService{
 
         Integer durationDays = (int) ChronoUnit.DAYS.between(theLeaveRequest.getStartDate(), theLeaveRequest.getEndDate()) + 1;
         theLeaveRequest.setDurationDays(durationDays);
-        theLeaveRequest.setPersonId(19);
-        theLeaveRequest.setWhoAdded(19);
+        theLeaveRequest.setPersonId(theLeaveRequest.getPersonId());
+        theLeaveRequest.setWhoAdded(19); // FIXME
         //theLeaveRequest.setWhoAdded(personService.findById(22));
 
         return leaveRequestRepository.save(theLeaveRequest);

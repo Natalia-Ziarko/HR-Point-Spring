@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name="users")
@@ -40,6 +41,9 @@ public class User {
     @OneToOne
     @JoinColumn(name = "userPerId", referencedColumnName = "perId")
     private Person person;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = false, fetch = FetchType.EAGER)
+    private List<UserRole> userRoles;
 
 
 

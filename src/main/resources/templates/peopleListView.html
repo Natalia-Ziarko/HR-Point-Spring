@@ -1,34 +1,23 @@
 <!DOCTYPE html>
-<html lang="en"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" th:href="@{/css/util.css}">
     <title>People - HR Point</title>
 </head>
 <body>
-    <div class="navbar">
-        <div class="left">
-            <img th:src="@{/favicon.ico}" alt="HR_Point-Logo" src="">
-            <div class="title">HR Point</div>
-            <div class="nav-links">
-                <a th:href="@{/home}">➤ Home page</a>
-                <span>➤ People list</span>
-            </div>
-        </div>
 
-        <div class="right">
-            <div class="user-info">
-                <span>User: <span sec:authentication="principal.username"></span></span>
-                <span>|    Role(s): <span sec:authentication="principal.authorities"></span></span>
+    <!-- NAVBAR -->
 
-                <form action="#" th:action="@{/logout}" method="POST">
-                    <input type="submit" value="Logout" class="logout-btn" />
-                </form>
-            </div>
+    <div th:replace="~{navbar :: navbar(~{:: #navLinks})}">
+        <div id="navLinks">
+            <a th:href="@{/home}">➤ Home page</a>
+            <span>➤ People list</span>
         </div>
     </div>
+
+    <!-- MAIN -->
+
     <div class="main">
         <div class="main-content">
             <div class="region-bar">

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"
-      xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" th:href="@{/css/util.css}">
@@ -9,20 +8,20 @@
     <title>Login - HR Point</title>
 </head>
 <body>
-    <div class="navbar">
-        <div class="left">
-            <div class="title">HR Point</div>
 
-            <div class="nav-links">
+    <!-- NAVBAR -->
+
+    <div th:replace="~{navbar :: navbar(~{:: #navLinks})}">
+        <div th:replace="~{navbar :: navbar(~{:: #navLinks})}">
+            <div id="navLinks">
+                <a th:href="@{/home}">➤ Home page</a>
                 <span>➤ Login</span>
             </div>
         </div>
-
-        <div class="right">
-            <div class="user-info">
-            </div>
-        </div>
     </div>
+
+    <!-- MAIN -->
+
     <div class="main">
         <div class="main-content">
             <form action="#" th:action="@{/authenticateTheUser}" method="POST" class="form-container">
