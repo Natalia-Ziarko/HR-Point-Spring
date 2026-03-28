@@ -104,8 +104,8 @@
             <!-- Leave requests -->
             <!-- FIXME checking row person roles, not only logged person -->
             <div th:if="${#authentication.principal.authorities != null
-            and (#strings.toString(#authentication.principal.authorities).contains('2')
-                or #strings.toString(#authentication.principal.authorities).contains('3'))}">
+                and (#authentication.principal.authorities.toString().contains('MANAGER')
+                or #authentication.principal.authorities.toString().contains('PERS_MANAGER'))}">
                 <div class="region-bar">
                     <div class="left">
                         <h2>Leave requests</h2>
@@ -138,7 +138,7 @@
                         <td th:text="${req.lastStatus}"></td>
                         <td>
                             <div style="display: flex; gap: 10px;">
-                                <div th:if="${req.lastStatus} == 'New'">
+                                <div th:if="${req.lastStatus == 'New' OR req.lastStatus == 'No status found'}">
                                     <form th:action="@{/people/removeLeaveRequestProcess}" method="post">
                                         <input type="hidden" name="leaveRequestId" th:value="${req.leaveRequest.id}">
                                         <input type="hidden" name="perId" th:value="${person.id}">

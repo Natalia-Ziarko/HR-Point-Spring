@@ -7,6 +7,9 @@ import com.point.hr.repository.LeaveRequestRepository;
 import com.point.hr.repository.LeaveRequestStatusRepository;
 import com.point.hr.repository.PersonRepository;
 import com.point.hr.repository.StatusRepository;
+import com.point.hr.security.MyUserDetails;
+import com.point.hr.security.SecurityUtils;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,13 +29,17 @@ public class LeaveRequestServiceImpl implements LeaveRequestService{
     private final PersonService personService;
     private final LeaveRequestStatusService leaveRequestStatusService;
 
-    public LeaveRequestServiceImpl(PersonRepository personRepository, StatusRepository statusRepository, LeaveRequestRepository leaveRequestRepository, PersonService personService, LeaveRequestStatusService leaveRequestStatusService) {
+    private final SecurityUtils securityUtils;
+
+    public LeaveRequestServiceImpl(PersonRepository personRepository, StatusRepository statusRepository, LeaveRequestRepository leaveRequestRepository, PersonService personService, LeaveRequestStatusService leaveRequestStatusService, SecurityUtils securityUtils) {
         this.personRepository = personRepository;
         this.statusRepository = statusRepository;
         this.leaveRequestRepository = leaveRequestRepository;
         this.personService = personService;
         this.leaveRequestStatusService = leaveRequestStatusService;
+        this.securityUtils = securityUtils;
     }
+
 
     @Override
     @Transactional
@@ -41,10 +48,24 @@ public class LeaveRequestServiceImpl implements LeaveRequestService{
         Integer durationDays = (int) ChronoUnit.DAYS.between(theLeaveRequest.getStartDate(), theLeaveRequest.getEndDate()) + 1;
         theLeaveRequest.setDurationDays(durationDays);
         theLeaveRequest.setPersonId(theLeaveRequest.getPersonId());
-        theLeaveRequest.setWhoAdded(19); // FIXME
-        //theLeaveRequest.setWhoAdded(personService.findById(22));
+        theLeaveRequest.setWhoAdded(securityUtils.getLoggedInUserId());
+        //System.out.println("LeaveRequestServiceImpl.addLeaveRequest whoAdded: " + securityUtils.getLoggedInUserId()); // DEBUG
 
-        return leaveRequestRepository.save(theLeaveRequest);
+        leaveRequestRepository.save(theLeaveRequest);
+
+        // Insert leaveRequestStatus
+
+        LeaveRequestStatus theLeaveRequestStatus = new LeaveRequestStatus();
+        theLeaveRequestStatus.setLeaveId(theLeaveRequest.getId());
+        theLeaveRequestStatus.setStatusId(1);
+        theLeaveRequestStatus.setWhoAdded(
+                personRepository.findById(securityUtils.getLoggedInUserId())
+                        .orElseThrow(() -> new RuntimeException("User not found: " + securityUtils.getLoggedInUserId()))
+        );
+
+        leaveRequestStatusService.addLeaveRequestNewStatus(theLeaveRequestStatus);
+
+        return theLeaveRequest;
     }
 
     @Override
@@ -68,13 +89,15 @@ public class LeaveRequestServiceImpl implements LeaveRequestService{
 
         newLeaveRequestStatus.setStatusId(newStatusId);
 
-        Person whoAdded = personService.findById(whoAddedId);
-        //System.out.println("LeaveRequestServiceImpl.changeLeaveRequest whoAdded: " + whoAdded); // DEBUG
-        if (whoAdded != null) {
-            newLeaveRequestStatus.setWhoAdded(whoAdded);
-        } else {
-            newLeaveRequestStatus.setWhoAdded(personService.findById(19)); // FIXME
-        }
+//        Person whoAdded = personService.findById(whoAddedId);
+//        if (whoAdded != null) {
+//            newLeaveRequestStatus.setWhoAdded(whoAdded);
+//        } else {
+//            newLeaveRequestStatus.setWhoAdded(personService.findById(19));
+//        }
+        whoAddedId = securityUtils.getLoggedInUserId();
+        System.out.println("LeaveRequestServiceImpl.changeLeaveRequest whoAdded: " + whoAddedId); // DEBUG
+
 
         leaveRequestStatusService.addLeaveRequestNewStatus(newLeaveRequestStatus);
 

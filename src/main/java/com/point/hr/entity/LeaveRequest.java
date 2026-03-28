@@ -1,6 +1,5 @@
 package com.point.hr.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotNull;
@@ -9,6 +8,7 @@ import lombok.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name="leaveRequests")
@@ -34,12 +34,14 @@ public class LeaveRequest {
 
     @Getter
     @Setter
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name="lrStartDate")
     @NotNull(message = "is required")
     private LocalDate startDate;
 
     @Getter
     @Setter
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name="lrEndDate")
     @NotNull(message = "is required")
     private LocalDate endDate;

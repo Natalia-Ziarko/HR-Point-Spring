@@ -14,7 +14,7 @@
         <div id="navLinks">
             <a th:href="@{/home}">➤ Home page</a>
             <a th:href="@{/people/list}">➤ People list</a>
-            <a th:href="@{/people/showPerson(perId=${perId})}">➤ Person details</a> <!-- FIXME -->
+            <a th:href="@{/people/showPerson(perId=${perId})}">➤ Person details</a>
             <span>➤ Add leave request</span>
         </div>
     </div>
@@ -25,23 +25,18 @@
         <div class="main-content">
             <!-- -->
             <form action="#" th:action="@{/people/addLeaveRequestProcess}" th:object="${leaveRequest}" method="POST" class="form-container">
-                <input type="hidden" th:field="*{personId}" th:value="${perId}" />
+                <input type="hidden" th:field="*{personId}" />
 
                 <label th:for="*{leaveTypeId}">Leave type:</label>
                 <div class="input-wrapper">
-                    <!-- FIXME -->
                     <select class="required-input"
-                            id="*{leaveTypeId}"
                             th:field="*{leaveTypeId}"
                             th:classappend="${#fields.hasErrors('leaveTypeId')} ? 'error' : ''">
-                        <option th:if="${leaveTypeList == null}" value="" disabled selected>No leave types available</option>
-                        <option th:if="${leaveTypeList != null}" th:value="1" th:text="'Paid leave'"></option>
-                        <!--<th:block th:if="${leaveTypeList != null}">
-                            <option th:each="lt : ${leaveTypeList}"
-                                    th:value="${lt.id}"
-                                    th:text="${lt.longName}">
-                            </option>
-                        </th:block>-->
+                        <option value="">-- Select leave type --</option>
+                        <option th:each="i : ${#numbers.sequence(0, leaveTypeList.size() - 1)}"
+                                th:value="${leaveTypeList[i].id}"
+                                th:text="${leaveTypeList[i].longName}">
+                        </option>
                     </select>
                     <span class="triangle"></span>
                 </div>
@@ -50,7 +45,6 @@
                 <label th:for="*{startDate}">Start date:</label>
                 <div class="input-wrapper">
                     <input type="date"
-                           id="*{startDate}"
                            class="required-input"
                            th:field="*{startDate}"
                            placeholder="Start date"
@@ -62,7 +56,6 @@
                 <label th:for="*{endDate}">End date:</label>
                 <div class="input-wrapper">
                     <input type="date"
-                           id="*{endDate}"
                            class="required-input"
                            th:field="*{endDate}"
                            placeholder="End date"
@@ -73,8 +66,9 @@
 
                 <span class="error-message"
                       th:if="${#fields.hasGlobalErrors()}"
-                      th:each="err : ${#fields.globalErrors}"
-                      th:text="${err}"></span>
+                      th:each="err : ${#fields.globalErrors()}"
+                      th:text="${err}">
+                </span>
 
                 <div th:if="${#fields.hasErrors('*')}" class="msg error-msg">
                     <p>Please fix the errors above.</p>

@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -94,9 +95,9 @@ public class PersonCtrl {
     // INFO: Shared person view logic
     private String preparePersonView(Integer perId, Model theModel) {
         if (perId != null) {
-            System.out.println("Fetching person with id: " + perId); // DEBUG
+            // System.out.println("Fetching person with id: " + perId); // DEBUG
             Person person = personService.findById(perId);
-            System.out.println("Person fetched: " + person); // DEBUG
+            // System.out.println("Person fetched: " + person); // DEBUG
             if (person != null) {
                 theModel.addAttribute("person", person);
                 theModel.addAttribute("perId", perId);
@@ -160,18 +161,25 @@ public class PersonCtrl {
     public String addLeaveRequest(@RequestParam("perId") Integer perId,
                                   Model theModel) {
 
-        LeaveRequest theLeaveRequest = new LeaveRequest();
-        theLeaveRequest.setPersonId(perId);
-
-        List<LeaveType> leaveTypeList = leaveTypeService.findAll();
-        //System.out.println("leaveTypeList: " + leaveTypeList); // DEBUG
-
         if (perId == null) return "redirect:/people/list"; // INFO: Redirect prevents duplicate submissions
 
-        theModel.addAttribute("leaveTypeList", leaveTypeList);
-        theModel.addAttribute("leaveRequest", theLeaveRequest);
+        LeaveRequest theLeaveRequest = new LeaveRequest();
+        theLeaveRequest.setPersonId(perId);
+        theLeaveRequest.setStartDate(LocalDate.now());
+        // System.out.println("StartDate set to: " + theLeaveRequest.getStartDate()); // DEBUG
+        theLeaveRequest.setEndDate(LocalDate.now());
 
-        System.out.println("Opening a leave request form for person with id: " + perId); // DEBUG
+        List<LeaveType> leaveTypeList = leaveTypeService.findAll();
+        // System.out.println("LeaveTypeList: " + leaveTypeList); // DEBUG
+
+        LeaveType testValLeaveType = new LeaveType(0, "TEST", "TEST", true);
+
+        theModel.addAttribute("leaveTypeList", leaveTypeList != null ? leaveTypeList : List.of(testValLeaveType));
+        theModel.addAttribute("leaveRequest", theLeaveRequest);
+        // System.out.println("Model leaveRequest: " + theModel.getAttribute("leaveRequest")); // DEBUG
+        theModel.addAttribute("perId", perId);
+
+        // System.out.println("Opening a leave request form for person with id: " + perId); // DEBUG
 
         return "leaveRequestAddForm";
     }
@@ -182,14 +190,15 @@ public class PersonCtrl {
                                          Model theModel) {
 
         Integer perId = theLeaveRequest.getPersonId();
-        System.out.println("Processing a leave request form for person with id: " + perId);
+        //System.out.println("Processing a leave request form for person with id: " + perId); // DEBUG
 
-        // DEBUG binding errors to make custom error messages
-        //System.out.println("Binding results: " + theBindRes.toString() + "\n");
+        //System.out.println("Binding results: " + theBindRes.toString() + "\n"); // DEBUG binding errors to make custom error messages
+
+        List<LeaveType> leaveTypes = leaveTypeService.findAll();
+        //System.out.println("leaveTypes in POST: " + leaveTypes); // DEBUG
+        theModel.addAttribute("leaveTypeList", leaveTypes);
 
         if (theBindRes.hasErrors()) {
-            theModel.addAttribute("leaveTypeList", leaveTypeRepository.findAll());
-
             return "leaveRequestAddForm";
         }
         //System.out.println("theLeaveRequest: " + theLeaveRequest); // DEBUG
