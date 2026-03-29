@@ -33,9 +33,11 @@
                     </div>
                 </div>
 
-                <form th:action="@{/users}" method="get">
-                    <input type="text" name="keyword" placeholder="Search by surname" />
-                    <button type="submit">Search</button>
+                <form th:action="@{/leaveRequests}" method="get" class="search-form">
+                    <div class="search-wrapper">
+                        <input type="text" name="keyword" th:value="${keyword}" placeholder="Search by surname..." class="search-input" />
+                        <button type="submit" class="search-btn">Search</button>
+                    </div>
                 </form>
 
                 <table class="table small-table">
@@ -43,6 +45,8 @@
                     <tr>
                         <th>No.</th>
                         <th>Person ID</th>
+                        <th>Name</th>
+                        <th>Surname</th>
                         <th>Leave type</th>
                         <th>Start date</th>
                         <th>End date</th>
@@ -54,6 +58,8 @@
                     <tr th:each="req, iterStat : ${leaveRequestList}">
                         <td th:text="${iterStat.index + 1}"></td>
                         <td th:text="${req.leaveRequest.personId}"></td>
+                        <td th:text="${req.leaveRequest.person.firstName}"></td>
+                        <td th:text="${req.leaveRequest.person.lastName}"></td>
                         <td th:text="${req.leaveRequest.leaveType.longName}"></td>
                         <td th:text="${req.leaveRequest.startDate}"></td>
                         <td th:text="${req.leaveRequest.endDate}"></td>
@@ -62,7 +68,7 @@
                         <td>
                             <div style="display: flex; gap: 10px;">
                                 <div th:if="${req.lastStatus} == 'New'">
-                                    <form th:action="@{/people/removeLeaveRequestProcess}" method="post">
+                                    <form th:action="@{/leaveRequests/removeLeaveRequestProcess}" method="post">
                                         <input type="hidden" name="leaveRequestId" th:value="${req.leaveRequest.id}">
                                         <button type="submit" class="btn table-btn-remove">Cancel leave request</button>
                                     </form>
@@ -75,7 +81,7 @@
                         </td>
                     </tr>
                     <tr th:if="${#lists.isEmpty(leaveRequestList)}">
-                        <td colspan="8">No leave requests found</td>
+                        <td colspan="8">No leave requests found.</td>
                     </tr>
                 </table>
             </div>

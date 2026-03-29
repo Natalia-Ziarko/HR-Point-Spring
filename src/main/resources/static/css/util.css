@@ -1,4 +1,9 @@
 :root {
+    --border-radius: 8px;
+    --padding: 8px 4px 8px 4px;
+    --margin: 8px 4px 8px 4px;
+
+    /* COLORS */
     --dirty-white: #f9f9f9;
 
     --background-beige: #faf8f5;
@@ -43,12 +48,9 @@
     background-color: var(--light-grey);
     grid-column: 1 / -1; /* spans from first to last column */
     width: 80%;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    margin-left: 10px;
-    margin-right: 10px;
-    padding: 8px 16px;
-    border-radius: 4px;
+    margin: var(--margin);
+    padding: var(--padding);
+    border-radius: var(--border-radius);
 }
 
 .success-msg {
@@ -73,12 +75,12 @@
 .table-btn-update,
 .table-btn-add,
 .table-btn-remove {
-    padding: 8px 16px;
+    padding: var(--padding);
     font-size: 14px;
     font-weight: 500;
     cursor: pointer;
     border: none;
-    border-radius: 5px;
+    border-radius: var(--border-radius);
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
     color: var(--font-black);
     box-shadow: 0 3px 6px rgba(0,0,0,0.1);
@@ -139,11 +141,11 @@
     text-align: center;
     text-decoration: none;
     width: 20%;
-    padding: 10px 20px;
+    padding: var(--padding);
     background-color: var(--blue);
     color: white;
     border: none;
-    border-radius: 4px;
+    border-radius: var(--border-radius);
     cursor: pointer;
     font-size: 16px;
     font-weight: bold;
@@ -165,9 +167,9 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 12px 24px;
-    border-radius: 8px;
-    margin-bottom: 8px;
+    padding: var(--padding);
+    border-radius: var(--border-radius);
+    margin: var(--margin);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
@@ -185,15 +187,14 @@
 .navbar .title {
     font-size: 20px;
     font-weight: 550;
-    margin-left: 20px;
-    margin-right: 10px;
+    margin: var(--margin);
 }
 
 /* Navigation Links */
 .navbar a {
     color: var(--dirty-white);
     text-decoration: none;
-    margin-right: 4px;
+    margin: var(--margin);
     font-weight: 500;
 }
 
@@ -207,7 +208,7 @@
     align-items: center;
     gap: 16px;
     font-size: 18px;
-    margin-right: 20px;
+    margin: var(--margin);
     flex-wrap: nowrap;
     white-space: nowrap;
 }
@@ -215,9 +216,9 @@
 .navbar .logout-btn {
     background-color: var(--light-beige);
     color: var(--font-black);
-    padding: 8px 12px;
+    padding: var(--padding);
     border: none;
-    border-radius: 6px;
+    border-radius: var(--border-radius);
     font-weight: 600;
     cursor: pointer;
 }
@@ -249,13 +250,12 @@
     color: var(--font-black);
     text-decoration: none;
     text-align: center;
-    padding: 12px 36px;
+    padding: var(--padding);
     font-size: 18px;
     font-weight: 600;
     border: none;
-    border-radius: 8px;
-    margin-top: 16px;
-    margin-bottom: 12px;
+    border-radius: var(--border-radius);
+    margin: var(--margin);
     cursor: pointer;
     box-shadow: 0 4px 8px rgba(249, 115, 22, 0.3);
     transition: background-color 0.3s ease, transform 0.2s ease;
@@ -292,8 +292,8 @@
 /* Region bar */
 .region-bar {
     background-color: var(--dark-teal-blue);
-    margin-top: 24px;
-    padding: 4px 24px;
+    margin: var(--margin);
+    padding: var(--padding);
 }
 
 /* Table bar button btn*/
@@ -315,7 +315,7 @@ table {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     text-align: left;
     color: var(--font-black);
-    margin-bottom: 8px;
+    margin: var(--margin);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
@@ -326,7 +326,7 @@ thead {
 
 thead th {
     background-color: var(--teal-blue);
-    padding: 16px 16px;
+    padding: var(--padding);
     font-size: 16px;
     font-weight: 600;
 }
@@ -341,7 +341,7 @@ tbody tr:nth-child(even) {
 }
 
 tbody td {
-    padding: 8px 16px;
+    padding: var(--padding);
 }
 
 /* Hover effect */
@@ -391,7 +391,7 @@ tbody tr:hover {
 .dictionary-table {
     width: 100%;
     /*max-width: 600px;*/
-    margin-top: 8px;
+    margin: var(--margin);
     border-collapse: collapse;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 16px;
@@ -402,16 +402,76 @@ tbody tr:hover {
 .dictionary-table th {
     background-color: var(--dark-beige);
     text-align: right;
-    padding: 12px 16px;
+    padding: var(--padding);
     width: 30%;
     font-weight: 600;
     border-bottom: 1px solid var(--beige);
 }
 
 .dictionary-table td {
-    padding: 12px 16px;
+    padding: var(--padding);
     background-color: var(--dirty-white);
     border-bottom: 1px solid var(--beige);
     font-weight: 500;
 }
 
+/****************    SEARCH FORM    ****************/
+
+.search-form {
+    margin-bottom: 0;
+}
+
+.search-wrapper {
+    display: flex;
+    align-items: center;
+    border: 1px solid #d1d5db;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    max-width: 420px;
+    background: #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.07);
+    transition: box-shadow 0.2s, border-color 0.2s;
+}
+
+.search-wrapper:focus-within {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99,102,241,0.15);
+}
+
+.search-icon {
+    width: 16px;
+    height: 16px;
+    margin: var(--margin);
+    color: #9ca3af;
+    flex-shrink: 0;
+}
+
+.search-input {
+    flex: 1;
+    border: none;
+    outline: none;
+    padding: var(--padding);
+    font-size: 0.9rem;
+    color: #111827;
+    background: transparent;
+}
+
+.search-input::placeholder {
+    color: #9ca3af;
+}
+
+.search-btn {
+    border: none;
+    background: #6366f1;
+    color: #fff;
+    padding: var(--padding);
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+    white-space: nowrap;
+}
+
+.search-btn:hover {
+    background: #4f46e5;
+}

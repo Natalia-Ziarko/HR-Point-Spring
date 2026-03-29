@@ -48,7 +48,7 @@ public class LeaveRequestServiceImpl implements LeaveRequestService{
         Integer durationDays = (int) ChronoUnit.DAYS.between(theLeaveRequest.getStartDate(), theLeaveRequest.getEndDate()) + 1;
         theLeaveRequest.setDurationDays(durationDays);
         theLeaveRequest.setPersonId(theLeaveRequest.getPersonId());
-        theLeaveRequest.setWhoAdded(securityUtils.getLoggedInUserId());
+        theLeaveRequest.setWhoAddedId(securityUtils.getLoggedInUserId());
         //System.out.println("LeaveRequestServiceImpl.addLeaveRequest whoAdded: " + securityUtils.getLoggedInUserId()); // DEBUG
 
         leaveRequestRepository.save(theLeaveRequest);
@@ -96,7 +96,7 @@ public class LeaveRequestServiceImpl implements LeaveRequestService{
 //            newLeaveRequestStatus.setWhoAdded(personService.findById(19));
 //        }
         whoAddedId = securityUtils.getLoggedInUserId();
-        System.out.println("LeaveRequestServiceImpl.changeLeaveRequest whoAdded: " + whoAddedId); // DEBUG
+        System.out.println("LeaveRequestServiceImpl.changeLeaveRequest whoAddedId: " + whoAddedId); // DEBUG
 
 
         leaveRequestStatusService.addLeaveRequestNewStatus(newLeaveRequestStatus);
