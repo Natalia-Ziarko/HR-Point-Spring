@@ -19,10 +19,12 @@ public abstract class BaseTest {
 
     @BeforeEach
     void setUpBase() {
-        Country austria = Country.builder()
-                .id(1)
-                .name("Austria")
-                .build();
-        countryRepository.save(austria);
+        if (!countryRepository.existsById(1)) {
+            Country austria = Country.builder()
+                    .id(1)
+                    .name("Austria")
+                    .build();
+            countryRepository.save(austria);
+        }
     }
 }
