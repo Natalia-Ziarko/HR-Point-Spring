@@ -14,24 +14,25 @@ public class PersonTests extends BaseTest {
     @Autowired
     private PersonService personService;
 
+    // Reusable factory method - eliminates repeated builder boilerplate
+    private Person buildPerson(String socialNo, String firstName, String lastName) {
+        return Person.builder()
+                .socialNo(socialNo)
+                .firstName(firstName)
+                .lastName(lastName)
+                .countryId(1)
+                .city("Wien")
+                .zipCode("1100")
+                .street("Alpengasse")
+                .buildNo("3")
+                .build();
+    }
+
     @Test
     public void save_retId() {
 
-        //Arrange
-        Person newPerson = Person.builder()
-                .socialNo("666790")
-                .lastName("Marko")
-                .firstName("Natalia")
-                .countryId(1)
-                .city("Wien")
-                .zipCode("1000")
-                .street("X")
-                .buildNo("1")
-                .apartNo(null)
-                .build();
-
-        //Act
-        Person savedPerson = personService.save(newPerson);
+        //Arrange & Act
+        Person savedPerson = personService.save(buildPerson("666790", "Natalia", "Marko"));
 
         //Assert
         assertNotNull(savedPerson.getId(), "Person ID should not be null");
@@ -42,29 +43,19 @@ public class PersonTests extends BaseTest {
     public void findById_retPerson() {
 
         //Arrange
-        Person findPerson = Person.builder()
-                .socialNo("666791")
-                .lastName("Test")
-                .firstName("Person")
-                .countryId(1)
-                .city("Wien")
-                .zipCode("1000")
-                .street("Y")
-                .buildNo("2")
-                .build();
-        Person savedPerson = personService.save(findPerson);
-        Integer savedId = savedPerson.getId();
+        Person savedPerson = personService.save(buildPerson("666791", "Person", "Test"));
+        Integer savedPersonId = savedPerson.getId();
 
         // Act
-        Person foundPerson = personService.findById(savedId);
+        Person foundPerson = personService.findById(savedPersonId);
 
         // Assert
         assertNotNull(foundPerson, "Found person should be present");
 
-        assertEquals(savedId, foundPerson.getId(), "Person IDs should match");
-        assertEquals(findPerson.getSocialNo(), foundPerson.getSocialNo(), "Social numbers should match");
-        assertEquals(findPerson.getLastName(), foundPerson.getLastName(), "Last names should match");
-        assertEquals(findPerson.getFirstName(), foundPerson.getFirstName(), "First names should match");
+        assertEquals(savedPersonId, foundPerson.getId(), "Person IDs should match");
+        assertEquals(savedPerson.getSocialNo(), foundPerson.getSocialNo(), "Social numbers should match");
+        assertEquals(savedPerson.getLastName(), foundPerson.getLastName(), "Last names should match");
+        assertEquals(savedPerson.getFirstName(), foundPerson.getFirstName(), "First names should match");
     }
 
     @Test
@@ -83,9 +74,9 @@ public class PersonTests extends BaseTest {
 
         // Arrange
         List<Person> people = Arrays.asList(
-                Person.builder().socialNo("666794").lastName("Marko").firstName("Natalia").countryId(1).city("Wien").zipCode("1100").street("Alpengasse").buildNo("3").build(),
-                Person.builder().socialNo("666795").lastName("Marko").firstName("Aneta").countryId(1).city("Wien").zipCode("1100").street("Alpengasse").buildNo("3").build(),
-                Person.builder().socialNo("666796").lastName("Smith").firstName("John").countryId(1).city("Wien").zipCode("1100").street("Alpengasse").buildNo("3").build()
+                buildPerson("666794", "Natalia", "Marko"),
+                buildPerson("666795", "Aneta", "Marko"),
+                buildPerson("666796", "John", "Smith")
         );
         personService.saveAll(people);
 
@@ -105,53 +96,33 @@ public class PersonTests extends BaseTest {
     @Test
     public void update_retPerson() {
         // Arrange
-        Person person = Person.builder()
-                .socialNo("666798")
-                .lastName("Marko")
-                .firstName("Natalia")
-                .countryId(1)
-                .city("Wien")
-                .zipCode("1100")
-                .street("Alpengasse")
-                .buildNo("3")
-                .build();
-        Person savedPerson = personService.save(person);
-        Integer personId = savedPerson.getId();
+        Person savedPerson = personService.save(buildPerson("666798", "Natalia", "Marko"));
+        Integer savedPersonId = savedPerson.getId();
 
         // Act
-        Person personToUpdate = personService.findById(personId);
+        Person personToUpdate = personService.findById(savedPersonId);
         personToUpdate.setLastName("Markos");
         personToUpdate.setFirstName("Aneta");
         personService.save(personToUpdate);
 
         // Assert
-        Person updatedPerson = personService.findById(personId);
+        Person updatedPerson = personService.findById(savedPersonId);
         assertEquals("Markos", updatedPerson.getLastName(), "Last name should be updated");
         assertEquals("Aneta", updatedPerson.getFirstName(), "First name should be updated");
-        assertEquals(personId, updatedPerson.getId(), "ID should remain the same");
+        assertEquals(savedPersonId, updatedPerson.getId(), "ID should remain the same");
     }
 
     @Test
     public void deleteById_retNull() {
         // Arrange
-        Person person = Person.builder()
-                .socialNo("666798")
-                .lastName("Marko")
-                .firstName("Natalia")
-                .countryId(1)
-                .city("Wien")
-                .zipCode("1100")
-                .street("Alpengasse")
-                .buildNo("3")
-                .build();
-        Person savedPerson = personService.save(person);
-        Integer personId = savedPerson.getId();
+        Person savedPerson = personService.save(buildPerson("666798", "Natalia", "Marko"));
+        Integer savedPersonId = savedPerson.getId();
 
         // Act
-        personService.deleteById(personId);
+        personService.deleteById(savedPersonId);
 
         // Assert
-        Person deletedPerson = personService.findById(personId);
+        Person deletedPerson = personService.findById(savedPersonId);
         assertNull(deletedPerson, "Person should be null after deletion");
     }
 
@@ -159,9 +130,9 @@ public class PersonTests extends BaseTest {
     public void saveAll_retPersonList() {
         // Arrange
         List<Person> people = Arrays.asList(
-                Person.builder().socialNo("666794").lastName("Marko").firstName("Natalia").countryId(1).city("Wien").zipCode("1100").street("Alpengasse").buildNo("3").build(),
-                Person.builder().socialNo("666795").lastName("Marko").firstName("Aneta").countryId(1).city("Wien").zipCode("1100").street("Alpengasse").buildNo("3").build(),
-                Person.builder().socialNo("666796").lastName("Marko").firstName("John").countryId(1).city("Wien").zipCode("1100").street("Alpengasse").buildNo("3").build()
+                buildPerson("666794", "Natalia", "Marko"),
+                buildPerson("666795", "Aneta", "Marko"),
+                buildPerson("666796", "John", "Marko")
         );
 
         // Act
@@ -186,8 +157,8 @@ public class PersonTests extends BaseTest {
     public void findAll_retPersonList() {
         // Arrange
         List<Person> people = Arrays.asList(
-                Person.builder().socialNo("666794").lastName("Marko").firstName("Natalia").countryId(1).city("Wien").zipCode("1100").street("Alpengasse").buildNo("3").build(),
-                Person.builder().socialNo("666795").lastName("Smith").firstName("John").countryId(1).city("Wien").zipCode("1100").street("Alpengasse").buildNo("3").build()
+                buildPerson("666794", "Natalia", "Marko"),
+                buildPerson("666795", "John", "Smith")
         );
         personService.saveAll(people);
 
@@ -202,8 +173,8 @@ public class PersonTests extends BaseTest {
     public void deleteAll_retPeopleNo() {
         // Arrange
         List<Person> people = Arrays.asList(
-                Person.builder().socialNo("666794").lastName("Marko").firstName("Natalia").countryId(1).city("Wien").zipCode("1100").street("Alpengasse").buildNo("3").build(),
-                Person.builder().socialNo("666795").lastName("Marko").firstName("Aneta").countryId(1).city("Wien").zipCode("1100").street("Alpengasse").buildNo("3").build()
+                buildPerson("666794", "Natalia", "Marko"),
+                buildPerson("666795", "Aneta", "Marko")
         );
         personService.saveAll(people);
 
