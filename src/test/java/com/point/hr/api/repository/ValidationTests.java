@@ -3,19 +3,12 @@ package com.point.hr.api.repository;
 import com.point.hr.service.PersonService;
 import com.point.hr.entity.Person;
 import com.point.hr.validation.ColumnLengthRetrieve;
-import jakarta.validation.ConstraintViolationException;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.util.ReflectionTestUtils;
-
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@SpringBootTest
-public class ValidationTests {
+public class ValidationTests extends BaseTest {
 
     @Autowired
     private PersonService personService;

@@ -5,18 +5,14 @@ import com.point.hr.service.PersonService;
 import com.point.hr.service.PersonServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
 @Import(PersonServiceImpl.class)
-@Transactional
-public class PersonTests {
+public class PersonTests extends BaseTest {
 
     @Autowired
     private PersonService personService;

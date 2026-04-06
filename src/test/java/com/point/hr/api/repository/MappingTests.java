@@ -5,8 +5,6 @@ import com.point.hr.entity.User;
 import com.point.hr.service.PersonService;
 import com.point.hr.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 
 import org.junit.jupiter.api.Test;
 
@@ -15,9 +13,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
-@Transactional
-public class MappingTests {
+public class MappingTests extends BaseTest {
 
     @Autowired
     private PersonService personService;
