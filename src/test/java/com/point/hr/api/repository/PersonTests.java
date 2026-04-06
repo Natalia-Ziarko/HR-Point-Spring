@@ -2,16 +2,13 @@ package com.point.hr.api.repository;
 
 import com.point.hr.entity.*;
 import com.point.hr.service.PersonService;
-import com.point.hr.service.PersonServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Import;
 
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@Import(PersonServiceImpl.class)
 public class PersonTests extends BaseTest {
 
     @Autowired
