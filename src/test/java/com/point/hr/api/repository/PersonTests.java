@@ -15,7 +15,7 @@ public class PersonTests extends BaseTest {
     private PersonService personService;
 
     // Reusable factory method - eliminates repeated builder boilerplate
-    private Person buildPerson(String socialNo, String firstName, String lastName) {
+    public static Person buildPerson(String socialNo, String firstName, String lastName) {
         return Person.builder()
                 .socialNo(socialNo)
                 .firstName(firstName)
