@@ -1,10 +1,16 @@
 package com.point.hr.api.repository;
 
+import com.point.hr.entity.Person;
 import com.point.hr.service.PersonService;
 import com.point.hr.validation.ColumnLengthRetrieve;
+import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.util.ReflectionTestUtils;
 
+import java.util.Map;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class ValidationTests extends BaseTest {
@@ -29,8 +35,6 @@ public class ValidationTests extends BaseTest {
                 "Column length should be retrieved successfully from the database");
     }
 
-
-/*
     @Test
     public void columnLength_retThrow() {
         /*
@@ -38,23 +42,13 @@ public class ValidationTests extends BaseTest {
          * Simulate MySQL column length constraints in the lengthMap to test validation
          * Use reflection to bypass lengthMap encapsulation
          */
-    /*
-        Map<String, Integer> lengthMap;
-        lengthMap = (Map<String, Integer>) ReflectionTestUtils.getField(columnLengthRetrieve, "lengthMap");
+
+        Map<String, Integer> lengthMap = (Map<String, Integer>) ReflectionTestUtils.getField(columnLengthRetrieve, "lengthMap");
         assert lengthMap != null;
         lengthMap.clear();
         lengthMap.put("people.perFirstName", 63); // INFO: Simulate MySQL length
 
-        Person person = Person.builder()
-                .socialNo("666790")
-                .lastName("Marko")
-                .firstName("ThisIsAVeryVeryLongNameThatShouldExceedTheDatabaseColumnLength-67chars")
-                .countryId(1)
-                .city("Wien")
-                .zipCode("1100")
-                .street("Alpengasse")
-                .buildNo("3")
-                .build();
+        Person person = PersonTests.buildPerson("666790", "ThisIsAVeryVeryLongNameThatShouldExceedTheDatabaseColumnLength-67chars", "Marko");
 
         // Act & Assert
         assertThrows(ConstraintViolationException.class, () -> personService.save(person),
@@ -62,6 +56,5 @@ public class ValidationTests extends BaseTest {
         );
     }
 
-     */
 
 }
