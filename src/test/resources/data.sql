@@ -1,1 +1,1 @@
-INSERT INTO countries (ctId, ctName) VALUES (1, 'Austria');
+INSERT INTO countries (ct_id, ct_name) VALUES (1, 'Austria');
