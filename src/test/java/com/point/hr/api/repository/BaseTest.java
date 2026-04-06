@@ -13,16 +13,20 @@ import org.springframework.transaction.annotation.Transactional;
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 @Transactional
 public abstract class BaseTest {
-
+    /*
     @Autowired
     private CountryRepository countryRepository;
 
     @BeforeEach
     void setUpBase() {
-        Country austria = Country.builder()
-                .id(1)
-                .name("Austria")
-                .build();
-        countryRepository.save(austria);
+        if (!countryRepository.existsById(1)) {
+            Country austria = Country.builder()
+                    .id(1)
+                    .name("Austria")
+                    .build();
+            countryRepository.save(austria);
+        }
     }
+
+     */
 }

@@ -1,10 +1,9 @@
 package com.point.hr;
 
+import com.point.hr.api.repository.BaseTest;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
-class HrApplicationTests {
+class HrApplicationTests extends BaseTest {
 
 	@Test
 	void contextLoads() {
