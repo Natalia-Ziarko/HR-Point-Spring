@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 @Transactional
 public abstract class BaseTest {
-
+    /*
     @Autowired
     private CountryRepository countryRepository;
 
@@ -27,4 +27,6 @@ public abstract class BaseTest {
             countryRepository.save(austria);
         }
     }
+
+     */
 }

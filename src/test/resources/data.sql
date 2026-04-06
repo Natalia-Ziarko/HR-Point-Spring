@@ -1,0 +1,1 @@
+INSERT INTO countries (ctId, ctName) VALUES (1, 'Austria');
