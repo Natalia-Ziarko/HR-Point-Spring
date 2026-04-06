@@ -5,8 +5,6 @@ import com.point.hr.entity.User;
 import com.point.hr.service.PersonService;
 import com.point.hr.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,7 +16,6 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-@AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 @Transactional
 public class MappingTests {
 
