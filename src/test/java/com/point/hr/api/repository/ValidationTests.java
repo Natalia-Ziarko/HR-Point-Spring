@@ -1,12 +1,11 @@
 package com.point.hr.api.repository;
 
 import com.point.hr.service.PersonService;
-import com.point.hr.entity.Person;
 import com.point.hr.validation.ColumnLengthRetrieve;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class ValidationTests extends BaseTest {
 
@@ -15,7 +14,7 @@ public class ValidationTests extends BaseTest {
 
     @Autowired
     private ColumnLengthRetrieve columnLengthRetrieve;
-/*
+
     @Test
     public void getColumnLength_retNotEquals() {
 
@@ -30,7 +29,7 @@ public class ValidationTests extends BaseTest {
                 "Column length should be retrieved successfully from the database");
     }
 
- */
+
 /*
     @Test
     public void columnLength_retThrow() {
