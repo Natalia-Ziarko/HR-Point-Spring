@@ -34,9 +34,21 @@
                 </div>
 
                 <form th:action="@{/leaveRequests}" method="get" class="search-form">
-                    <div class="search-wrapper">
-                        <input type="text" name="keyword" th:value="${keyword}" placeholder="Search by surname..." class="search-input" />
-                        <button type="submit" class="search-btn">Search</button>
+                    <div class="search-row">
+                        <div class="search-wrapper">
+                            <input type="text"
+                                   name="keyword"
+                                   th:value="${keyword}"
+                                   placeholder="Search by surname..."
+                                   class="search-input"
+                                   required />
+                            <button type="submit" class="search-btn">Search</button>
+                        </div>
+                        <a th:if="${keyword != null and !keyword.isBlank()}"
+                           th:href="@{/leaveRequests}"
+                           class="clear-btn">
+                            Clear filter
+                        </a>
                     </div>
                 </form>
 

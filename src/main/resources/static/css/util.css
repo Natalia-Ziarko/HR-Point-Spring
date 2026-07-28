@@ -429,8 +429,6 @@ tbody tr:hover {
     overflow: hidden;
     max-width: 420px;
     background: #fff;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.07);
-    transition: box-shadow 0.2s, border-color 0.2s;
 }
 
 .search-wrapper:focus-within {
@@ -444,6 +442,12 @@ tbody tr:hover {
     margin: var(--margin);
     color: #9ca3af;
     flex-shrink: 0;
+}
+
+.search-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .search-input {
@@ -474,4 +478,24 @@ tbody tr:hover {
 
 .search-btn:hover {
     background: #4f46e5;
+}
+
+.clear-btn {
+    display: inline-flex;
+    align-items: center;
+    border: none;
+    background: #6c757d;
+    color: white;
+    padding: var(--padding);
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+    white-space: nowrap;
+    text-decoration: none;
+    border-radius: var(--border-radius);
+}
+
+.clear-btn:hover {
+    background-color: #5a6268;
 }
