@@ -4,7 +4,7 @@ import com.point.hr.dto.LeaveRequestDetailsDTO;
 import com.point.hr.entity.LeaveRequest;
 import com.point.hr.entity.LeaveType;
 import com.point.hr.repository.LeaveRequestRepository;
-import com.point.hr.repository.LeaveTypeRepository;
+import com.point.hr.security.SecurityUtils;
 import com.point.hr.service.LeaveRequestService;
 import com.point.hr.service.LeaveRequestStatusService;
 import com.point.hr.service.LeaveTypeService;
@@ -17,14 +17,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Controller
 @RequestMapping("/leaveRequests")
 public class LeaveRequestCtrl {
-    private final int CANCEL_LEAVE_REQUEST_ID = 4;
 
     @Autowired
     private LeaveRequestService leaveRequestService;
@@ -37,6 +35,12 @@ public class LeaveRequestCtrl {
 
     @Autowired
     private LeaveRequestRepository leaveRequestRepository;
+
+    private final SecurityUtils securityUtils;
+
+    public LeaveRequestCtrl(SecurityUtils securityUtils) {
+        this.securityUtils = securityUtils;
+    }
 
     @RequestMapping("")
     public String leaveRequestList(@RequestParam(required = false) String keyword,
@@ -98,6 +102,8 @@ public class LeaveRequestCtrl {
                                          Model theModel) {
 
         Integer perId = theLeaveRequest.getPersonId();
+
+        Integer theLoggedInUserId = securityUtils.getLoggedInUserId();
         // System.out.println("Processing a leave request form for person with id: " + perId); // DEBUG
 
         // System.out.println("Binding results: " + theBindRes.toString() + "\n"); // DEBUG binding errors to make custom error messages
@@ -111,7 +117,7 @@ public class LeaveRequestCtrl {
         }
         // System.out.println("theLeaveRequest: " + theLeaveRequest); // DEBUG
 
-        leaveRequestService.addLeaveRequest(theLeaveRequest);
+        leaveRequestService.addLeaveRequest(theLeaveRequest, theLoggedInUserId);
 
         // redirectAttributes.addFlashAttribute("successMessage", "Leave request added successfully."); // TODO LATER
 
@@ -121,15 +127,12 @@ public class LeaveRequestCtrl {
 
     @PostMapping("/removeLeaveRequestProcess")
     public String removeLeaveRequestProcess(@RequestParam("leaveRequestId") Integer theLeaveRequestId,
-                                            @RequestParam("perId") Integer perId,
+                                            @RequestParam("perId") Integer thePerId,
                                             Model theModel) {
 
-        Optional<LeaveRequest> optionalLeaveRequest = leaveRequestRepository.findById(theLeaveRequestId);
-        if (optionalLeaveRequest.isPresent()) {
-            LeaveRequest theLeaveRequest = optionalLeaveRequest.get();
-            leaveRequestService.changeLeaveRequest(theLeaveRequest, CANCEL_LEAVE_REQUEST_ID, perId);
-        }
+        Integer theLoggedInUserId = securityUtils.getLoggedInUserId();
+        leaveRequestService.cancelLeaveRequest(theLeaveRequestId, theLoggedInUserId);
 
-        return "redirect:/people/showPerson?perId=" + perId;
+        return "redirect:/people/showPerson?perId=" + thePerId;
     }
 }
