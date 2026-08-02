@@ -82,6 +82,7 @@
                                 <div th:if="${req.lastStatus} == 'New'">
                                     <form th:action="@{/leaveRequests/removeLeaveRequestProcess}" method="post">
                                         <input type="hidden" name="leaveRequestId" th:value="${req.leaveRequest.id}">
+                                        <input type="hidden" name="perId" th:value="${req.leaveRequest.personId}">
                                         <button type="submit" class="btn table-btn-remove">Cancel leave request</button>
                                     </form>
                                 </div>

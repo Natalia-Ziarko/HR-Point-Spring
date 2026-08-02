@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface LeaveRequestService {
 
-    LeaveRequest addLeaveRequest(LeaveRequest theLeaveRequest);
+    LeaveRequest addLeaveRequest(LeaveRequest theLeaveRequest, Integer whoAddedId);
 
     LeaveRequest changeLeaveRequest(LeaveRequest theLeaveRequest);
     LeaveRequest changeLeaveRequest(LeaveRequest theLeaveRequest, Integer newStatusId, Integer whoAddedId);
@@ -14,4 +14,6 @@ public interface LeaveRequestService {
     List<LeaveRequest> showPersonLeaveRequests(Integer thePersonId);
 
     List<LeaveRequest> showAllLeaveRequests();
+
+    void cancelLeaveRequest(Integer leaveRequestId, Integer whoAddedId);
 }
