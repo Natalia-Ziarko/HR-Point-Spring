@@ -1,5 +1,6 @@
 package com.point.hr.service;
 
+import com.point.hr.dto.LeaveRequestFormDTO;
 import com.point.hr.entity.LeaveRequest;
 import com.point.hr.entity.LeaveRequestStatus;
 import com.point.hr.repository.LeaveRequestRepository;
@@ -9,6 +10,7 @@ import com.point.hr.security.SecurityUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
@@ -16,6 +18,7 @@ import java.util.List;
 public class LeaveRequestServiceImpl implements LeaveRequestService{
 
     private final int CANCEL_LEAVE_REQUEST_ID = 4;
+    private final int NEW_LEAVE_REQUEST_ID = 1;
 
     private final PersonRepository personRepository;
     private final LeaveRequestRepository leaveRequestRepository;
@@ -34,22 +37,31 @@ public class LeaveRequestServiceImpl implements LeaveRequestService{
 
     @Override
     @Transactional
-    public LeaveRequest addLeaveRequest(LeaveRequest theLeaveRequest,
+    public LeaveRequest addLeaveRequest(LeaveRequestFormDTO theLeaveRequest,
                                         Integer whoAddedId) {
 
-        Integer durationDays = (int) ChronoUnit.DAYS.between(theLeaveRequest.getStartDate(),
-                theLeaveRequest.getEndDate()) + 1;
-        theLeaveRequest.setDurationDays(durationDays);
-        theLeaveRequest.setPersonId(theLeaveRequest.getPersonId());
-        theLeaveRequest.setWhoAddedId(whoAddedId);
+        Integer durationDays = (int) ChronoUnit.DAYS.between(
+                theLeaveRequest.getStartDate(),
+                theLeaveRequest.getEndDate()
+        ) + 1;
 
-        leaveRequestRepository.save(theLeaveRequest);
+        LeaveRequest entityToSave = LeaveRequest.builder()
+                .personId(theLeaveRequest.getPersonId())
+                .leaveTypeId(theLeaveRequest.getLeaveTypeId())
+                .startDate(theLeaveRequest.getStartDate())
+                .endDate(theLeaveRequest.getEndDate())
+                .durationDays(durationDays)
+                .whoAddedId(whoAddedId)
+                .whenAdded(LocalDateTime.now())
+                .build();
+
+        LeaveRequest savedLeaveRequest = leaveRequestRepository.save(entityToSave);
 
         // Insert leaveRequestStatus
 
         LeaveRequestStatus theLeaveRequestStatus = new LeaveRequestStatus();
-        theLeaveRequestStatus.setLeaveId(theLeaveRequest.getId());
-        theLeaveRequestStatus.setStatusId(1);
+        theLeaveRequestStatus.setLeaveId(savedLeaveRequest.getId());
+        theLeaveRequestStatus.setStatusId(NEW_LEAVE_REQUEST_ID);
         theLeaveRequestStatus.setWhoAdded(
                 personRepository.findById(whoAddedId)
                         .orElseThrow(() -> new RuntimeException("User not found: " + whoAddedId))
@@ -57,7 +69,7 @@ public class LeaveRequestServiceImpl implements LeaveRequestService{
 
         leaveRequestStatusService.addLeaveRequestNewStatus(theLeaveRequestStatus);
 
-        return theLeaveRequest;
+        return savedLeaveRequest;
     }
 
     @Override

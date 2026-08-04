@@ -17,8 +17,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 @AllArgsConstructor // INFO: Lombok generates a constructor with all fields
 @NoArgsConstructor // INFO: Lombok generates an empty constructor (for JPA)
 public class LeaveRequest {
-    private static final String INFO_WHEN_REQUIRED = "is required";
-    private static final String INFO_WHEN_END_DATE_TOO_EARLY = "End date cannot be earlier than start date";
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -30,17 +28,12 @@ public class LeaveRequest {
     private Integer personId;
 
     @Column(name="lrLeaveTypeId", nullable = false)
-    @NotNull(message = INFO_WHEN_REQUIRED)
     private Integer leaveTypeId;
 
     @Column(name="lrStartDate", nullable = false)
-    @NotNull(message = INFO_WHEN_REQUIRED)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate startDate;
 
     @Column(name="lrEndDate", nullable = false)
-    @NotNull(message = INFO_WHEN_REQUIRED)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate endDate;
 
     @Column(name="lrDurationDays")
@@ -51,7 +44,6 @@ public class LeaveRequest {
     private Integer whoAddedId;
 
     @Column(name="lrWhenAdded")
-    @NotNull(message = INFO_WHEN_REQUIRED)
     private LocalDateTime whenAdded = LocalDateTime.now();
 
     /* Relationships */
@@ -73,16 +65,6 @@ public class LeaveRequest {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "leaveRequest")
     private List<LeaveRequestStatus> leaveRequestStatuses;
 
-    /* Validations */
-
-    @AssertTrue(message = INFO_WHEN_END_DATE_TOO_EARLY)
-    public boolean isEndDateAfterStartDate() {
-        if (startDate == null || endDate == null) return true;
-
-        return !endDate.isBefore(startDate);
-    }
-
-    /* LeaveRequest.toString() */
 
     @Override
     public String toString() {
