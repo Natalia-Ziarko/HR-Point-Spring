@@ -111,7 +111,7 @@
                         <h2>Leave requests</h2>
                     </div>
                     <div class="right">
-                        <form th:action="@{/people/addLeaveRequest}" method="get">
+                        <form th:action="@{/leaveRequests/addLeaveRequest}" method="get">
                             <input type="hidden" name="perId" th:value="${person.id}">
                             <button type="submit" class="region-bar-btn">Add leave request</button>
                         </form>

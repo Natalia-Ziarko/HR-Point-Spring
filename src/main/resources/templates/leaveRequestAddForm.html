@@ -24,7 +24,7 @@
     <div class="main">
         <div class="main-content">
             <!-- -->
-            <form action="#" th:action="@{/people/addLeaveRequestProcess}" th:object="${leaveRequest}" method="POST" class="form-container">
+            <form action="#" th:action="@{/leaveRequests/addLeaveRequestProcess}" th:object="${leaveRequest}" method="POST" class="form-container">
                 <input type="hidden" th:field="*{personId}" />
 
                 <label th:for="*{leaveTypeId}">Leave type:</label>
