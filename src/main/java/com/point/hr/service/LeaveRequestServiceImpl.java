@@ -5,20 +5,36 @@ import com.point.hr.entity.LeaveRequest;
 import com.point.hr.entity.LeaveRequestStatus;
 import com.point.hr.repository.LeaveRequestRepository;
 import com.point.hr.repository.PersonRepository;
-import com.point.hr.repository.StatusRepository;
-import com.point.hr.security.SecurityUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class LeaveRequestServiceImpl implements LeaveRequestService{
 
     private final int CANCEL_LEAVE_REQUEST_ID = 4;
     private final int NEW_LEAVE_REQUEST_ID = 1;
+// TODO: instead of final ints
+//    public enum LeaveRequestStatusType {
+//        NEW("New"),
+//        APPROVED("Accepted"),
+//        REJECTED("Declined"),
+//        CANCELLED("Cancelled");
+//
+//        private final String code;
+//
+//        LeaveRequestStatusType(String code) {
+//            this.code = code;
+//        }
+//
+//        public String getCode() {
+//            return code;
+//        }
+//    }
 
     private final PersonRepository personRepository;
     private final LeaveRequestRepository leaveRequestRepository;
@@ -111,6 +127,24 @@ public class LeaveRequestServiceImpl implements LeaveRequestService{
     @Override
     public List<LeaveRequest> showAllLeaveRequests() {
         return leaveRequestRepository.findAll();
+    }
+
+    @Override
+    public List<LeaveRequest> showAllLeaveRequests(String keyword) {
+        List<LeaveRequest> all = showAllLeaveRequests();
+
+        if (keyword != null && !keyword.isBlank()) {
+            String loweredKeyword = keyword.toLowerCase();
+
+            return all.stream()
+                    .filter(lr ->
+                            (lr.getPerson() != null && lr.getPerson().getLastName().toLowerCase().contains(loweredKeyword))
+                            || (lr.getLeaveType() != null && lr.getLeaveType().getLongName().toLowerCase().contains(loweredKeyword))
+                    )
+                    .collect(Collectors.toList()
+            );
+        }
+        return all;
     }
 
     public void cancelLeaveRequest(Integer leaveRequestId,

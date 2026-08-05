@@ -11,7 +11,6 @@ import com.point.hr.service.LeaveTypeService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +22,6 @@ import java.util.stream.Stream;
 @Controller
 @RequestMapping("/leaveRequests")
 @Slf4j
-@Service
 public class LeaveRequestCtrl {
 
     private final LeaveTypeService leaveTypeService;
@@ -45,20 +43,10 @@ public class LeaveRequestCtrl {
     public String leaveRequestList(@RequestParam(required = false) String keyword,
                                    Model theModel) {
 
-        List<LeaveRequest> theLeaveRequestsList = leaveRequestService.showAllLeaveRequests();
+        List<LeaveRequest> theLeaveRequestsList = leaveRequestService.showAllLeaveRequests(keyword);
 
-        Stream<LeaveRequest> filteredStream = theLeaveRequestsList.stream();
 
-         if (keyword != null && !keyword.isBlank()) {
-             String loweredKeyword = keyword.toLowerCase();
-
-             filteredStream = filteredStream.filter(lr ->
-                     (lr.getPerson() != null && lr.getPerson().getLastName().toLowerCase().contains(loweredKeyword)) ||
-                             (lr.getLeaveType() != null && lr.getLeaveType().getLongName().toLowerCase().contains(loweredKeyword))
-             );
-         }
-
-        List<LeaveRequestDetailsDTO> listWithStatus = filteredStream
+        List<LeaveRequestDetailsDTO> listWithStatus = theLeaveRequestsList.stream()
                 .map(lr -> new LeaveRequestDetailsDTO(lr, leaveRequestStatusService.showLeaveRequestLastStatus(lr.getId())))
                 .collect(Collectors.toList());
 

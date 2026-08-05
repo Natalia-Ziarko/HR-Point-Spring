@@ -16,5 +16,7 @@ public interface LeaveRequestService {
 
     List<LeaveRequest> showAllLeaveRequests();
 
+    List<LeaveRequest> showAllLeaveRequests(String keyword);
+
     void cancelLeaveRequest(Integer leaveRequestId, Integer whoAddedId);
 }
